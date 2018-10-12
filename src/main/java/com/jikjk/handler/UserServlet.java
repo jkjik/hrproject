@@ -8,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Date;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by lenovo on 2018/10/11.
@@ -22,20 +24,37 @@ public class UserServlet {
     @Autowired
     private UserService userServiceImpl;
     @RequestMapping("register")
-    public String register(User user){
-        Timestamp uCreatetime= new Timestamp(System.currentTimeMillis());
-        user.setuCreatetime(uCreatetime);
+    public String register(String uName,String uPassword){
+        Timestamp uCreatetime=new Timestamp(System.currentTimeMillis());
+        User user=new User(-1,uName,uPassword,uCreatetime,0);
+        userServiceImpl.insert(user);
+        return "userPage";
+    }
+    @RequestMapping("varifySameUname")
+    @ResponseBody
+    public String varifySameUname(String uName){
+        if(uName==null){
+            return "error";
+        }
+        System.out.println(uName);
+        User user=userServiceImpl.selectByUname(uName);
         System.out.println(user);
-        return "userPage";
+        if(user!=null){
+            return "yes";
+        }else {
+            return "no";
+        }
     }
-    @RequestMapping("test")
-    public String test(int id){
-        System.out.println(id);
-        return "userPage";
+    @RequestMapping("login")
+    public String login(String uName,String uPassword){
+        //∑«ø’—È÷§
+        System.out.println(uName);
+        System.out.println(uPassword);
+        User user=userServiceImpl.selectTologin(uName,uPassword);
+        System.out.println(user);
+        if(user!=null&&user.getStatue()==0){
+            return "userToEmploy";
+        }
+        return "forward:login";
     }
-   /* @InitBinder
-    public void initBinder(ServletRequestDataBinder binder){
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"),
-                true));
-    }*/
 }

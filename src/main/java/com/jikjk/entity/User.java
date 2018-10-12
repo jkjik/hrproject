@@ -1,6 +1,9 @@
 package com.jikjk.entity;
 
+import com.jikjk.util.Md5;
+
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by lenovo on 2018/10/11.
@@ -18,7 +21,7 @@ public class User {
     public User(int uId, String uName, String uPassword, Timestamp uCreatetime, int status) {
         this.uId = uId;
         this.uName = uName;
-        this.uPassword = uPassword;
+        this.uPassword = Md5.md5(uPassword);
         this.uCreatetime = uCreatetime;
         this.status = status;
     }
@@ -44,7 +47,7 @@ public class User {
     }
 
     public void setuPassword(String uPassword) {
-        this.uPassword = uPassword;
+        this.uPassword = Md5.md5(uPassword);
     }
 
     public Timestamp getuCreatetime() {

@@ -1,6 +1,7 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
     public void insert(User user);
+    public User selectByUname(String uName);
+    public User selectTologin(@Param("uName")String uName, @Param("uPassword") String uPassword);
 }
