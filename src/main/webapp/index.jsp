@@ -5,91 +5,59 @@
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <script>
         $(function () {
-            var uName=$("#uName").val()
-            var varifySameUname=$(".verifySameUname")
-                var url="/user/varifySameUname";
-                alert(uName)
-                var args={"uName":uName}
-                $.post(url,args,function (data) {
-                    if(data=="yes"){
-                        varifySameUname.css("display","block");
-                        $("form").submit(function () {
-                            return false;
-                        })
-                    }else {
-                        varifySameUname.css("display","none");
-                        $("form").submit(function () {
-                            return true;
-                        })
-                    }
-                })
-        })
-    /*    $(function () {
-            var uName=$("#uName").val()
-            var pass1=$("#pass1").val()
-            var pass2=$("#pass2").val()
-            var varifySameUname=$(".verifySameUname")
-            var verifyUname=$(".verifyUname").val()
-            var verifyPass1=$(".varifyPass1").val()
-            var varifyPass2=$(".varifyPass2").val()
-            var varifySame=$(".varifySamePass").val()
-            //用户名重复验证
+            //提交非空验证
+            $("#from").submit(function () {
+                var uName=$("#uName").val()
+                var pass1=$("#pass1").val()
+                var pass2=$("#pass2").val()
+                if(uName==""){
+                    $(".verifyUname").css("display","block");
+                    return false;
+                }
+                if(pass1==""){
+                    $(".varifyPass1").css("display","block");
+                    return false;
+                }
+                if(pass2==""){
+                    $(".varifyPass2").css("display","block");
+                    return false;
+                }
+                if(pass1!=pass2){
+                    $(".varifySamePass").css("display","block");
+                    return false;
+                }
+                return true;
+            })
+
             $("#uName").change(function () {
-                        var url="/user/varifySameUname";
-                        var args={"uName":uName}
-                        $.post(url,args,function (data) {
-                            if(data=="yes"){
-                                varifySameUname.css("display","block");
-                                $("form").submit(function () {
-                                    return false;
-                                })
-                            }else {
-                                varifySameUname.css("display","none");
-                                $("form").submit(function () {
-                                    return true;
-                                })
-                            }
-                })
+                varifyUname();
             })
-            $("form").submit(function () {
-                if(""==uName){
-                    verifyUname.css("display","block");
-                    return false;
-                }
-                if(""==pass1){
-                    verifyPass1.css("display","block");
-                    return false;
-                }
-                if(""==pass2){
-                    varifyPass2.css("display","block");
-                    return false;
-                }
-                if(pass1==pass2){
-                    return true;
-                    varifySamePass.css("display","block")
-                }else {
-                    return false;
-                }
-            })
-        })*/
-    $(function () {
-        $("#uName").blur(function () {
-            var uName=$("#uName").val()
-            alert(uName)
         })
-        $("#pass1").change(function () {
-            var pass1=$("#pass1").val()
-            alert(pass1)
-        })
-        $("#pass2").change(function () {
-            var pass2=$("#pass2").val()
-            alert(pass2)
-        })
-    })
+        //用户名重复验证
+       function varifyUname() {
+           var uName=$("#uName").val()
+           var varifySameUname=$(".verifySameUname")
+           var url="/user/varifySameUname";
+           var args={"uName":uName}
+           $.post(url,args,function (data) {
+               if(data=="yes"){
+                   varifySameUname.css("display","block");
+                   $("#form").submit(function () {
+                       return false;
+                   })
+               }else {
+                   varifySameUname.css("display","none");
+                   $("#form").submit(function () {
+                       return true;
+                   })
+               }
+           })
+       }
+
     </script>
 </head>
 <body>
-<form action="/user/register" method="post">
+<form action="/user/register" id="from" method="post">
     <p>注册</p>
     <input type="text" name="uName" id="uName" placeholder="用户名："><br>
     <span style="display:none" class="verifySameUname">用户名已经存在</span>

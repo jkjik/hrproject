@@ -10,11 +10,19 @@ import org.springframework.stereotype.Service;
  * Created by lenovo on 2018/10/11.
  */
 @Service
-public class UserSErviceImpl implements UserService{
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
 
     public void insert(User user) {
         userDao.insert(user);
+    }
+
+    public User selectByUname(String uName) {
+        return userDao.selectByUname(uName);
+    }
+
+    public User selectTologin(String uName, String uPassword) {
+        return userDao.selectTologin(uName,uPassword);
     }
 }

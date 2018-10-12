@@ -2,6 +2,7 @@ package com.jikjk.handler;
 
 import com.jikjk.entity.User;
 import com.jikjk.service.UserService;
+import com.jikjk.util.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -33,9 +34,6 @@ public class UserServlet {
     @RequestMapping("varifySameUname")
     @ResponseBody
     public String varifySameUname(String uName){
-        if(uName==null){
-            return "error";
-        }
         System.out.println(uName);
         User user=userServiceImpl.selectByUname(uName);
         System.out.println(user);
@@ -48,10 +46,8 @@ public class UserServlet {
     @RequestMapping("login")
     public String login(String uName,String uPassword){
         //∑«ø’—È÷§
-        System.out.println(uName);
-        System.out.println(uPassword);
-        User user=userServiceImpl.selectTologin(uName,uPassword);
-        System.out.println(user);
+        String uPassword1= Md5.md5(uPassword);
+        User user=userServiceImpl.selectTologin(uName,uPassword1);
         if(user!=null&&user.getStatue()==0){
             return "userToEmploy";
         }
