@@ -1,6 +1,15 @@
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.jikjk.dao.DepartmentDao;
+import com.jikjk.dao.ResumeDao;
 import com.jikjk.dao.UserDao;
+import com.jikjk.entity.Department;
+import com.jikjk.entity.Position;
+import com.jikjk.entity.Resume;
+import com.jikjk.service.DepartmentService;
+import com.jikjk.service.PositionService;
 import com.jikjk.util.Md5;
 import org.junit.Test;
 import org.junit.Before; 
@@ -9,6 +18,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /** 
 * Test Tester. 
@@ -22,6 +33,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestTest { 
 @Autowired
 private UserDao userDao;
+@Autowired
+private ResumeDao resumeDao;
+@Autowired
+private DepartmentDao departmentDao;
+@Autowired
+private DepartmentService departmentService;
+@Autowired
+private PositionService positionService;
 @Before
 public void before() throws Exception { 
 } 
@@ -35,5 +54,17 @@ public void test(){
     String password= Md5.md5("123");
 
     System.out.println(userDao.selectTologin("小红",password));
+    Resume resume=new Resume(0,3,"小红",23,"女","本科","上海复旦","见习会计","222@qq.com","12345678901","无","无","wu",7500);
+    resumeDao.insert(resume);
 }
+@Test
+public void testD(){
+    List<Position> positions=positionService.selectById(2);
+    System.out.println(positions);
+    String json=JSON.toJSONString(positions);
+    System.out.println(json);
+}
+    @Test
+    public void testP(){
+    }
 } 
