@@ -5,7 +5,7 @@
         select *from department
     </select>
 
-    <select id="selectDnameByDid" resultType="String">
+    <select id="selectNameByDid" resultType="String">
         select d_name from department where d_id=#{dId}
     </select>
 </mapper>

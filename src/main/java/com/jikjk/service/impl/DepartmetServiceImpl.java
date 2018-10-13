@@ -20,7 +20,7 @@ public class DepartmetServiceImpl implements DepartmentService{
         return departmentDao.selectAll();
     }
     //通过dId查询部门
-    public String selectDnameByDid(int dId) {
+    public String selectNameByDid(int dId) {
         return departmentDao.selectNameByDid(dId);
     }
 }

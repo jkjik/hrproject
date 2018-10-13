@@ -9,6 +9,7 @@ import java.util.Date;
  * Created by lenovo on 2018/10/11.
  */
 public class User {
+    private int id;//员工(管理员)id
     private int uId;
     private String uName;
     private String uPassword;
@@ -18,12 +19,21 @@ public class User {
     public User() {
     }
 
-    public User(int uId, String uName, String uPassword, Timestamp uCreatetime, int status) {
+    public User(int id, int uId, String uName, String uPassword, Timestamp uCreatetime, int status) {
+        this.id = id;
         this.uId = uId;
         this.uName = uName;
         this.uPassword = Md5.md5(uPassword);
         this.uCreatetime = uCreatetime;
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getuId() {
@@ -58,21 +68,22 @@ public class User {
         this.uCreatetime = uCreatetime;
     }
 
-    public int getStatue() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatue(int status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "uId=" + uId +
+                "id=" + id +
+                ", uId=" + uId +
                 ", uName='" + uName + '\'' +
                 ", uPassword='" + uPassword + '\'' +
-                ", uCreatetime='" + uCreatetime + '\'' +
+                ", uCreatetime=" + uCreatetime +
                 ", status=" + status +
                 '}';
     }

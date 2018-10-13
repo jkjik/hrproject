@@ -28,6 +28,7 @@ public class PositionServiceImpl implements PositionService{
     }
     //通过职位名称查询部门名称
     public String selectNameByPid(String pName){
+        //dId为空
         int dId=positionDao.selectDidByName(pName);
         return departmentDao.selectNameByDid(dId);
     }

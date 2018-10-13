@@ -136,8 +136,8 @@
                 <td>应聘职位</td>
                 <td>
                     <select>
+                        <option selected="selected">${requestScope.aimDuty}</option>
                         <c:forEach items="${requestScope.departments}" var="dep">
-                            <option selected="selected">${requestScope.aimDuty}</option>
                             <option id="dep" value="${dep.dId}">${dep.dName}</option>
                         </c:forEach>
                     </select>

@@ -3,6 +3,7 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.jikjk.dao.DepartmentDao;
+import com.jikjk.dao.PositionDao;
 import com.jikjk.dao.ResumeDao;
 import com.jikjk.dao.UserDao;
 import com.jikjk.entity.Department;
@@ -41,6 +42,8 @@ private DepartmentDao departmentDao;
 private DepartmentService departmentService;
 @Autowired
 private PositionService positionService;
+@Autowired
+private PositionDao positionDao;
 @Before
 public void before() throws Exception { 
 } 
@@ -63,8 +66,10 @@ public void testD(){
     System.out.println(positions);
     String json=JSON.toJSONString(positions);
     System.out.println(json);
+    System.out.println(departmentDao.selectNameByDid(1));
 }
     @Test
     public void testP(){
+        System.out.println(positionService.selectNameByPid("ΩÃ ¶"));
     }
 } 

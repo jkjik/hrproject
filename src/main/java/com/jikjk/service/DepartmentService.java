@@ -11,5 +11,5 @@ public interface DepartmentService {
     //查询所有部门
     public List<Department> selectAll();
     //通过dId查询部门
-    public String selectDnameByDid(int dId);
+    public String selectNameByDid(int dId);
 }
