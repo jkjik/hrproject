@@ -8,11 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <base href="<%=request.getContextPath()%>/">
+    <base href="${pageContextrequestcontext}/">
     <title>游客页面</title>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
 </head>
 <body>
-success
+<a href="/user/Resume">添加简历</a>
+<a href="/user/Resume?uId=${sessionScope.user.uId}">修改简历</a>
 </body>
 </html>

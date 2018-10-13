@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.ResumeDao">
+    <insert id="insert" parameterType="Resume">
+        insert into resume(u_id,r_name,r_age,r_sex,education,school,aimduty,email,phone,lastwork,project,yourself,aimpay)
+        values(#{uId},#{rName},#{rAge},#{rSex},#{education},#{school},#{aimDuty},#{email},#{phone},#{lastWork},#{project},#{yourself},#{aimPay})
+    </insert>
+    <select id="selectByUid" resultType="Resume">
+        select *from resume where u_id=#{uId}
+    </select>
+</mapper>
