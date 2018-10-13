@@ -51,9 +51,9 @@ public class UserServlet {
     @RequestMapping("register")
     public String register(String uName,String uPassword){
         Timestamp uCreatetime=new Timestamp(System.currentTimeMillis());
-        User user=new User(-1,uName,uPassword,uCreatetime,0);
+        User user=new User(-1,-1,uName,uPassword,uCreatetime,0);
         userServiceImpl.insert(user);
-        return "userPage";
+        return "userLogin";
     }
 
     /**
@@ -72,6 +72,14 @@ public class UserServlet {
             return "no";
         }
     }
+
+    /**
+     * 登录并将user放入session
+     * @param uName
+     * @param uPassword
+     * @param session
+     * @return
+     */
     @RequestMapping("login")
     public String login(String uName, String uPassword, HttpSession session){
         //传参非空验证
@@ -80,9 +88,11 @@ public class UserServlet {
         if(user!=null){
             session.setAttribute("user",user);
         }
-        if(user!=null&&user.getStatue()==0){
-
+        if(user!=null&&user.getStatus()==0){
             return "userToEmploy";
+        }
+        if(user!=null&&user.getStatus()==2){
+            return "AdministratorPage";
         }
         return "forward:login";
     }
