@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.MassageResumeDao">
+    <insert id="insert">
+        insert  into massage_resume(r_id,m_createtime)values(#{rId},#{mCreateTime})
+    </insert>
+    <select id="selectAll" resultType="ResmassageResume">
+        select
+        m_id,
+        m.r_id "resume.r_id",
+        u_id "resume.u_id",
+        r_name "resume.r_name",
+        r_age "resume.r_age",
+        r_sex "resume.r_rex",
+        education "resume.education",
+        school "resume.school",
+        aimduty "resume.aimduty",
+        email "resume.email",
+        phone "resume.phone",
+        lastwork "resume.lastwork",
+        project "resume.project",
+        yourself "resume.yourself",
+        aimpay "resume.aimpay",
+        m_createtime,
+        state_read,
+        state_interview
+        from
+        massage_resume m,
+        resume r
+        where
+        m.r_id=r.r_id
+    </select>
+
+    <select id="selectByRid" resultType="massageResume">
+        select *from massage_resume where r_id=#{rId}
+    </select>
+    <update id="updateStateRead">
+        update massage_resume set state_read=#{stateRead} where r_id=#{rId}
+    </update>
+    <update id="updateStateInterview">
+        update massage_resume set state_interview=#{stateInterview} where r_id=#{rId}
+    </update>
+    <delete id="delete">
+        delete from massage_resume where rId=#{rId}
+    </delete>
+</mapper>

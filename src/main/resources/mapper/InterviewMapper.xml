@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.InterviewDao">
+    <insert id="insert">
+        insert into interview(r_id,u_id,intv_time,intv_site,intv_people,intv_phone)values(#{rId},#{uId},#{intvTime},#{intvSite},#{intvPeople},#{intoPnone})
+    </insert>
+    <select id="selectByIid" resultType="Interview">
+        select *from interview where i_id=#{iId}
+    </select>
+    <select id="selectAll" resultType="Interview">
+        select *from interview
+    </select>
+    <update id="updateByIid">
+        update interview set intv_time=#{intvTime},intv_site=#{intvSite},intv_people=#{intvPeople},intv_phone=#{intvPhone} where i_id=#{iId}
+    </update>
+
+    <select id="selectByRid" resultType="Interview">
+        select *from interview where r_id=#{rId}
+    </select>
+</mapper>

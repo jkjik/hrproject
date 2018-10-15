@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.AdministratorDao">
+    <insert id="insert">
+        insert into administrator(a_name,u_id)values(#{aName},#{uId})
+    </insert>
+    <delete id="delete">
+        delete from administrator where a_id=#{aId}
+    </delete>
+    <select id="selectByUid" resultType="Administrator">
+        select *from administrator where u_id=#{uId}
+    </select>
+    <select id="selectByName" resultType="Administrator">
+        select *from administrator where a_name=#{aName}
+    </select>
+    <select id="selectAll" resultType="Administrator">
+        select *from administrator
+    </select>
+</mapper>

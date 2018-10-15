@@ -2,10 +2,7 @@
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.jikjk.dao.DepartmentDao;
-import com.jikjk.dao.PositionDao;
-import com.jikjk.dao.ResumeDao;
-import com.jikjk.dao.UserDao;
+import com.jikjk.dao.*;
 import com.jikjk.entity.Department;
 import com.jikjk.entity.Position;
 import com.jikjk.entity.Resume;
@@ -20,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Date;
 import java.util.List;
 
 /** 
@@ -44,6 +42,8 @@ private DepartmentService departmentService;
 private PositionService positionService;
 @Autowired
 private PositionDao positionDao;
+@Autowired
+private MassageResumeDao massageResumeDao;
 @Before
 public void before() throws Exception { 
 } 
@@ -70,6 +70,6 @@ public void testD(){
 }
     @Test
     public void testP(){
-        System.out.println(positionService.selectNameByPid("ΩÃ ¶"));
+        System.out.println(new Date(System.currentTimeMillis()));
     }
 } 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.SendResumeDao">
+    <insert id="insert">
+        insert into send_resume(r_id,u_id,)values(#{rId},#{uId})
+    </insert>
+    <select id="selectByUid">
+        select *from send_resume where u_id=#(uId)
+    </select>
+    <update id="updateReadState">
+        update send_resume set s_state_read=#{sStateRead} where r_id=#{rId}
+    </update>
+    <update id="updateInformState">
+        update send_resume set intv_inform=#{intvInform} where r_id=#{rId}
+    </update>
+</mapper>

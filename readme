@@ -1,4 +1,3 @@
-数据库
 /*
 SQLyog Enterprise v12.09 (64 bit)
 MySQL - 5.6.24 : Database - hrproject
@@ -17,6 +16,21 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`hrproject` /*!40100 DEFAULT CHARACTER S
 
 USE `hrproject`;
 
+/*Table structure for table `administrator` */
+
+DROP TABLE IF EXISTS `administrator`;
+
+CREATE TABLE `administrator` (
+  `a_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '管理员id',
+  `a_name` varchar(64) NOT NULL COMMENT '管理员名字',
+  `u_id` int(11) NOT NULL COMMENT '游客的id',
+  PRIMARY KEY (`a_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `administrator` */
+
+insert  into `administrator`(`a_id`,`a_name`,`u_id`) values (1,'张三',3);
+
 /*Table structure for table `department` */
 
 DROP TABLE IF EXISTS `department`;
@@ -24,13 +38,14 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `d_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
   `d_name` varchar(20) NOT NULL COMMENT '部门名称',
+  `d_createtime` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`d_id`),
   CONSTRAINT `部门职务` FOREIGN KEY (`d_id`) REFERENCES `position` (`p_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `department` */
 
-insert  into `department`(`d_id`,`d_name`) values (1,'教学部'),(2,'业务部 '),(3,'人事部'),(4,'财务部');
+insert  into `department`(`d_id`,`d_name`,`d_createtime`) values (1,'教学部','2018-10-11 23:12:51'),(2,'业务部 ','2018-10-03 23:12:56'),(3,'人事部','2018-10-25 23:13:01'),(4,'财务部','2018-10-13 23:13:06');
 
 /*Table structure for table `employee` */
 
@@ -38,11 +53,80 @@ DROP TABLE IF EXISTS `employee`;
 
 CREATE TABLE `employee` (
   `e_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '员工ID',
-  `u_id` int(11) NOT NULL COMMENT '游客ID',
+  `u_id` int(11) NOT NULL COMMENT '游客（id）',
+  `e_name` varchar(64) NOT NULL COMMENT '员工的名字',
   PRIMARY KEY (`e_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `employee` */
+
+/*Table structure for table `interview` */
+
+DROP TABLE IF EXISTS `interview`;
+
+CREATE TABLE `interview` (
+  `i_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '面试id',
+  `r_id` int(11) NOT NULL COMMENT '简历',
+  `u_id` int(11) NOT NULL COMMENT '面试人',
+  `intv_time` date NOT NULL COMMENT '面试时间',
+  `intv_site` varchar(200) NOT NULL COMMENT '面试地点',
+  `intv_people` varchar(64) NOT NULL COMMENT '面试人',
+  `intv_phone` int(200) NOT NULL COMMENT '联系方式',
+  PRIMARY KEY (`i_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `interview` */
+
+/*Table structure for table `interview_result` */
+
+DROP TABLE IF EXISTS `interview_result`;
+
+CREATE TABLE `interview_result` (
+  `ir_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '面试结果id',
+  `a_name` varchar(64) NOT NULL COMMENT '面试人名字',
+  `u_name` varchar(64) NOT NULL COMMENT '应聘人的名字',
+  `i_result` varchar(64) NOT NULL COMMENT '面试结果',
+  `r_id` int(11) NOT NULL COMMENT '简历rId',
+  `ir_createtime` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`ir_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `interview_result` */
+
+/*Table structure for table `invite_job` */
+
+DROP TABLE IF EXISTS `invite_job`;
+
+CREATE TABLE `invite_job` (
+  `ij_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '招聘信息id',
+  `company` varchar(200) NOT NULL COMMENT '公司',
+  `job` varchar(200) NOT NULL COMMENT '职位',
+  `pay` int(20) NOT NULL COMMENT '薪资',
+  `welfare` varchar(400) NOT NULL COMMENT '福利',
+  `a_id` int(11) NOT NULL COMMENT '发布人id',
+  PRIMARY KEY (`ij_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `invite_job` */
+
+insert  into `invite_job`(`ij_id`,`company`,`job`,`pay`,`welfare`,`a_id`) values (1,'中国石油','财务主管',5000,'无险一金',1);
+
+/*Table structure for table `massage_resume` */
+
+DROP TABLE IF EXISTS `massage_resume`;
+
+CREATE TABLE `massage_resume` (
+  `m_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '简历信息id',
+  `r_id` int(11) NOT NULL COMMENT '简历id',
+  `m_createtime` date NOT NULL COMMENT '创建时间',
+  `state_read` varchar(64) NOT NULL DEFAULT '未查看' COMMENT '查看状态',
+  `state_interview` varchar(64) NOT NULL DEFAULT '未面试' COMMENT '面试状态',
+  PRIMARY KEY (`m_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Data for the table `massage_resume` */
+
+insert  into `massage_resume`(`m_id`,`r_id`,`m_createtime`,`state_read`,`state_interview`) values (1,1,'2018-10-14','已查看','未面试');
 
 /*Table structure for table `position` */
 
@@ -52,12 +136,13 @@ CREATE TABLE `position` (
   `p_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '职务ID',
   `p_name` varchar(64) NOT NULL COMMENT '职位名称',
   `d_id` int(11) NOT NULL COMMENT '部门',
+  `p_createtime` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`p_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `position` */
 
-insert  into `position`(`p_id`,`p_name`,`d_id`) values (1,'教学主管 ',1),(2,'教师',1),(3,'人事主管',3),(4,'业务主管',2),(5,'财务主管',4),(6,'财务专员',4),(7,'业务员',2),(8,'人事专员',3);
+insert  into `position`(`p_id`,`p_name`,`d_id`,`p_createtime`) values (1,'教学主管 ',1,'2018-10-04 23:13:22'),(2,'教师',1,'2018-10-05 23:13:26'),(3,'人事主管',3,'2018-10-13 23:13:31'),(4,'业务主管',2,'2018-10-11 23:13:33'),(5,'财务主管',4,'2018-10-13 23:14:09'),(6,'财务专员',4,'2018-10-05 23:13:26'),(7,'业务员',2,'2018-10-05 23:13:26'),(8,'人事专员',3,'2018-10-05 23:13:26');
 
 /*Table structure for table `resume` */
 
@@ -83,25 +168,42 @@ CREATE TABLE `resume` (
 
 /*Data for the table `resume` */
 
-insert  into `resume`(`r_id`,`u_id`,`r_name`,`r_age`,`r_sex`,`education`,`school`,`aimduty`,`email`,`phone`,`lastwork`,`project`,`yourself`,`aimpay`) values (1,3,'小红',23,'女','本科','上海复旦','见习会计','222@qq.com',12345678901,'无','无','无',7500);
+insert  into `resume`(`r_id`,`u_id`,`r_name`,`r_age`,`r_sex`,`education`,`school`,`aimduty`,`email`,`phone`,`lastwork`,`project`,`yourself`,`aimpay`) values (1,5,'小红',23,'女','本科','上海复旦','财务主管','222@qq.com',12345678901,'无','无','无',7500);
+
+/*Table structure for table `send_resume` */
+
+DROP TABLE IF EXISTS `send_resume`;
+
+CREATE TABLE `send_resume` (
+  `s_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '投递简历id',
+  `r_id` int(11) NOT NULL COMMENT '简历id',
+  `u_id` int(11) NOT NULL COMMENT '游客id',
+  `s_state_read` varchar(64) NOT NULL DEFAULT '未查看' COMMENT '查看状态',
+  `intv_inform` varchar(64) NOT NULL DEFAULT '未通知' COMMENT '面试通知',
+  PRIMARY KEY (`s_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `send_resume` */
+
+insert  into `send_resume`(`s_id`,`r_id`,`u_id`,`s_state_read`,`intv_inform`) values (1,1,5,'已查看','');
 
 /*Table structure for table `user` */
 
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lastname` varchar(64) DEFAULT NULL,
-  `email` varchar(64) DEFAULT NULL,
-  `birth` datetime DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `dept` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `u_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  `u_name` varchar(64) NOT NULL COMMENT '用户名',
+  `u_password` varchar(64) NOT NULL COMMENT '用户密码',
+  `id` int(11) NOT NULL DEFAULT '0' COMMENT '员工id',
+  `u_createtime` datetime NOT NULL COMMENT '创建时间',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '身份',
+  PRIMARY KEY (`u_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`lastname`,`email`,`birth`,`create_time`,`dept`) values (4,'ccc','qq@123.com','2015-12-02 00:00:00','2018-09-29 17:13:56','人事部');
+insert  into `user`(`u_id`,`u_name`,`u_password`,`id`,`u_createtime`,`status`) values (3,'小绿','202cb962ac59075b964b07152d234b70',0,'2018-10-13 15:32:58',2),(5,'小红','202cb962ac59075b964b07152d234b70',0,'2018-10-13 15:22:51',0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

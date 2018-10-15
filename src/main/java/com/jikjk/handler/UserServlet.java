@@ -1,14 +1,8 @@
 package com.jikjk.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.jikjk.entity.Department;
-import com.jikjk.entity.Position;
-import com.jikjk.entity.Resume;
-import com.jikjk.entity.User;
-import com.jikjk.service.DepartmentService;
-import com.jikjk.service.PositionService;
-import com.jikjk.service.ResumeService;
-import com.jikjk.service.UserService;
+import com.jikjk.entity.*;
+import com.jikjk.service.*;
 import com.jikjk.util.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,7 +35,14 @@ public class UserServlet {
     private PositionService positionServiceImpl;
     @Autowired
     private ResumeService resumeServiceImpl;
-
+    @Autowired
+    private AdministratorService admServiceImpl;
+    @Autowired
+    private SendResumeService sendResumeServiceImpl;
+    @Autowired
+    private MassageResumeService massageResumeServiceImpl;
+    @Autowired
+    private InviteJobService inviteJobServiceImpl;
     /**
      * 游客注册
      * @param uName
@@ -89,21 +90,33 @@ public class UserServlet {
             session.setAttribute("user",user);
         }
         if(user!=null&&user.getStatus()==0){
-            return "userToEmploy";
+            return "userPage";
         }
         if(user!=null&&user.getStatus()==2){
-            return "AdministratorPage";
+            Administrator administrator=admServiceImpl.selectByUid(user.getuId());
+            session.setAttribute("adm",administrator);
+            return "admPage";
         }
         return "forward:login";
     }
 
+    /**
+     * 查看招聘信息
+     * @return
+     */
+    @RequestMapping("lookJob")
+    public String lookJob(ModelMap map){
+        List<InviteJob> inviteJobs=inviteJobServiceImpl.selectAll();
+        map.addAttribute("inviteJobs",inviteJobs);
+        return "userLookJob";
+    }
     /**
      * 用户添加修改简历
      * @param map
      * @param request
      * @return
      */
-    @RequestMapping("Resume")
+    @RequestMapping("resume")
     public String addResume(ModelMap map, HttpServletRequest request){
         Integer uId=0;
         try {
@@ -115,6 +128,7 @@ public class UserServlet {
             Resume resume=resumeServiceImpl.selectByUid(uId);
             String aimDuty=positionServiceImpl.selectNameByPid(resume.getAimDuty());
             map.addAttribute("resume",resume);
+            //将管理员放入session
             map.addAttribute("aimDuty",aimDuty);
         }
         List<Department> departments=departmentServiceImpl.selectAll();
@@ -122,6 +136,36 @@ public class UserServlet {
         return "userResume";
     }
 
+    /**
+     * 添加简历
+     * @param map
+     * @param resume
+     * @return
+     */
+    @RequestMapping("commitAddResume")
+    public String commitAddResume(ModelMap map,Resume resume){
+        resumeServiceImpl.insert(resume);
+        map.addAttribute("resume",resume);
+        return "userPage";
+    }
+
+    /**
+     * 修改简历
+     * @param resume
+     * @param request
+     * @return
+     */
+    @RequestMapping("commitSetResume")
+    public String commitSetResume(Resume resume,HttpServletRequest request){
+        int uId=0;
+        try {
+            uId=Integer.valueOf(request.getParameter("uId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        resumeServiceImpl.update(uId,resume);
+        return "userPage";
+    }
     /**
      * 获取职位数据
      * @param dept
@@ -134,5 +178,26 @@ public class UserServlet {
         String json=JSON.toJSONString(positions);
         System.out.println(json);
         return json;
+    }
+
+    /**
+     * 发送简历
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping("sendResume")
+    public String sendResume(HttpServletRequest request,HttpSession session){
+        User user=(User)session.getAttribute("user");
+        int uId=user.getuId();
+        int rId=resumeServiceImpl.selectByUid(uId).getrId();
+        SendResume sendResume=new SendResume(0,rId,uId,"","");
+        //创建管理简历记录
+        sendResumeServiceImpl.insert(rId,uId);
+        Date date=new Date(System.currentTimeMillis());
+        //
+        MassageResume massageResume=new MassageResume(0,rId,date,"","");
+        massageResumeServiceImpl.insert(massageResume);
+        return "userPage";
     }
 }
