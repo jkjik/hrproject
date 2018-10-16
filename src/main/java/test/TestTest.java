@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /** 
@@ -69,11 +70,17 @@ public void testD(){
     System.out.println(positions);
     String json=JSON.toJSONString(positions);
     System.out.println(json);
-    System.out.println(departmentDao.selectNameByDid(1));
 }
     @Test
     public void testP(){
         Date date=new Date(System.currentTimeMillis());
         System.out.println(date);
+    }
+
+    @Test
+    public void testTime(){
+        SimpleDateFormat sf=new SimpleDateFormat("HH:mm:ss");
+        Date date=new Date(System.currentTimeMillis());
+        String time=sf.format(date);
     }
 } 

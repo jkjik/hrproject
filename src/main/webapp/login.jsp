@@ -31,6 +31,9 @@
             $("#uName").change(function () {
                 varifyUname();
             })
+            $("#pass").change(function () {
+                varifyError();
+            })
         })
         //用户存在验证
         function varifyUname() {
@@ -52,17 +55,66 @@
                 }
             })
         }
+        function varifyError() {
+            var uName=$("#uName").val()
+            var pass=$("#pass").val()
+            var varifyError=$(".varifyError")
+            var url="/user/varifyPassword";
+            var args={"uName":uName,"uPassword":pass}
+            $.post(url,args,function (data) {
+                if(data=="no"){
+                    varifyError.css("display","block");
+                    $("#form").submit(function () {
+                        return false;
+                    })
+                }else {
+                    varifyError.css("display","none");
+                    $("#form").submit(function () {
+                        return true;
+                    })
+                }
+            })
+        }
     </script>
 </head>
 <body>
 <form action="/user/login" id="form" method="post">
-    <p>登录</p>
-    <input type="text" name="uName" id="uName" placeholder="用户名："><br>
-    <span style="display:none" class="verifyUname">用户名不能为空</span>
-    <span style="display:none" class="verifySameUname">用户名不存在</span>
-    <input type="password" name="uPassword" id="pass" placeholder="密码"><br>
-    <span style="display:none" class="varifyPass">密码不能为空</span>
-    <input type="submit" value="提交">
+    <table style="background: green;margin: 70px auto;width: 35%; height:200px;text-align: center" align="center">
+        <tr>
+            <td><p>登录</p></td>
+        </tr>
+
+        <tr>
+            <td><input type="text" name="uName" id="uName" placeholder="用户名："></td>
+        </tr>
+
+        <tr>
+            <td>
+                <span style="display:none" class="verifyUname">用户名不能为空</span>
+                <span style="display:none" class="verifySameUname">用户名不存在</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="password" name="uPassword" id="pass" placeholder="密码">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <span style="display:none" class="varifyPass">密码不能为空</span>
+                <span style="display:none" class="varifyError">密码不正确</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+
+    </table>
 </form>
 </body>
 </html>
