@@ -1,6 +1,7 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.Department;
+import com.jikjk.entity.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

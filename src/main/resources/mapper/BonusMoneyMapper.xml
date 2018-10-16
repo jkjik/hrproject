@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.BonusMoneyDao">
+    <insert id="insert">
+        insert into bonus_money(e_id,bo_money,b_createtime)values(#{bId},#{boMoney},#{bCreateTime})
+    </insert>
+
+    <select id="selectBonus" resultType="BonusMoney">
+        select *from bouns_money where e_id=#{eId}
+    </select>
+
+    <update id="updateBonus">
+        update bonus_money set bo_money=#{boMoney} where e_id=#{eId}
+    </update>
+</mapper>

@@ -15,6 +15,7 @@ import java.util.List;
 public class InviteJobServiceImpl implements InviteJobService{
     @Autowired
     private InviteJobDao inviteJobDao;
+
     public void insert(InviteJob inviteJob) {
         inviteJobDao.insert(inviteJob);
     }

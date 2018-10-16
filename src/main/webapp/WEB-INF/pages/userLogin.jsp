@@ -9,6 +9,11 @@
 <html>
 <head>
     <base href="${pageContextrequestcontext}/">
+    <style>
+        body{
+            background: url(/image/pic.jpg);
+        }
+    </style>
     <title>跳转登录</title>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <script type="text/javascript">
@@ -25,6 +30,5 @@
 <body>
 <p>恭喜你,注册成功<a href="/login.jsp">返回登录</a></p>
 <p>3秒后自动跳转.........</p>
-
 </body>
 </html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.EmployeeDao">
+    <insert id="insert">
+        insert into employee(u_id,e_name,d_id,duty,e_sex,e_age,e_education,e_phone,e_email,e_createtime,e_state)
+        values(#{u_id},#{eName},#{dId},#{duty},#{eSex},#{eAge},#{eEducation},#{ePhone},#{eEmail},#{eCreateTime},#{eState})
+    </insert>
+
+    <select id="selectAll" resultType="Employee">
+        select *from employee
+    </select>
+
+    <select id="SelectByEid" resultType="Employee">
+         select *from employee where e_id=#{eId}
+    </select>
+
+    <update id="updateAll">
+        update employee set u_id=#{uId},e_name=#{eName},d_id=#{dId},duty=#{duty},e_sex=#{eSex},e_age=#{eAge},e_education=#{eEducation},e_phone=#{ePhone},e_email=#{eEmail},e_createtime=#{eCreateTime},e_state=#{eState}
+        where e_Id=eId;
+    </update>
+
+    <update id="updateDuty">
+        update employee set duty=#{duty}
+    </update>
+
+    <select id="updateState" resultType="Employee">
+        select *from employee where duty=#{duty}
+    </select>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.WageAdviseDao">
+    <insert id="insert">
+        insert into wage_advise(e_id,ad_money,wa_result,wa_createtime)values(#{eId},#{adMoney},#{waResult},#{waCreateTime})
+    </insert>
+
+    <select id="selectAll" resultType="WageAdvise">
+        select *from wage_advise
+    </select>
+
+    <select id="selectByEid" resultType="WageAdvise">
+        select * from wage_advise where e_id=#{eId}
+    </select>
+
+    <update id="updateResult">
+        update wage_advise set wa_result=#{waResult} where e_id=#{eId}
+    </update>
+
+</mapper>

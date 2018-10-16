@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.PunishMoneyDao">
+    <insert id="insert">
+        insert into punish_money(e_id,cause,pu_money,pu_createtime)values(#{eId},#{cause},#{puCreateTime})
+    </insert>
+
+    <select id="selectPunishMoney" resultType="PunishMoney">
+        select *from punish_money where e_id=#{eId}
+    </select>
+
+    <select id="selectAll" resultType="PunishMoney">
+        select *from punish_money
+    </select>
+
+    <update id="updatePunish">
+        update punish_money set e_id=#{eId},cause=#{cause},pu_money=#{puMoney} where pu_id=#{puId}
+    </update>
+</mapper>

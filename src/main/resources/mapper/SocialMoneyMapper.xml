@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.SocialMoneyDao">
+    <insert id="insert">
+        insert into social_money(e_id,s_money)values(#{eId},#{sMoney})
+    </insert>
+
+    <select id="selectSocialMoney" resultType="SocialMoney">
+        select *from social_money where e_id=#{eId}
+    </select>
+
+    <select id="selectAll" resultType="SocialMoney">
+        select *from social_money
+    </select>
+
+    <update id="updateSocial">
+        update social_money set s_money=#{sMoney} where e_id=#{eId}
+    </update>
+
+</mapper>

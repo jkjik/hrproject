@@ -18,12 +18,12 @@ public class Employee {
     private BigInteger e_phone;
     private String eEmail;
     private Date eCreateTime;
-    private int eTayue;//״̬
+    private int eState;//״̬
 
     public Employee() {
     }
 
-    public Employee(Integer eId, Integer uId, String eName, Integer d_id, String duty, String eSex, Integer e_age, String e_education, BigInteger e_phone, String eEmail, Date eCreateTime, int eTayue) {
+    public Employee(Integer eId, Integer uId, String eName, Integer d_id, String duty, String eSex, Integer e_age, String e_education, BigInteger e_phone, String eEmail, Date eCreateTime, int eState) {
         this.eId = eId;
         this.uId = uId;
         this.eName = eName;
@@ -35,7 +35,103 @@ public class Employee {
         this.e_phone = e_phone;
         this.eEmail = eEmail;
         this.eCreateTime = eCreateTime;
-        this.eTayue = eTayue;
+        this.eState = eState;
+    }
+
+    public Integer geteId() {
+        return eId;
+    }
+
+    public void seteId(Integer eId) {
+        this.eId = eId;
+    }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
+
+    public String geteName() {
+        return eName;
+    }
+
+    public void seteName(String eName) {
+        this.eName = eName;
+    }
+
+    public Integer getD_id() {
+        return d_id;
+    }
+
+    public void setD_id(Integer d_id) {
+        this.d_id = d_id;
+    }
+
+    public String getDuty() {
+        return duty;
+    }
+
+    public void setDuty(String duty) {
+        this.duty = duty;
+    }
+
+    public String geteSex() {
+        return eSex;
+    }
+
+    public void seteSex(String eSex) {
+        this.eSex = eSex;
+    }
+
+    public Integer getE_age() {
+        return e_age;
+    }
+
+    public void setE_age(Integer e_age) {
+        this.e_age = e_age;
+    }
+
+    public String getE_education() {
+        return e_education;
+    }
+
+    public void setE_education(String e_education) {
+        this.e_education = e_education;
+    }
+
+    public BigInteger getE_phone() {
+        return e_phone;
+    }
+
+    public void setE_phone(BigInteger e_phone) {
+        this.e_phone = e_phone;
+    }
+
+    public String geteEmail() {
+        return eEmail;
+    }
+
+    public void seteEmail(String eEmail) {
+        this.eEmail = eEmail;
+    }
+
+    public Date geteCreateTime() {
+        return eCreateTime;
+    }
+
+    public void seteCreateTime(Date eCreateTime) {
+        this.eCreateTime = eCreateTime;
+    }
+
+    public int geteState() {
+        return eState;
+    }
+
+    public void seteState(int eState) {
+        this.eState = eState;
     }
 
     @Override
@@ -52,7 +148,7 @@ public class Employee {
                 ", e_phone=" + e_phone +
                 ", eEmail='" + eEmail + '\'' +
                 ", eCreateTime=" + eCreateTime +
-                ", eTayue=" + eTayue +
+                ", eTayue=" + eState +
                 '}';
     }
 }

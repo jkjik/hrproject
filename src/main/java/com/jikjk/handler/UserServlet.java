@@ -82,7 +82,14 @@ public class UserServlet {
             return "no";
         }
     }
-
+    @RequestMapping("varifyPassword")
+    public String varifyPassword(String uName,String uPassword){
+        User   user=userServiceImpl.selectTologin(uName,uPassword);
+        if(user!=null){
+            return "yes";
+        }
+        return "no";
+    }
     /**
      * 登录并将user放入session
      * @param uName
@@ -91,10 +98,18 @@ public class UserServlet {
      * @return
      */
     @RequestMapping("login")
-    public String login(String uName, String uPassword, HttpSession session){
+    public String login(String uName, String uPassword, HttpSession session,ModelMap map){
         //传参非空验证
         String uPassword1= Md5.md5(uPassword);
-        User user=userServiceImpl.selectTologin(uName,uPassword1);
+        User user=null;
+        try {
+            user=userServiceImpl.selectTologin(uName,uPassword1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(user==null){
+            map.addAttribute("error","用户名或密码错误");
+        }
         if(user!=null){
             session.setAttribute("user",user);
         }
