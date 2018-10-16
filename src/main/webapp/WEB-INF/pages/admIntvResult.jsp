@@ -20,16 +20,20 @@
     <form action="/adm/addIntvResult">
     <table>
         <tr>
-            <td><input type="text" name="irId" value="0"></td>
-            <td><input type="text" name="aName" value="${requestScope.interview.aName}"></td>
-            <td><input type="text" name="uName" value="${requestScope.resume.uName}"></td>
-            <td><input type="text" name="rId" value="${requestScope.resume.rId}"></td>
-            <td><input type="text" name="irCreateTime" value=""></td>
+            <td><input type="hidden" name="irId" value="0"></td>
+            <td><input type="hidden" name="aName" value="${requestScope.interview.intvPeople}"></td>
+            <td><input type="hidden" name="uName" value="${requestScope.resume.rName}"></td>
+            <td><input type="hidden" name="rId" value="${requestScope.resume.rId}"></td>
+            <td><input type="hidden" name="irCreateTime" value="null"></td>
         </tr>
         <tr>
             <!--ajax面试时间与现在时间-->
             <td>面试结果</td>
+        <tr>
             <td><input type="text" name="iResult"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="提交"></td>
         </tr>
     </table>
     </form>

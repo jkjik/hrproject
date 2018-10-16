@@ -31,6 +31,47 @@ CREATE TABLE `administrator` (
 
 insert  into `administrator`(`a_id`,`a_name`,`u_id`) values (1,'张三',3);
 
+/*Table structure for table `basic_money` */
+
+DROP TABLE IF EXISTS `basic_money`;
+
+CREATE TABLE `basic_money` (
+  `bm_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '基本薪资id',
+  `e_id` int(11) NOT NULL COMMENT '员工id',
+  `b_money` int(11) NOT NULL COMMENT '金额',
+  PRIMARY KEY (`bm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `basic_money` */
+
+/*Table structure for table `bonus_money` */
+
+DROP TABLE IF EXISTS `bonus_money`;
+
+CREATE TABLE `bonus_money` (
+  `b_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '效绩奖金',
+  `e_id` int(11) NOT NULL COMMENT '员工id',
+  `b_money` int(11) NOT NULL COMMENT '奖金',
+  `b_createtime` date NOT NULL COMMENT '时间',
+  PRIMARY KEY (`b_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `bonus_money` */
+
+/*Table structure for table `create_cultivate` */
+
+DROP TABLE IF EXISTS `create_cultivate`;
+
+CREATE TABLE `create_cultivate` (
+  `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '培训id',
+  `c_name` varchar(100) NOT NULL COMMENT '培训名称',
+  `c_duty` varchar(64) NOT NULL COMMENT '培训部门',
+  `c_createtime` date NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`c_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `create_cultivate` */
+
 /*Table structure for table `department` */
 
 DROP TABLE IF EXISTS `department`;
@@ -55,6 +96,15 @@ CREATE TABLE `employee` (
   `e_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '员工ID',
   `u_id` int(11) NOT NULL COMMENT '游客（id）',
   `e_name` varchar(64) NOT NULL COMMENT '员工的名字',
+  `d_id` int(11) NOT NULL COMMENT '部门ID',
+  `duty` varchar(64) NOT NULL COMMENT '职务',
+  `e_sex` varchar(20) NOT NULL COMMENT '性别',
+  `e_age` int(11) NOT NULL COMMENT '年龄',
+  `e_education` varchar(64) NOT NULL COMMENT '学历',
+  `e_phone` bigint(11) NOT NULL COMMENT '联系方式',
+  `e_email` varchar(64) NOT NULL COMMENT 'email',
+  `e_createtime` date NOT NULL COMMENT '入职时间',
+  `e_tatue` int(11) NOT NULL COMMENT '在职状态',
   PRIMARY KEY (`e_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -68,14 +118,16 @@ CREATE TABLE `interview` (
   `i_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '面试id',
   `r_id` int(11) NOT NULL COMMENT '简历',
   `u_id` int(11) NOT NULL COMMENT '面试人',
-  `intv_time` date NOT NULL COMMENT '面试时间',
+  `intv_time` datetime NOT NULL COMMENT '面试时间',
   `intv_site` varchar(200) NOT NULL COMMENT '面试地点',
   `intv_people` varchar(64) NOT NULL COMMENT '面试人',
-  `intv_phone` int(200) NOT NULL COMMENT '联系方式',
+  `intv_phone` bigint(20) NOT NULL COMMENT '联系方式',
   PRIMARY KEY (`i_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `interview` */
+
+insert  into `interview`(`i_id`,`r_id`,`u_id`,`intv_time`,`intv_site`,`intv_people`,`intv_phone`) values (2,1,5,'2018-10-12 00:00:00','上海某区某路某楼','张三',12345678911);
 
 /*Table structure for table `interview_result` */
 
@@ -87,11 +139,13 @@ CREATE TABLE `interview_result` (
   `u_name` varchar(64) NOT NULL COMMENT '应聘人的名字',
   `i_result` varchar(64) NOT NULL COMMENT '面试结果',
   `r_id` int(11) NOT NULL COMMENT '简历rId',
-  `ir_createtime` datetime NOT NULL COMMENT '创建时间',
+  `ir_createtime` date NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`ir_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `interview_result` */
+
+insert  into `interview_result`(`ir_id`,`a_name`,`u_name`,`i_result`,`r_id`,`ir_createtime`) values (3,'张三','小红','录用',1,'2018-10-15'),(4,'张三','小红','录用',1,'2018-10-15');
 
 /*Table structure for table `invite_job` */
 
@@ -122,11 +176,41 @@ CREATE TABLE `massage_resume` (
   `state_read` varchar(64) NOT NULL DEFAULT '未查看' COMMENT '查看状态',
   `state_interview` varchar(64) NOT NULL DEFAULT '未面试' COMMENT '面试状态',
   PRIMARY KEY (`m_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `massage_resume` */
 
-insert  into `massage_resume`(`m_id`,`r_id`,`m_createtime`,`state_read`,`state_interview`) values (1,1,'2018-10-14','已查看','未面试');
+insert  into `massage_resume`(`m_id`,`r_id`,`m_createtime`,`state_read`,`state_interview`) values (1,1,'2018-10-14','已查看','未面试'),(5,1,'2018-10-15','已查看','未面试'),(6,1,'2018-10-15','已查看','未面试'),(7,1,'2018-10-15','已查看','未面试');
+
+/*Table structure for table `onwork` */
+
+DROP TABLE IF EXISTS `onwork`;
+
+CREATE TABLE `onwork` (
+  `on_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '上班id',
+  `e_id` int(11) NOT NULL COMMENT '员工ID',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '下班时间',
+  `onwork_state` varchar(64) NOT NULL DEFAULT '正常' COMMENT '上班状态',
+  `offwork_state` varchar(64) NOT NULL DEFAULT '正常' COMMENT '下班状态',
+  PRIMARY KEY (`on_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `onwork` */
+
+/*Table structure for table `overtime_money` */
+
+DROP TABLE IF EXISTS `overtime_money`;
+
+CREATE TABLE `overtime_money` (
+  `om_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '加班费id',
+  `e_id` int(11) NOT NULL COMMENT '员工id',
+  `o_money` int(11) NOT NULL COMMENT '加班费',
+  `om_createtime` date NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`om_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `overtime_money` */
 
 /*Table structure for table `position` */
 
@@ -143,6 +227,21 @@ CREATE TABLE `position` (
 /*Data for the table `position` */
 
 insert  into `position`(`p_id`,`p_name`,`d_id`,`p_createtime`) values (1,'教学主管 ',1,'2018-10-04 23:13:22'),(2,'教师',1,'2018-10-05 23:13:26'),(3,'人事主管',3,'2018-10-13 23:13:31'),(4,'业务主管',2,'2018-10-11 23:13:33'),(5,'财务主管',4,'2018-10-13 23:14:09'),(6,'财务专员',4,'2018-10-05 23:13:26'),(7,'业务员',2,'2018-10-05 23:13:26'),(8,'人事专员',3,'2018-10-05 23:13:26');
+
+/*Table structure for table `punish_money` */
+
+DROP TABLE IF EXISTS `punish_money`;
+
+CREATE TABLE `punish_money` (
+  `pu_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '惩罚id',
+  `e_id` int(11) NOT NULL COMMENT '员工Id',
+  `cause` varchar(64) NOT NULL COMMENT '原因',
+  `pu_money` int(11) NOT NULL COMMENT '金额',
+  `pu_createtime` date NOT NULL COMMENT '时间',
+  PRIMARY KEY (`pu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `punish_money` */
 
 /*Table structure for table `resume` */
 
@@ -180,12 +279,26 @@ CREATE TABLE `send_resume` (
   `u_id` int(11) NOT NULL COMMENT '游客id',
   `s_state_read` varchar(64) NOT NULL DEFAULT '未查看' COMMENT '查看状态',
   `intv_inform` varchar(64) NOT NULL DEFAULT '未通知' COMMENT '面试通知',
+  `s_createtime` date NOT NULL COMMENT '发送时间',
   PRIMARY KEY (`s_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `send_resume` */
 
-insert  into `send_resume`(`s_id`,`r_id`,`u_id`,`s_state_read`,`intv_inform`) values (1,1,5,'已查看','');
+insert  into `send_resume`(`s_id`,`r_id`,`u_id`,`s_state_read`,`intv_inform`,`s_createtime`) values (5,1,5,'已查看','有通知','2018-10-15'),(6,1,5,'已查看','有通知','2018-10-15'),(7,1,5,'已查看','有通知','2018-10-15');
+
+/*Table structure for table `social_money` */
+
+DROP TABLE IF EXISTS `social_money`;
+
+CREATE TABLE `social_money` (
+  `sm_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '社保id',
+  `e_id` int(11) NOT NULL COMMENT '员工id',
+  `s_money` int(11) NOT NULL COMMENT '社保金额',
+  PRIMARY KEY (`sm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `social_money` */
 
 /*Table structure for table `user` */
 
@@ -204,6 +317,40 @@ CREATE TABLE `user` (
 /*Data for the table `user` */
 
 insert  into `user`(`u_id`,`u_name`,`u_password`,`id`,`u_createtime`,`status`) values (3,'小绿','202cb962ac59075b964b07152d234b70',0,'2018-10-13 15:32:58',2),(5,'小红','202cb962ac59075b964b07152d234b70',0,'2018-10-13 15:22:51',0);
+
+/*Table structure for table `wage` */
+
+DROP TABLE IF EXISTS `wage`;
+
+CREATE TABLE `wage` (
+  `w_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '工资id',
+  `e_id` int(11) NOT NULL COMMENT '员工id',
+  `basic` int(11) NOT NULL COMMENT '基本工资',
+  `bonus` int(11) NOT NULL COMMENT '效绩奖金',
+  `overtime` int(11) NOT NULL COMMENT '加班',
+  `punish` int(11) NOT NULL COMMENT '奖惩',
+  `social` int(11) NOT NULL COMMENT '社保',
+  `w_createtime` date NOT NULL COMMENT '时间',
+  `advice` int(11) NOT NULL DEFAULT '0' COMMENT '复议薪资',
+  PRIMARY KEY (`w_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `wage` */
+
+/*Table structure for table `wage_advise` */
+
+DROP TABLE IF EXISTS `wage_advise`;
+
+CREATE TABLE `wage_advise` (
+  `wa_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '工资复议id',
+  `e_id` int(11) NOT NULL COMMENT '员工id',
+  `ad_money` int(11) NOT NULL COMMENT '复议金额',
+  `wa_result` varchar(64) NOT NULL COMMENT '复议结果',
+  `wa_createtime` date NOT NULL COMMENT '时间',
+  PRIMARY KEY (`wa_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `wage_advise` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -1,8 +1,7 @@
 package com.jikjk.service;
 
 import com.jikjk.entity.MassageResume;
-import com.jikjk.entity.respojo.ResMassageResume;
-import org.apache.ibatis.annotations.Param;
+import com.jikjk.entity.utilpojo.ResMassageResume;
 
 import java.util.List;
 

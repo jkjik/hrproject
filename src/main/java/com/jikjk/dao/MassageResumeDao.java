@@ -1,7 +1,7 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.MassageResume;
-import com.jikjk.entity.respojo.ResMassageResume;
+import com.jikjk.entity.utilpojo.ResMassageResume;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

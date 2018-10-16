@@ -27,15 +27,16 @@
             <td colspan="2">操作</td>
         </tr>
         <c:forEach items="${requestScope.massageResumes}" var="masResume">
-            <td>${masResume.resume.rId}</td>
+        <tr>
+            <td>${masResume.mId}</td>
             <td>${masResume.resume.rName}</td>
             <td>${masResume.mCreateTime}</td>
             <td>${masResume.stateRead}</td>
             <td>${masResume.stateInterview}</td>
             <td><a href="/adm/lookingResume?rId=${masResume.resume.rId}">查看</a></td>
             <td><a href="/adm/deleteMasResume?rId=${masResume.resume.rId}">删除</a></td>
+        </tr>
         </c:forEach>
-        <tr>
 
         </tr>
     </table>

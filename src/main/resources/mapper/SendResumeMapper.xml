@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jikjk.dao.SendResumeDao">
     <insert id="insert">
-        insert into send_resume(r_id,u_id,)values(#{rId},#{uId})
+        insert into send_resume(r_id,u_id,s_createtime)values(#{rId},#{uId},#{sCreateTime})
     </insert>
-    <select id="selectByUid">
+    <select id="selectByUid" resultType="SendResume">
         select *from send_resume where u_id=#(uId)
     </select>
     <update id="updateReadState">
@@ -13,4 +13,33 @@
     <update id="updateInformState">
         update send_resume set intv_inform=#{intvInform} where r_id=#{rId}
     </update>
+    <select id="selectResByUid" resultType="ResSendResume">
+        select
+        s_id,
+        s.r_id "resume.r_id",
+        r.u_id "resume.u_id",
+        r_name "resume.r_name",
+        r_age "resume.r_age",
+        r_sex "resume.r_rex",
+        education "resume.education",
+        school "resume.school",
+        aimduty "resume.aimduty",
+        email "resume.email",
+        phone "resume.phone",
+        lastwork "resume.lastwork",
+        project "resume.project",
+        yourself "resume.yourself",
+        aimpay "resume.aimpay",
+        s.u_id,
+        s_state_read,
+        intv_inform,
+        s_createtime
+        from
+        send_resume s,
+        resume r
+        where
+        s.r_id=r.r_id
+        and
+        s.u_id=#{uId}
+    </select>
 </mapper>

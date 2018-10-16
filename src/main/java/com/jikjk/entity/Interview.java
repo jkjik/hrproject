@@ -1,5 +1,8 @@
 package com.jikjk.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -10,14 +13,15 @@ public class Interview {
     private int iId;
     private int rId;
     private int uId;
-    private Timestamp intvTime;//面试时间
+    private String intvTime;//面试时间
     private String intvSite;//面试地点
     private String intvPeople;//面试人名
-    private int intvPhone;//联系方式
+    private BigInteger intvPhone;//联系方式
 
     public Interview() {
     }
-    public Interview(int iId, int rId, int uId, Timestamp intvTime, String intvSite, String intvPeople, int intvPhone) {
+
+    public Interview(int iId, int rId, int uId, String intvTime, String intvSite, String intvPeople, BigInteger intvPhone) {
         this.iId = iId;
         this.rId = rId;
         this.uId = uId;
@@ -51,11 +55,11 @@ public class Interview {
         this.uId = uId;
     }
 
-    public Timestamp getIntvTime() {
+    public String getIntvTime() {
         return intvTime;
     }
 
-    public void setIntvTime(Timestamp intvTime) {
+    public void setIntvTime(String intvTime) {
         this.intvTime = intvTime;
     }
 
@@ -75,20 +79,21 @@ public class Interview {
         this.intvPeople = intvPeople;
     }
 
-    public int getIntvPhone() {
+    public BigInteger getIntvPhone() {
         return intvPhone;
     }
 
-    public void setIntvPhone(int intvPhone) {
+    public void setIntvPhone(BigInteger intvPhone) {
         this.intvPhone = intvPhone;
     }
+
     @Override
     public String toString() {
         return "Interview{" +
                 "iId=" + iId +
                 ", rId=" + rId +
                 ", uId=" + uId +
-                ", intvTime=" + intvTime +
+                ", intvTime='" + intvTime + '\'' +
                 ", intvSite='" + intvSite + '\'' +
                 ", intvPeople='" + intvPeople + '\'' +
                 ", intvPhone=" + intvPhone +

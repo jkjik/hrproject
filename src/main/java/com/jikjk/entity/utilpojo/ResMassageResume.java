@@ -1,4 +1,4 @@
-package com.jikjk.entity.respojo;
+package com.jikjk.entity.utilpojo;
 
 import com.jikjk.entity.Resume;
 

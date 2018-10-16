@@ -51,7 +51,7 @@
                 <td>自我介绍</td>
                 <td><input type="text" name="yourself" value="${requestScope.resume.yourself}"></td>
             </tr>
-                <td><a href="/adm/interview?rId=${requestScope.resume.rId}">面试</a></td>
+                <td><a href="/adm/interview?rId=${requestScope.resume.rId}">面试通知</a></td>
                 <!--当前时间与面试时间-->
                 <td><a href="/adm/intvResult?rId=${requestScope.resume.rId}">面试结果</a></td>
                 <td><a href="/adm/gotoLookResume">返回</a></td>

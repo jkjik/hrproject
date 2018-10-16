@@ -1,27 +1,28 @@
-package com.jikjk.entity;
+package com.jikjk.entity.utilpojo;
+
+import com.jikjk.entity.Resume;
 
 import java.sql.Date;
 
 /**
- * Created by lenovo on 2018/10/13.
+ * Created by lenovo on 2018/10/15.
  */
-public class SendResume {
-    //游客发送简历状态
+public class ResSendResume {
     private Integer sId;
-    private Integer rId;
+    private Resume resume;
     private Integer uId;
     private Date sCreateTime;
     private String sStateRead;//是否阅读
     private String intvInform;//面试通知
 
-    public SendResume() {
+    public ResSendResume() {
     }
 
-    public SendResume(Integer sId, Integer rId, Integer uId, Date sCreatetime, String sStateRead, String intvInform) {
+    public ResSendResume(Integer sId, Resume resume, Integer uId, Date sCreateTime, String sStateRead, String intvInform) {
         this.sId = sId;
-        this.rId = rId;
+        this.resume = resume;
         this.uId = uId;
-        this.sCreateTime = sCreatetime;
+        this.sCreateTime = sCreateTime;
         this.sStateRead = sStateRead;
         this.intvInform = intvInform;
     }
@@ -34,12 +35,12 @@ public class SendResume {
         this.sId = sId;
     }
 
-    public Integer getrId() {
-        return rId;
+    public Resume getResume() {
+        return resume;
     }
 
-    public void setrId(Integer rId) {
-        this.rId = rId;
+    public void setResume(Resume resume) {
+        this.resume = resume;
     }
 
     public Integer getuId() {
@@ -48,6 +49,14 @@ public class SendResume {
 
     public void setuId(Integer uId) {
         this.uId = uId;
+    }
+
+    public Date getsCreateTime() {
+        return sCreateTime;
+    }
+
+    public void setsCreateTime(Date sCreateTime) {
+        this.sCreateTime = sCreateTime;
     }
 
     public String getsStateRead() {
@@ -66,21 +75,13 @@ public class SendResume {
         this.intvInform = intvInform;
     }
 
-    public Date getsCreateTime() {
-        return sCreateTime;
-    }
-
-    public void setsCreateTime(Date sCreateTime) {
-        this.sCreateTime = sCreateTime;
-    }
-
     @Override
     public String toString() {
-        return "SendResume{" +
+        return "ResSendResume{" +
                 "sId=" + sId +
-                ", rId=" + rId +
+                ", resume=" + resume +
                 ", uId=" + uId +
-                ", sCreatetime=" + sCreateTime +
+                ", sCreateTime=" + sCreateTime +
                 ", sStateRead='" + sStateRead + '\'' +
                 ", intvInform='" + intvInform + '\'' +
                 '}';

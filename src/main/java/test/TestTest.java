@@ -1,4 +1,4 @@
-
+package test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -44,6 +44,9 @@ private PositionService positionService;
 private PositionDao positionDao;
 @Autowired
 private MassageResumeDao massageResumeDao;
+@Autowired
+private SendResumeDao sendResumeDao;
+
 @Before
 public void before() throws Exception { 
 } 
@@ -70,6 +73,7 @@ public void testD(){
 }
     @Test
     public void testP(){
-        System.out.println(new Date(System.currentTimeMillis()));
+        Date date=new Date(System.currentTimeMillis());
+        System.out.println(date);
     }
 } 

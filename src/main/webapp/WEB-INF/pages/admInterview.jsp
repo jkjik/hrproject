@@ -10,33 +10,40 @@
 <html>
 <head>
     <title>Title</title>
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script>
+        $(function () {
+
+        })
+    </script>
 </head>
 <body>
 <p>面试通知</p>
 <c:if test="${!empty requestScope.resume}">
-    <form action="/adm/interviewInform" method="post">
+    <form action="/adm/interviewInform">
         <table>
             <tr>
                 <td><input type="hidden" name="iId" value="0"></td>
                 <td><input type="hidden" name="rId" value="${requestScope.resume.rId}"></td>
-                <td><input type="hidden" name="rId" value="${requestScope.resume.uId}"></td>
+                <td><input type="hidden" name="uId" value="${requestScope.resume.uId}"></td>
             </tr>
             <tr>
+                <!--时间传到页面问题-->
                 <td>面试时间</td>
-                <td><input type="text" name="intvTime"></td>
+                <td><input type="text" name="intvTime" id="intvTime"></td>
             </tr>
             <tr>
                 <td>面试地点</td>
-                <td><input type="text" name="intvSite"></td>
+                <td><input type="text" name="intvSite" id="intvSite"></td>
             </tr>
             <tr>
                 <td>负责人员</td>
                 <!--ajax判断是不是公司人员-->
-                <td><input type="text" name="intvPeople"></td>
+                <td><input type="text" name="intvPeople" id="intvPeople"></td>
             </tr>
             <tr>
                 <td>联系方式</td>
-                <td><input type="text" name="intvPhone"></td>
+                <td><input type="text" name="intvPhone" id="intvPhone"></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" value="提交"></td>

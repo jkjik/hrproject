@@ -1,15 +1,20 @@
 package com.jikjk.handler;
 
 import com.jikjk.entity.*;
-import com.jikjk.entity.respojo.ResMassageResume;
+import com.jikjk.entity.utilpojo.ResMassageResume;
 import com.jikjk.service.*;
-import com.jikjk.service.impl.InterviewResultServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +36,16 @@ public class AdmServlet {
     @Autowired
     private InterviewResultService interviewResultServiceImpl;
 
+    @InitBinder
+    public void initBinder(ServletRequestDataBinder binder){
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+                true));
+    }
+
+    /**
+     * 发布招聘信息
+     * @return
+     */
     @RequestMapping("sendInvite")
     public String sendInviteJob(){
         return "admSendInvite";
@@ -116,7 +131,9 @@ public class AdmServlet {
     @RequestMapping("interviewInform")
     public String interviewInform(Interview interview){
         interviewServiceImpl.insert(interview);
-        return "admLookingResume";
+        //修改游客端的面试通知
+        sendResumeServiceImpl.updateInformState(interview.getrId(),"已通知");
+        return "forward:lookingResume";
     }
 
     /**
@@ -158,8 +175,19 @@ public class AdmServlet {
      */
     @RequestMapping("addIntvResult")
     public String addIntvResult(InterviewResult interviewResult){
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        interviewResult.setIrCreatetimr(date);
         interviewResultServiceImpl.insert(interviewResult);
         sendResumeServiceImpl.updateInformState(interviewResult.getrId(),"有通知");
-        return "forward:interviewInform";
+        return "forward:gotoAdmPage";
+    }
+
+    /**
+     * 返回管理员主页
+     * @return
+     */
+    @RequestMapping("gotoAdmPage")
+    public String gotoAdmPage(){
+        return "admPage";
     }
 }

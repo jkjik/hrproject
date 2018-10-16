@@ -2,6 +2,7 @@ package com.jikjk.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.jikjk.entity.*;
+import com.jikjk.entity.utilpojo.ResSendResume;
 import com.jikjk.service.*;
 import com.jikjk.util.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,14 @@ public class UserServlet {
     private MassageResumeService massageResumeServiceImpl;
     @Autowired
     private InviteJobService inviteJobServiceImpl;
+    @Autowired
+    private InterviewService interviewServiceImpl;
+    @InitBinder
+    public void initBinder(ServletRequestDataBinder binder){
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
+                true));
+    }
+
     /**
      * 游客注册
      * @param uName
@@ -191,13 +200,53 @@ public class UserServlet {
         User user=(User)session.getAttribute("user");
         int uId=user.getuId();
         int rId=resumeServiceImpl.selectByUid(uId).getrId();
-        SendResume sendResume=new SendResume(0,rId,uId,"","");
-        //创建管理简历记录
-        sendResumeServiceImpl.insert(rId,uId);
         Date date=new Date(System.currentTimeMillis());
-        //
+        //创建管理简历记录
+        sendResumeServiceImpl.insert(rId,uId,date);
         MassageResume massageResume=new MassageResume(0,rId,date,"","");
         massageResumeServiceImpl.insert(massageResume);
         return "userPage";
+    }
+
+    /**
+     * 查看简历的状态
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("lookResumeState")
+    public String lookResumeState(HttpServletRequest request,ModelMap map){
+        int uId=0;
+        try {
+            uId=Integer.valueOf(request.getParameter("uId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        List<ResSendResume> resSendResumes=sendResumeServiceImpl.selectResByUid(uId);
+        System.out.println(resSendResumes);
+        map.addAttribute("sendResumes",resSendResumes);
+        return "userlookResumeState";
+    }
+
+    /**
+     * 返回主页
+     * @return
+     */
+    @RequestMapping("gotoUserPage")
+    public String gotoUserPage(){
+        return "userPage";
+    }
+
+    @RequestMapping("lookInform")
+    public String lookInform(HttpServletRequest request,ModelMap map){
+        int rId=0;
+        try {
+            rId=Integer.valueOf(request.getParameter("rId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        Interview interview=interviewServiceImpl.selectByRid(rId);
+        map.addAttribute("interview",interview);
+        return "userLookInform";
     }
 }

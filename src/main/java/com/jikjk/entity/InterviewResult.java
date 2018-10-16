@@ -1,5 +1,6 @@
 package com.jikjk.entity;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -12,11 +13,11 @@ public class InterviewResult {
     private String uName;
     private String iResult;//ÊÇ·ñÂ¼È¡
     private int rId;
-    private Timestamp irCreateTime;
+    private Date irCreateTime;
     public InterviewResult() {
     }
 
-    public InterviewResult(int irId, String aName, String uName, String iResult, int rId, Timestamp irCreateTime) {
+    public InterviewResult(int irId, String aName, String uName, String iResult, int rId, Date irCreateTime) {
         this.irId = irId;
         this.aName = aName;
         this.uName = uName;
@@ -57,11 +58,11 @@ public class InterviewResult {
         this.iResult = iResult;
     }
 
-    public Timestamp getIrCreatetimr() {
+    public Date getIrCreatetimr() {
         return irCreateTime;
     }
 
-    public void setIrCreatetimr(Timestamp irCreatetimr) {
+    public void setIrCreatetimr(Date irCreatetimr) {
         this.irCreateTime = irCreatetimr;
     }
 

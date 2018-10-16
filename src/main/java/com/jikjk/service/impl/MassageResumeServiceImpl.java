@@ -2,7 +2,7 @@ package com.jikjk.service.impl;
 
 import com.jikjk.dao.MassageResumeDao;
 import com.jikjk.entity.MassageResume;
-import com.jikjk.entity.respojo.ResMassageResume;
+import com.jikjk.entity.utilpojo.ResMassageResume;
 import com.jikjk.service.MassageResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
