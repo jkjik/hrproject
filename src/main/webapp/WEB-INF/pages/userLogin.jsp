@@ -8,14 +8,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <base href="${pageContextrequestcontext}/">
+    <title>跳转登录</title>
+    <base href="${pageContext.request.contextPath}/">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <style>
         body{
-            background: url(/image/pic.jpg);
+            background-image: url(${pageContext.request.contextPath}/images/pic.jpg);
+        }
+        h2{
+            align-content: center;
+            
         }
     </style>
-    <title>跳转登录</title>
-    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <script type="text/javascript">
         $(function(){
             onload=function(){
@@ -28,7 +32,7 @@
     </script>
 </head>
 <body>
-<p>恭喜你,注册成功<a href="/login.jsp">返回登录</a></p>
-<p>3秒后自动跳转.........</p>
+<h2>恭喜你,注册成功<a href="/login.jsp">返回登录</a></h2>
+<h2>3秒后自动跳转.........</h2>
 </body>
 </html>
