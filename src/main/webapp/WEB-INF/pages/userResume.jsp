@@ -11,19 +11,34 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <base href="${pageContextrequestcontext}/">
+    <base href="${pageContext.request.contextPath}/">
     <title>添加修改简历</title>
+    <jsp:include   page="userBase.jsp" flush="true"/>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <script>
         $(function () {
-            getPosition();
-            $("#dep").change(function () {
-                getPosition()
+            $("#duty").change(function () {
+                $("#position").empty();
+                var dep=$(this).children('option:selected').val();
+                $.ajax({
+                    url:"/user/getPosition",
+                    type:"post",
+                    dataType:"json",
+                    data:{"dep":dep},
+                    success:function (data) {
+                        $.each(data,function (idx,item) {
+                            $("#position").append(" <option>" + item.pName + "</option>")
+                        })
+                    },
+                    error:function(error) {
+                        alert("error=" + error);
+                    }
+                })
             })
+            getPosition();
         })
         function getPosition() {
             var dep=$("#dep").val()
-            alert(dep)
             $.ajax({
                 url:"/user/getPosition",
                 type:"post",
@@ -31,7 +46,7 @@
                 data:{"dep":dep},
                 success:function (data) {
                     $.each(data,function (idx,item) {
-                        $("#dep").append(" <option value='" + item + "'>" + item.getpName + "</option>")
+                        $("#position").append(" <option>" + item.pName + "</option>")
                     })
                 },
                 error:function(error) {
@@ -53,11 +68,14 @@
                 <td>姓名</td>
                 <td><input type="text" name="rName"></td>
                 <td>年龄</td>
-                <td><input type="text" name="rAge"></td>
+                <td><input type="number" name="rAge"></td>
             </tr>
             <tr>
                 <td>性别</td>
-                <td><input type="text" name="rSex"></td>
+                <td>
+                    <input name="sex" type="radio" checked="checked" name="rSex"/>男
+                    <input name="sex" type="radio" name="rSex"/>女
+                </td>
                 <td>学校</td>
                 <td><input type="text" name="school"></td>
             </tr>
@@ -65,24 +83,23 @@
                 <td>专业</td>
                 <td><input type="text" name="education"></td>
                 <td>Email</td>
-                <td><input type="text" name="email"></td>
+                <td><input type="email" name="email"></td>
             </tr>
             <tr>
                 <td>联系方式</td>
-                <td><input type="text" name="phone"></td>
+                <td><input type="number" name="phone"></td>
                 <td>工作经历</td>
                 <td><input type="text" name="lastWork"></td>
             </tr>
             <tr>
                 <td>应聘职位</td>
                 <td>
-                    <select>
+                    <select id="duty">
                         <c:forEach items="${requestScope.departments}" var="dep">
-                            <option id="dep" value="${dep.dId}">${dep.dName}</option>
+                            <option id="dep" value="${dep.dId}" selected="selected">${dep.dName}</option>
                         </c:forEach>
                     </select>
-                    <select name="aimDuty">
-                        <option>--职位--</option>
+                    <select name="aimDuty" id="position">
                     </select>
                 </td>
                 <td>期待薪资</td>

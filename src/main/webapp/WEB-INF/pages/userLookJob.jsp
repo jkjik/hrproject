@@ -10,6 +10,9 @@
 <html>
 <head>
     <title>Title</title>
+    <base href="${pageContext.request.contextPath}/">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <jsp:include   page="userBase.jsp" flush="true"/>
 </head>
 <body>
 <p>查看招聘信息</p>

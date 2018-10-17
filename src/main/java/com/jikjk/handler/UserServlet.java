@@ -5,6 +5,7 @@ import com.jikjk.entity.*;
 import com.jikjk.entity.utilpojo.ResSendResume;
 import com.jikjk.service.*;
 import com.jikjk.util.Md5;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -12,11 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -139,10 +142,15 @@ public class UserServlet {
         }
         if(uId!=0){
             Resume resume=resumeServiceImpl.selectByUid(uId);
-            String aimDuty=positionServiceImpl.selectNameByPid(resume.getAimDuty());
-            map.addAttribute("resume",resume);
-            //将管理员放入session
-            map.addAttribute("aimDuty",aimDuty);
+            if(resume==null){
+                List<Department> departments=departmentServiceImpl.selectAll();
+                map.addAttribute("departments",departments);
+                return "userResume";
+            }else {
+                String aimDuty=positionServiceImpl.selectNameByPid(resume.getAimDuty());
+                map.addAttribute("resume",resume);
+                map.addAttribute("aimDuty",aimDuty);
+            }
         }
         List<Department> departments=departmentServiceImpl.selectAll();
         map.addAttribute("departments",departments);
@@ -181,15 +189,20 @@ public class UserServlet {
     }
     /**
      * 获取职位数据
-     * @param dept
+     * @param dep
      * @return
      */
-    @RequestMapping("getPosition")
+    @RequestMapping(value = "getPosition" ,method= RequestMethod.POST,produces={"application/json;charset=utf-8"})
     @ResponseBody
-    public String getPosition(Integer dept){
-        List<Position> positions=positionServiceImpl.selectById(dept);
-        String json=JSON.toJSONString(positions);
-        System.out.println(json);
+    public String getPosition(Integer dep) {
+        List<Position> positions=positionServiceImpl.selectById(dep);
+        ObjectMapper mapper = new ObjectMapper();
+        String json= null;
+        try {
+            json = mapper.writeValueAsString(positions);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return json;
     }
 
@@ -227,7 +240,6 @@ public class UserServlet {
             e.printStackTrace();
         }
         List<ResSendResume> resSendResumes=sendResumeServiceImpl.selectResByUid(uId);
-        System.out.println(resSendResumes);
         map.addAttribute("sendResumes",resSendResumes);
         return "userlookResumeState";
     }

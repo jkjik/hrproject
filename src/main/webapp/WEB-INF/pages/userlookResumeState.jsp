@@ -10,9 +10,15 @@
 <html>
 <head>
     <title>Title</title>
+    <base href="${pageContext.request.contextPath}/">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <jsp:include   page="userBase.jsp" flush="true"/>
 </head>
 <body>
 <p>查看简历状态</p>
+<c:if test="${empty requestScope.sendResumes}">
+    <p>暂无信息</p>
+</c:if>
 <c:if test="${!empty requestScope.sendResumes}">
     <table>
         <tr>

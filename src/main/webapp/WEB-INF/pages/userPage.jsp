@@ -8,11 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <base href="${pageContextrequestcontext}/">
     <title>游客页面</title>
+    <base href="${pageContext.request.contextPath}/">
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <jsp:include   page="userBase.jsp" flush="true"/>
 </head>
 <body>
+
+
 <a href="/user/lookJob">查看所有的招聘信息</a><br>
 <a href="/user/resume">添加简历</a><br><!--简历只有一份，再次点击添加简历，则跳入修改-->
 <a href="/user/resume?uId=${sessionScope.user.uId}">修改简历</a><br>
