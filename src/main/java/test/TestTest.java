@@ -6,8 +6,10 @@ import com.jikjk.dao.*;
 import com.jikjk.entity.Department;
 import com.jikjk.entity.Position;
 import com.jikjk.entity.Resume;
+import com.jikjk.entity.User;
 import com.jikjk.service.DepartmentService;
 import com.jikjk.service.PositionService;
+import com.jikjk.service.UserService;
 import com.jikjk.util.Md5;
 import org.junit.Test;
 import org.junit.Before; 
@@ -47,6 +49,8 @@ private PositionDao positionDao;
 private MassageResumeDao massageResumeDao;
 @Autowired
 private SendResumeDao sendResumeDao;
+@Autowired
+private UserService userService;
 
 @Before
 public void before() throws Exception { 
@@ -82,5 +86,11 @@ public void testD(){
         SimpleDateFormat sf=new SimpleDateFormat("HH:mm:ss");
         Date date=new Date(System.currentTimeMillis());
         String time=sf.format(date);
+    }
+    @Test
+    public void testpassWord(){
+        String password=Md5.md5("1234");
+       User user=userService.selectTologin("Ð¡ºì",password);
+        System.out.println(user);
     }
 } 

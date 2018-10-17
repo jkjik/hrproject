@@ -55,26 +55,6 @@
                 }
             })
         }
-        function varifyError() {
-            var uName=$("#uName").val()
-            var pass=$("#pass").val()
-            var varifyError=$(".varifyError")
-            var url="/user/varifyPassword";
-            var args={"uName":uName,"uPassword":pass}
-            $.post(url,args,function (data) {
-                if(data=="no"){
-                    varifyError.css("display","block");
-                    $("#form").submit(function () {
-                        return false;
-                    })
-                }else {
-                    varifyError.css("display","none");
-                    $("#form").submit(function () {
-                        return true;
-                    })
-                }
-            })
-        }
     </script>
 </head>
 <body>

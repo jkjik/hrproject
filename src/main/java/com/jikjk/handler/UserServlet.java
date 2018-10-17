@@ -82,14 +82,6 @@ public class UserServlet {
             return "no";
         }
     }
-    @RequestMapping("varifyPassword")
-    public String varifyPassword(String uName,String uPassword){
-        User   user=userServiceImpl.selectTologin(uName,uPassword);
-        if(user!=null){
-            return "yes";
-        }
-        return "no";
-    }
     /**
      * 登录并将user放入session
      * @param uName
@@ -107,9 +99,6 @@ public class UserServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(user==null){
-            map.addAttribute("error","用户名或密码错误");
-        }
         if(user!=null){
             session.setAttribute("user",user);
         }
@@ -121,7 +110,7 @@ public class UserServlet {
             session.setAttribute("adm",administrator);
             return "admPage";
         }
-        return "forward:login";
+        return "forward:/login.jsp";
     }
 
     /**
