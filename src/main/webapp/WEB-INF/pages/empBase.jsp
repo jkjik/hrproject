@@ -46,9 +46,9 @@
                         <li><a href="#">#</a></li>
                     </ul>
                 </li>
+                <li><a href="#">部门职位</a></li>
                 <li><a href="#">我的考勤</a><br></li>
                 <li><a href="#">我的奖惩</a></li>
-                <li><a href="#">部门职位</a></li>
                 <li><a href="#">我的薪资</a></li>
                 <li><a href="#">修改密码</a></li>
             </ul>

@@ -30,4 +30,9 @@
     <select id="selectByUid" resultType="Employee">
         select *from employee where u_id=#{uId}
     </select>
+
+    <select id="selectEmployee" resultType="Employee">
+        select *from employee where d_id=#{dId}
+    </select>
+
 </mapper>

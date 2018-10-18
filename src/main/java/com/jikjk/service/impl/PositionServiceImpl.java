@@ -36,4 +36,16 @@ public class PositionServiceImpl implements PositionService{
     public int selectDidByName(String pName) {
         return positionDao.selectDidByName(pName);
     }
+
+    public void insert(Position position) {
+        positionDao.insert(position);
+    }
+
+    public void delete(int pId) {
+        positionDao.delete(pId);
+    }
+
+    public void updatePos(Position position) {
+        positionDao.updatePos(position);
+    }
 }

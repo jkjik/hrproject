@@ -8,4 +8,24 @@
     <select id="selectNameByDid" resultType="String">
         select d_name from department where d_id=#{dId}
     </select>
+
+    <insert id="insert">
+        insert into department(d_name,d_createTime)values(dName,dCreateTime)
+    </insert>
+
+    <delete id="delete">
+        delete from department where d_id=#{dId}
+    </delete>
+
+    <update id="upadteDep">
+        update department set d_name=#{dName} where dId=#{dId}
+    </update>
+
+    <select id="selectById" resultType="Department">
+        select *from department where d_id=#{dId}
+    </select>
+
+    <select id="selectBydName" resultType="Department">
+        select *from department where d_name=#{dName}
+    </select>
 </mapper>

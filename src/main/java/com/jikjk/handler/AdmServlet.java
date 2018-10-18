@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -230,5 +231,112 @@ public class AdmServlet {
     @RequestMapping("gotoAdmPage")
     public String gotoAdmPage(){
         return "admPage";
+    }
+
+    /**
+     * 查看部门
+     * @param map
+     * @return
+     */
+    @RequestMapping("lookDuty")
+    public String lookDuty(ModelMap map){
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 查看职位
+     * @param request
+     * @param map
+     * @param session
+     * @return
+     */
+    @RequestMapping("getPosition")
+    public String getPosition(HttpServletRequest request,ModelMap map,HttpSession session){
+        int dId=0;
+        try {
+            dId=Integer.valueOf(request.getParameter("dId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        System.out.println(dId);
+        //职位
+        List<Position> positions= positionServiceImpl.selectById(dId);
+        map.addAttribute("positions",positions);
+        System.out.println(positions);
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        System.out.println(departments);
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 删除部门或职位
+     * @param request
+     * @return
+     */
+    @RequestMapping("deleteDepAndPos")
+    public String deleteDepAndPos(HttpServletRequest request,ModelMap map){
+        int dId=0;
+        int pId=0;
+        try {
+            pId=Integer.valueOf(request.getParameter("pId"));
+            dId=Integer.valueOf(request.getParameter("dId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        if(dId!=0){
+            departmentServiceImpl.delete(dId);
+        }
+        if(pId!=0){
+            positionServiceImpl.delete(pId);
+        }
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 添加部门
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("addDepAndPos")
+    public String addDepAndPos(HttpServletRequest request,ModelMap map){
+        int dep=0;
+        int pos=0;
+        try {
+            dep=Integer.valueOf(request.getParameter("dep"));
+            pos=Integer.valueOf(request.getParameter("pos"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        if(dep==1){
+            map.addAttribute("dep",dep);
+        }
+        if(pos==1){
+            List<Department> depre=departmentServiceImpl.selectAll();
+            map.addAttribute("pos",pos);
+            map.addAttribute("depre",depre);
+        }
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    @RequestMapping("deleteDep")
+    @ResponseBody
+    public String deleteDep(String dName){
+        Department department=departmentServiceImpl.selectBydName(dName);
+        List<Position> positions=positionServiceImpl.selectById(department.getdId());
+        if(positions!=null){
+            return "no";
+        }
+        return "ok";
     }
 }

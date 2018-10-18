@@ -17,5 +17,6 @@
 <body>
 <a href="/adm/sendInvite">发布招聘</a>
 <a href="/adm/lookResume">查看接受简历</a>
+<a href="/adm/lookDuty">查看部门</a>
 </body>
 </html>

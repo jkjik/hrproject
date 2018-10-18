@@ -23,4 +23,24 @@ public class DepartmetServiceImpl implements DepartmentService{
     public String selectNameByDid(int dId) {
         return departmentDao.selectNameByDid(dId);
     }
+
+    public void insert(Department department) {
+        departmentDao.insert(department);
+    }
+
+    public void delete(int dId) {
+        departmentDao.delete(dId);
+    }
+
+    public void upadteDep(Department department) {
+        departmentDao.upadteDep(department);
+    }
+
+    public Department selectById(int dId) {
+        return departmentDao.selectById(dId);
+    }
+
+    public Department selectBydName(String dName) {
+        return departmentDao.selectBydName(dName);
+    }
 }

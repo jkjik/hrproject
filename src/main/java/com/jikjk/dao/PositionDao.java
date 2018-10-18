@@ -16,4 +16,10 @@ public interface PositionDao {
     public List<Position> selectAll();
     //通过职位名称查询部门id
     public int selectDidByName(String pName);
+    //添加职位
+    public void insert(Position position);
+    //删除职位
+    public void delete(int pId);
+    //修改职位
+    public void updatePos(Position position);
 }

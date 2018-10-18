@@ -182,7 +182,6 @@ public class UserServlet {
      */
     @RequestMapping("commitAddResume")
     public String commitAddResume(ModelMap map,Resume resume){
-        System.out.println(resume);
         resumeServiceImpl.insert(resume);
         map.addAttribute("resume",resume);
         return "userPage";
