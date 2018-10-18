@@ -25,4 +25,6 @@ public interface EmployeeDao {
     public void updateState(@Param("eId") int eId,@Param("eState") int eState);
     //查询本部门的下属员工
     public List<Employee> selectEmployee(int dId);
+    //通过uId查找员工
+    public Employee selectByUid(int uId);
 }

@@ -10,4 +10,8 @@
     <select id="selectTologin" resultType="User">
         select *from user where u_name=#{uName} and u_password=#{uPassword}
     </select>
+
+    <update id="updateStatue">
+        update user set status=#{status} where u_id=#{uId};
+    </update>
 </mapper>

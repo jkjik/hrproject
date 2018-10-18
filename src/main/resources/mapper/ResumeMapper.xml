@@ -11,7 +11,7 @@
     </select>
 
     <update id="update">
-        update resume set r_name=#{rName},r_age=#{rAge},r_sex=#{rSex},education=#{education},school=#{school},aimduty=#{aimDuty},email=#{email},phone=#{phone},lastwork=#{lastwork},project=#{project},yourself=#{yourself},aimpay=#{aimpay}
+        update resume set r_name=#{rName},r_age=#{rAge},r_sex=#{rSex},education=#{education},school=#{school},aimduty=#{aimDuty},email=#{email},phone=#{phone},lastwork=#{lastWork},project=#{project},yourself=#{yourself},aimpay=#{aimPay}
         where u_id=#{uId}
     </update>
 

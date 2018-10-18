@@ -23,4 +23,6 @@ public interface EmployeeService {
     public void updateState(int eId,int eState);
     //查询本部门的下属员工
     public List<Employee> selectEmployee(int dId);
+    //通过uId查找员工
+    public Employee selectByUid(int uId);
 }

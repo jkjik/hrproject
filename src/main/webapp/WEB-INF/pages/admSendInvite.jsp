@@ -10,9 +10,47 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <base href="${pageContextrequestcontext}/">
     <title>管理员发布招聘</title>
+    <base href="${pageContext.request.contextPath}/">
+    <jsp:include   page="admBase.jsp" flush="true"/>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script>
+        $(function () {
+            $(".duty").change(function () {
+                $(".position").empty();
+                var dep=$(this).children('option:selected').val();
+                $.ajax({
+                    url:"/user/getPosition",
+                    type:"post",
+                    dataType:"json",
+                    data:{"dep":dep},
+                    success:function (data) {
+                        $.each(data,function (idx,item) {
+                            $(".position").append(" <option>" + item.pName + "</option>")
+                        })
+                    },
+                    error:function(error) {
+                        alert("error=" + error);
+                    }
+                })
+            })
+            getPosition();
+        })
+        function getPosition() {
+            var dep=$("#dep").val()
+            $.ajax({
+                url:"/user/getPosition",
+                type:"post",
+                dataType:"json",
+                data:{"dep":dep},
+                success:function (data) {
+                    $.each(data,function (idx,item) {
+                        $(".position").append(" <option>" + item.pName + "</option>")
+                    })
+                }
+            })
+        }
+    </script>
 </head>
 <body>
 <c:if test="${empty requestScope.invite}">
@@ -29,7 +67,16 @@
             <tr>
                 <!--从数据库获取职位-->
                 <td>职位</td>
-                <td><input type="text" name="job"></td>
+                <td>
+                    <select class="duty">
+                        <c:forEach items="${requestScope.departments}" var="dep">
+                            <option id="dep" value="${dep.dId}">${dep.dName}</option>
+                        </c:forEach>
+                    </select>
+                    <select name="job" class="position">
+                    </select>
+
+                </td>
             </tr>
             <tr>
                 <td>薪水</td>

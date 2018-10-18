@@ -2,6 +2,7 @@ package com.jikjk.service.impl;
 
 import com.jikjk.dao.EmployeeDao;
 import com.jikjk.entity.Employee;
+import com.jikjk.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by lenovo on 2018/10/16.
  */
 @Service
-public class EmployeeService implements com.jikjk.service.EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
@@ -41,5 +42,9 @@ public class EmployeeService implements com.jikjk.service.EmployeeService{
 
     public List<Employee> selectEmployee(int dId) {
         return employeeDao.selectEmployee(dId);
+    }
+
+    public Employee selectByUid(int uId) {
+        return employeeDao.selectByUid(uId);
     }
 }

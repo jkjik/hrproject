@@ -49,6 +49,8 @@ public class UserServlet {
     private InviteJobService inviteJobServiceImpl;
     @Autowired
     private InterviewService interviewServiceImpl;
+    @Autowired
+    private EmployeeService employeeServiceImpl;
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
@@ -108,6 +110,11 @@ public class UserServlet {
         if(user!=null&&user.getStatus()==0){
             return "userPage";
         }
+        if(user!=null&&user.getStatus()==1){
+            Employee employee=employeeServiceImpl.selectByUid(user.getuId());
+            session.setAttribute("employee",employee);
+            return "empPage";
+        }
         if(user!=null&&user.getStatus()==2){
             Administrator administrator=admServiceImpl.selectByUid(user.getuId());
             session.setAttribute("adm",administrator);
@@ -129,29 +136,39 @@ public class UserServlet {
     /**
      * 用户添加修改简历
      * @param map
-     * @param request
+     * @param session
      * @return
      */
     @RequestMapping("resume")
-    public String addResume(ModelMap map, HttpServletRequest request){
-        Integer uId=0;
+    public String addResume(ModelMap map,HttpSession session){
+    /*    Integer uId=0;
         try {
             uId=Integer.valueOf(request.getParameter("uId"));
         } catch (NumberFormatException e) {
             e.printStackTrace();
+        }*/
+        User user= (User) session.getAttribute("user");
+        Resume resume=resumeServiceImpl.selectByUid(user.getuId());
+        if(resume!=null){
+            //判断简历是否存在回显
+            String aimDuty=positionServiceImpl.selectNameByPid(resume.getAimDuty());
+            map.addAttribute("resume",resume);
+            map.addAttribute("aimDuty",aimDuty);
         }
+    /*    //判断添加还是修改
         if(uId!=0){
-            Resume resume=resumeServiceImpl.selectByUid(uId);
+            //修改简历，无简历跳转添加
             if(resume==null){
                 List<Department> departments=departmentServiceImpl.selectAll();
                 map.addAttribute("departments",departments);
                 return "userResume";
             }else {
+                //修改回显
                 String aimDuty=positionServiceImpl.selectNameByPid(resume.getAimDuty());
                 map.addAttribute("resume",resume);
                 map.addAttribute("aimDuty",aimDuty);
             }
-        }
+        }*/
         List<Department> departments=departmentServiceImpl.selectAll();
         map.addAttribute("departments",departments);
         return "userResume";
@@ -165,6 +182,7 @@ public class UserServlet {
      */
     @RequestMapping("commitAddResume")
     public String commitAddResume(ModelMap map,Resume resume){
+        System.out.println(resume);
         resumeServiceImpl.insert(resume);
         map.addAttribute("resume",resume);
         return "userPage";
@@ -178,13 +196,7 @@ public class UserServlet {
      */
     @RequestMapping("commitSetResume")
     public String commitSetResume(Resume resume,HttpServletRequest request){
-        int uId=0;
-        try {
-            uId=Integer.valueOf(request.getParameter("uId"));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        resumeServiceImpl.update(uId,resume);
+        resumeServiceImpl.update(resume);
         return "userPage";
     }
     /**
@@ -216,6 +228,11 @@ public class UserServlet {
     public String sendResume(HttpServletRequest request,HttpSession session){
         User user=(User)session.getAttribute("user");
         int uId=user.getuId();
+        Resume resume=resumeServiceImpl.selectByUid(uId);
+        //发送简历无简历，新建简历
+        if(resume==null){
+            return "forward:resume";
+        }
         int rId=resumeServiceImpl.selectByUid(uId).getrId();
         Date date=new Date(System.currentTimeMillis());
         //创建管理简历记录

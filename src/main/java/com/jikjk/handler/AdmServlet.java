@@ -3,6 +3,8 @@ package com.jikjk.handler;
 import com.jikjk.entity.*;
 import com.jikjk.entity.utilpojo.ResMassageResume;
 import com.jikjk.service.*;
+import com.jikjk.util.ResumeToEmp;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +40,14 @@ public class AdmServlet {
     private InterviewService interviewServiceImpl;
     @Autowired
     private InterviewResultService interviewResultServiceImpl;
-
+    @Autowired
+    private PositionService positionServiceImpl;
+    @Autowired
+    private DepartmentService departmentServiceImpl;
+    @Autowired
+    private EmployeeService employeeServiceImpl;
+    @Autowired
+    private UserService userServiceImpl;
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
@@ -47,13 +59,34 @@ public class AdmServlet {
      * @return
      */
     @RequestMapping("sendInvite")
-    public String sendInviteJob(){
+    public String sendInviteJob(ModelMap map){
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
         return "admSendInvite";
     }
     @RequestMapping("commitSendInvite")
     public String commitSendInvite(InviteJob inviteJob){
         inviteJobServiceImpl.insert(inviteJob);
         return "admPage";
+    }
+
+    /**
+     * 获取职位数据
+     * @param dep
+     * @return
+     */
+    @RequestMapping(value = "getPosition" ,method= RequestMethod.POST,produces={"application/json;charset=utf-8"})
+    @ResponseBody
+    public String getPosition(Integer dep) {
+        List<Position> positions=positionServiceImpl.selectById(dep);
+        ObjectMapper mapper = new ObjectMapper();
+        String json= null;
+        try {
+            json = mapper.writeValueAsString(positions);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 
     /**
@@ -177,8 +210,16 @@ public class AdmServlet {
     public String addIntvResult(InterviewResult interviewResult){
         java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
         interviewResult.setIrCreatetimr(date);
+        //创建面试结果类
         interviewResultServiceImpl.insert(interviewResult);
+        //游客面试通知
         sendResumeServiceImpl.updateInformState(interviewResult.getrId(),"有通知");
+        //添加用户
+        Resume resume=resumeServiceImpl.selectByRid(interviewResult.getrId());
+        int duty=positionServiceImpl.selectDidByName(resume.getAimDuty());
+        Employee employee= ResumeToEmp.toChange(resume,duty);
+        employeeServiceImpl.insert(employee);
+        userServiceImpl.updateStatue(resume.getuId(),1);
         return "forward:gotoAdmPage";
     }
 

@@ -41,6 +41,6 @@
         update massage_resume set state_interview=#{stateInterview} where r_id=#{rId}
     </update>
     <delete id="delete">
-        delete from massage_resume where rId=#{rId}
+        delete from massage_resume where r_Id=#{rId}
     </delete>
 </mapper>

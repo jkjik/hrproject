@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: lenovo
@@ -15,26 +16,31 @@
 </head>
 <body>
 <p>面试通知</p>
-<table>
-    <tr>
-        <td>面试时间</td>
-        <td>${requestScope.interview.intvTime}</td>
-    </tr>
-    <tr>
-        <td>面试地点</td>
-        <td>${requestScope.interview.intvSite}</td>
-    </tr>
-    <tr>
-        <td>负责人员</td>
-        <td>${requestScope.interview.intvPeople}</td>
-    </tr>
-    <tr>
-        <td>联系方式</td>
-        <td>${requestScope.interview.intvPhone}</td>
-    </tr>
-    <tr>
-        <td colspan="2"><a href="/user/gotoUserPage">返回</a></td>
-    </tr>
-</table>
+<c:if test="${empty requestScope.interview}">
+    <p>暂无面试信息</p>
+</c:if>
+<c:if test="${!empty requestScope.interview}">
+    <table>
+        <tr>
+            <td>面试时间</td>
+            <td>${requestScope.interview.intvTime}</td>
+        </tr>
+        <tr>
+            <td>面试地点</td>
+            <td>${requestScope.interview.intvSite}</td>
+        </tr>
+        <tr>
+            <td>负责人员</td>
+            <td>${requestScope.interview.intvPeople}</td>
+        </tr>
+        <tr>
+            <td>联系方式</td>
+            <td>${requestScope.interview.intvPhone}</td>
+        </tr>
+        <tr>
+            <td colspan="2"><a href="/user/gotoUserPage">返回</a></td>
+        </tr>
+    </table>
+</c:if>
 </body>
 </html>

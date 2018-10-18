@@ -28,8 +28,8 @@ public class ResumeServiceImpl implements ResumeService{
         return resumeDao.selectByRid(rId);
     }
 
-    public void update(int uId, Resume resume) {
-        resumeDao.update(uId,resume);
+    public void update(Resume resume) {
+        resumeDao.update(resume);
     }
 
     public List<Resume> selectAll() {

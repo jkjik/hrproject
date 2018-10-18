@@ -14,4 +14,6 @@ public interface PositionService {
     public List<Position> selectAll();
     //通过职位名称查询部门名称
     public String selectNameByPid(String pName);
+    //通过职位名称查询部门id
+    public int selectDidByName(String pName);
 }

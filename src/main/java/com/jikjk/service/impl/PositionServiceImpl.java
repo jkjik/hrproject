@@ -32,4 +32,8 @@ public class PositionServiceImpl implements PositionService{
         int dId=positionDao.selectDidByName(pName);
         return departmentDao.selectNameByDid(dId);
     }
+
+    public int selectDidByName(String pName) {
+        return positionDao.selectDidByName(pName);
+    }
 }

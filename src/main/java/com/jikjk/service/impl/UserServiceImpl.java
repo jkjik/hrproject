@@ -25,4 +25,8 @@ public class UserServiceImpl implements UserService{
     public User selectTologin(String uName, String uPassword) {
         return userDao.selectTologin(uName,uPassword);
     }
+
+    public void updateStatue(int uId, int status) {
+        userDao.updateStatue(uId,status);
+    }
 }

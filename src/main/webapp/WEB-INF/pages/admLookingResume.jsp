@@ -9,7 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>管理员查看简历</title>
+    <title>查看所有个人简历</title>
+    <base href="${pageContext.request.contextPath}/">
+    <jsp:include   page="admBase.jsp" flush="true"/>
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
 </head>
 <body>
 <p>查看所有个人简历</p>

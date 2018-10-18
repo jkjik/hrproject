@@ -17,8 +17,8 @@
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <script>
         $(function () {
-            $("#duty").change(function () {
-                $("#position").empty();
+            $(".duty").change(function () {
+                $(".position").empty();
                 var dep=$(this).children('option:selected').val();
                 $.ajax({
                     url:"/user/getPosition",
@@ -27,7 +27,7 @@
                     data:{"dep":dep},
                     success:function (data) {
                         $.each(data,function (idx,item) {
-                            $("#position").append(" <option>" + item.pName + "</option>")
+                            $(".position").append(" <option>" + item.pName + "</option>")
                         })
                     },
                     error:function(error) {
@@ -46,11 +46,8 @@
                 data:{"dep":dep},
                 success:function (data) {
                     $.each(data,function (idx,item) {
-                        $("#position").append(" <option>" + item.pName + "</option>")
+                        $(".position").append(" <option>" + item.pName + "</option>")
                     })
-                },
-                error:function(error) {
-                    alert("error=" + error);
                 }
             })
         }
@@ -58,6 +55,7 @@
 </head>
 <body>
 <c:if test="${empty requestScope.resume}">
+    <P>添加简历</P>
     <form action="/user/commitAddResume" method="post">
         <table>
             <tr>
@@ -73,8 +71,8 @@
             <tr>
                 <td>性别</td>
                 <td>
-                    <input name="sex" type="radio" checked="checked" name="rSex"/>男
-                    <input name="sex" type="radio" name="rSex"/>女
+                    <input type="radio" checked="checked" name="rSex" value="男"/>男
+                    <input type="radio" name="rSex" value="女"/>女
                 </td>
                 <td>学校</td>
                 <td><input type="text" name="school"></td>
@@ -94,13 +92,12 @@
             <tr>
                 <td>应聘职位</td>
                 <td>
-                    <select id="duty">
+                    <select class="duty">
                         <c:forEach items="${requestScope.departments}" var="dep">
-                            <option id="dep" value="${dep.dId}" selected="selected">${dep.dName}</option>
+                            <option id="dep" value="${dep.dId}">${dep.dName}</option>
                         </c:forEach>
                     </select>
-                    <select name="aimDuty" id="position">
-                    </select>
+                    <select name="aimDuty" class="position"></select>
                 </td>
                 <td>期待薪资</td>
                 <td><input type="text" name="aimPay"></td>
@@ -119,6 +116,7 @@
 </c:if>
 
 <c:if test="${!empty requestScope.resume}">
+    <p>修改简历</p>
     <form action="/user/commitSetResume" method="post">
         <table>
             <tr>
@@ -133,7 +131,10 @@
             </tr>
             <tr>
                 <td>性别</td>
-                <td><input type="text" name="rSex" value="${requestScope.resume.rSex}"></td>
+                <td>
+                    <input type="radio" checked="checked" name="rSex" value="男"/>男
+                    <input type="radio" name="rSex" value="女"/>女
+                </td>
                 <td>学校</td>
                 <td><input type="text" name="school" value="${requestScope.resume.school}"></td>
             </tr>
@@ -152,13 +153,13 @@
             <tr>
                 <td>应聘职位</td>
                 <td>
-                    <select>
+                    <select class="duty">
                         <option selected="selected">${requestScope.aimDuty}</option>
                         <c:forEach items="${requestScope.departments}" var="dep">
-                            <option id="dep" value="${dep.dId}">${dep.dName}</option>
+                            <option value="${dep.dId}">${dep.dName}</option>
                         </c:forEach>
                     </select>
-                    <select name="aimDuty">
+                    <select name="aimDuty" class="position">
                         <option>${requestScope.resume.aimDuty}</option>
                     </select>
                 </td>

@@ -2,6 +2,7 @@ package com.jikjk.entity;
 
 import java.math.BigInteger;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by lenovo on 2018/10/16.
@@ -10,12 +11,12 @@ public class Employee {
     private Integer eId;
     private Integer uId;//游客id
     private String eName;
-    private Integer d_id;//部门id
+    private Integer dId;//部门id
     private String duty;//职务
     private String eSex;
-    private Integer e_age;
-    private String e_education;
-    private BigInteger e_phone;
+    private Integer eAge;
+    private String eEducation;
+    private String ePhone;
     private String eEmail;
     private Date eCreateTime;
     private int eState;//状态
@@ -23,16 +24,16 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Integer eId, Integer uId, String eName, Integer d_id, String duty, String eSex, Integer e_age, String e_education, BigInteger e_phone, String eEmail, Date eCreateTime, int eState) {
+    public Employee(Integer eId, Integer uId, String eName, Integer dId, String duty, String eSex, Integer eAge, String eEducation, String ePhone, String eEmail, Date eCreateTime, int eState) {
         this.eId = eId;
         this.uId = uId;
         this.eName = eName;
-        this.d_id = d_id;
+        this.dId = dId;
         this.duty = duty;
         this.eSex = eSex;
-        this.e_age = e_age;
-        this.e_education = e_education;
-        this.e_phone = e_phone;
+        this.eAge = eAge;
+        this.eEducation = eEducation;
+        this.ePhone = ePhone;
         this.eEmail = eEmail;
         this.eCreateTime = eCreateTime;
         this.eState = eState;
@@ -62,12 +63,12 @@ public class Employee {
         this.eName = eName;
     }
 
-    public Integer getD_id() {
-        return d_id;
+    public Integer getdId() {
+        return dId;
     }
 
-    public void setD_id(Integer d_id) {
-        this.d_id = d_id;
+    public void setdId(Integer dId) {
+        this.dId = dId;
     }
 
     public String getDuty() {
@@ -86,28 +87,28 @@ public class Employee {
         this.eSex = eSex;
     }
 
-    public Integer getE_age() {
-        return e_age;
+    public Integer geteAge() {
+        return eAge;
     }
 
-    public void setE_age(Integer e_age) {
-        this.e_age = e_age;
+    public void seteAge(Integer eAge) {
+        this.eAge = eAge;
     }
 
-    public String getE_education() {
-        return e_education;
+    public String geteEducation() {
+        return eEducation;
     }
 
-    public void setE_education(String e_education) {
-        this.e_education = e_education;
+    public void seteEducation(String eEducation) {
+        this.eEducation = eEducation;
     }
 
-    public BigInteger getE_phone() {
-        return e_phone;
+    public String getePhone() {
+        return ePhone;
     }
 
-    public void setE_phone(BigInteger e_phone) {
-        this.e_phone = e_phone;
+    public void setePhone(String ePhone) {
+        this.ePhone = ePhone;
     }
 
     public String geteEmail() {
@@ -140,15 +141,15 @@ public class Employee {
                 "eId=" + eId +
                 ", uId=" + uId +
                 ", eName='" + eName + '\'' +
-                ", d_id=" + d_id +
+                ", dId=" + dId +
                 ", duty='" + duty + '\'' +
                 ", eSex='" + eSex + '\'' +
-                ", e_age=" + e_age +
-                ", e_education='" + e_education + '\'' +
-                ", e_phone=" + e_phone +
+                ", eAge=" + eAge +
+                ", eEducation='" + eEducation + '\'' +
+                ", ePhone='" + ePhone + '\'' +
                 ", eEmail='" + eEmail + '\'' +
                 ", eCreateTime=" + eCreateTime +
-                ", eTayue=" + eState +
+                ", eState=" + eState +
                 '}';
     }
 }

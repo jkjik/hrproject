@@ -3,7 +3,7 @@
 <mapper namespace="com.jikjk.dao.EmployeeDao">
     <insert id="insert">
         insert into employee(u_id,e_name,d_id,duty,e_sex,e_age,e_education,e_phone,e_email,e_createtime,e_state)
-        values(#{u_id},#{eName},#{dId},#{duty},#{eSex},#{eAge},#{eEducation},#{ePhone},#{eEmail},#{eCreateTime},#{eState})
+        values(#{uId},#{eName},#{dId},#{duty},#{eSex},#{eAge},#{eEducation},#{ePhone},#{eEmail},#{eCreateTime},#{eState})
     </insert>
 
     <select id="selectAll" resultType="Employee">
@@ -27,4 +27,7 @@
         select *from employee where duty=#{duty}
     </select>
 
+    <select id="selectByUid" resultType="Employee">
+        select *from employee where u_id=#{uId}
+    </select>
 </mapper>

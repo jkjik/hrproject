@@ -12,4 +12,6 @@ public interface UserDao {
     public void insert(User user);
     public User selectByUname(String uName);
     public User selectTologin(@Param("uName")String uName, @Param("uPassword") String uPassword);
+    //修改user的权限
+    public void updateStatue(@Param("uId")int uId,@Param("status") int status);
 }

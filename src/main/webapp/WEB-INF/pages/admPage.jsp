@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <base href="${pageContextrequestcontext}/">
     <title>管理员界面</title>
+    <meta charset="utf-8" />
+    <base href="${pageContext.request.contextPath}/">
+    <jsp:include   page="admBase.jsp" flush="true"/>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
 </head>
 <body>

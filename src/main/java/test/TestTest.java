@@ -11,6 +11,7 @@ import com.jikjk.service.DepartmentService;
 import com.jikjk.service.PositionService;
 import com.jikjk.service.UserService;
 import com.jikjk.util.Md5;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -69,11 +71,12 @@ public void test(){
     resumeDao.insert(resume);
 }
 @Test
-public void testD(){
+public void testD() throws IOException {
     List<Position> positions=positionService.selectById(2);
     System.out.println(positions);
-    String json=JSON.toJSONString(positions);
-    System.out.println(json);
+    ObjectMapper mapper = new ObjectMapper();
+    String json1=mapper.writeValueAsString(positions);
+    System.out.println(json1);
 }
     @Test
     public void testP(){

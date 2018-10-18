@@ -17,6 +17,14 @@ public class EmployeeServlet {
     @Autowired
     private EmployeeDao employeeDao;
 
+    /**
+     * 返回用户主页
+     * @return
+     */
+    @RequestMapping("gotoEmpPage")
+    public String gotoEmpPage(){
+        return "empPage";
+    }
     @RequestMapping("lookDuty")
     public String lookDuty(){
         return "empLookingDuty";

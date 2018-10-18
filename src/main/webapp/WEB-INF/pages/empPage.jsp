@@ -9,10 +9,12 @@
 <html>
 <head>
     <title>员工页面</title>
-    <base href="${pageContext.request.context}/">
+    <base href="${pageContext.request.contextPath}/">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <jsp:include   page="empBase.jsp" flush="true"/>
 </head>
 <body>
-<a href="/emp/lookDuty">查看部门</a>
+<a href="/emp/lookDuty">查看部门</a><br>
 <a href="/emp/lookingYourself">查看个人信息</a>
 </body>
 </html>

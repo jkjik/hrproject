@@ -10,7 +10,10 @@
 <html>
 <head>
     <title>Title</title>
+    <base href="${pageContext.request.contextPath}/">
+    <jsp:include   page="admBase.jsp" flush="true"/>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+
     <script>
         $(function () {
 
