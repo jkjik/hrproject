@@ -49,9 +49,12 @@ public class AdmServlet {
     private EmployeeService employeeServiceImpl;
     @Autowired
     private UserService userServiceImpl;
+    @Autowired
+    private CreateCultivateService createCultivateServiceImpl;
+
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
                 true));
     }
 
@@ -203,7 +206,7 @@ public class AdmServlet {
     }
 
     /**
-     * 添加面试结果
+     * 添加面试结果(录用)
      * @param interviewResult
      * @return
      */
@@ -260,35 +263,53 @@ public class AdmServlet {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        System.out.println(dId);
         //职位
         List<Position> positions= positionServiceImpl.selectById(dId);
         map.addAttribute("positions",positions);
-        System.out.println(positions);
         //所有部门
         List<Department> departments=departmentServiceImpl.selectAll();
-        System.out.println(departments);
         map.addAttribute("departments",departments);
         return "admLookingDuty";
     }
 
     /**
-     * 删除部门或职位
+     * 删除部门
      * @param request
      * @return
      */
-    @RequestMapping("deleteDepAndPos")
-    public String deleteDepAndPos(HttpServletRequest request,ModelMap map){
+    @RequestMapping("deleteDepartment")
+    public String deleteDepartment(HttpServletRequest request,ModelMap map){
         int dId=0;
-        int pId=0;
         try {
-            pId=Integer.valueOf(request.getParameter("pId"));
             dId=Integer.valueOf(request.getParameter("dId"));
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         if(dId!=0){
+            //删除部门
             departmentServiceImpl.delete(dId);
+            //删除部门下的职位
+            positionServiceImpl.deleteByDid(dId);
+        }
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 删除职位
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("deletePosition")
+    public String deletePosition(HttpServletRequest request,ModelMap map){
+        int pId=0;
+        try {
+            pId=Integer.valueOf(request.getParameter("pId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
         if(pId!=0){
             positionServiceImpl.delete(pId);
@@ -298,29 +319,47 @@ public class AdmServlet {
         map.addAttribute("departments",departments);
         return "admLookingDuty";
     }
-
     /**
      * 添加部门
      * @param request
      * @param map
      * @return
      */
-    @RequestMapping("addDepAndPos")
-    public String addDepAndPos(HttpServletRequest request,ModelMap map){
+    @RequestMapping("addDep")
+    public String addDep(HttpServletRequest request,ModelMap map){
         int dep=0;
-        int pos=0;
         try {
             dep=Integer.valueOf(request.getParameter("dep"));
-            pos=Integer.valueOf(request.getParameter("pos"));
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         if(dep==1){
             map.addAttribute("dep",dep);
         }
+
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 添加职位
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("addPos")
+    public String addPos(HttpServletRequest request,ModelMap map){
+        int pos=0;
+        try {
+            pos=Integer.valueOf(request.getParameter("pos"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         if(pos==1){
-            List<Department> depre=departmentServiceImpl.selectAll();
             map.addAttribute("pos",pos);
+            List<Department> depre=departmentServiceImpl.selectAll();
             map.addAttribute("depre",depre);
         }
         //所有部门
@@ -332,11 +371,132 @@ public class AdmServlet {
     @RequestMapping("deleteDep")
     @ResponseBody
     public String deleteDep(String dName){
+        System.out.println(dName);
         Department department=departmentServiceImpl.selectBydName(dName);
-        List<Position> positions=positionServiceImpl.selectById(department.getdId());
-        if(positions!=null){
+        List<Employee> employees=employeeServiceImpl.selectEmployee(department.getdId());
+        System.out.println(employees.size());
+        if(employees.size()!=0){
             return "no";
+        }else {
+            return "ok";
         }
-        return "ok";
     }
+
+    @RequestMapping("deletePos")
+    @ResponseBody
+    public String deletePos(String pName){
+        System.out.println(pName);
+        List<Employee> employees=employeeServiceImpl.selectByDuty(pName);
+        System.out.println(employees.size());
+        if(employees.size()!=0){
+            return "no";
+        }else {
+            return "ok";
+        }
+    }
+
+    /**
+     * 部门保存到数据库
+     * @param map
+     * @param dName
+     * @return
+     */
+    @RequestMapping("commitAddDep")
+    public String commitAddDep(ModelMap map,String dName){
+        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+        Department department=new Department(0,dName,timestamp);
+        departmentServiceImpl.insert(department);
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 职位保存到数据库
+     * @param map
+     * @param dId
+     * @param pName
+     * @return
+     */
+    @RequestMapping("commitAddPos")
+    public String commitAddPos(ModelMap map,Integer dId,String pName){
+        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+        Position position=new Position(0,pName,dId,timestamp);
+        positionServiceImpl.insert(position);
+        //所有部门
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admLookingDuty";
+    }
+
+    /**
+     * 员工管理
+     * @param map
+     * @return
+     */
+    @RequestMapping("employeeManage")
+    public String employeeManage(ModelMap map){
+        List<Employee> employees=employeeServiceImpl.selectAll();
+        map.addAttribute("employees",employees);
+        return "admEmployeeManage";
+    }
+
+    /**
+     * 跳转人事调度
+     * @param map
+     * @return
+     */
+    @RequestMapping("dutyManage")
+    public String dutyManage(ModelMap map,HttpServletRequest request){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        Employee employee=employeeServiceImpl.SelectByEid(eId);
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("employee",employee);
+        map.addAttribute("departments",departments);
+        return "admEmployeeManage";
+    }
+
+    /**
+     * 保存人事调动
+     * @param duty
+     * @param eId
+     * @param map
+     * @return
+     */
+    @RequestMapping("commitDuty")
+    public String commitDuty(String duty,Integer eId,Integer dId,ModelMap map){
+        employeeServiceImpl.updateDuty(eId,dId,duty);
+        List<Employee> employees=employeeServiceImpl.selectAll();
+        map.addAttribute("employees",employees);
+        return "admEmployeeManage";
+    }
+    /**
+     * 发送培训
+     * @param map
+     * @return
+     */
+    @RequestMapping("sendCultivate")
+    public String sendCultivate(ModelMap map){
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "admSendCultivate";
+    }
+
+    /**
+     * 保存培训
+     * @param createCultivate
+     * @return
+     */
+    @RequestMapping("commitCultivate")
+    public String commitCultivate(CreateCultivate createCultivate){
+        createCultivateServiceImpl.insert(createCultivate);
+        return "forward:gotoAdmPage";
+    }
+
 }

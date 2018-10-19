@@ -18,5 +18,7 @@
 <a href="/adm/sendInvite">发布招聘</a>
 <a href="/adm/lookResume">查看接受简历</a>
 <a href="/adm/lookDuty">查看部门</a>
+<a href="/adm/employeeManage">员工管理</a>
+<a href="/adm/sendCultivate">培训管理</a>
 </body>
 </html>

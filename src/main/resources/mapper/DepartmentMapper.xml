@@ -10,7 +10,7 @@
     </select>
 
     <insert id="insert">
-        insert into department(d_name,d_createTime)values(dName,dCreateTime)
+        insert into department(d_name,d_createTime)values(#{dName},#{dCreateTime})
     </insert>
 
     <delete id="delete">

@@ -13,8 +13,8 @@
         select d_id from position where p_name=#{pName}
     </select>
 
-    <insert id="insert">
-        insert into position(p_name,d_id,p_createtime)values(pName,dId,pCreateTime)
+    <insert id="insert" parameterType="Position">
+        insert into position(p_name,d_id,p_createtime)values(#{pName},#{dId},#{pCreateTime})
     </insert>
 
     <delete id="delete">
@@ -24,4 +24,8 @@
     <update id="updatePos">
         update position set p_name=#{pName},d_id=#{dId} where p_id=#{pId}
     </update>
+
+    <delete id="deleteByDid">
+        delete from position where d_id=#{dId}
+    </delete>
 </mapper>

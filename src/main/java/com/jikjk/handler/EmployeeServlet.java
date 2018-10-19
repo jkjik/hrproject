@@ -1,17 +1,23 @@
 package com.jikjk.handler;
 
 import com.jikjk.dao.EmployeeDao;
+import com.jikjk.entity.CreateCultivate;
 import com.jikjk.entity.Department;
 import com.jikjk.entity.Employee;
 import com.jikjk.entity.Position;
 import com.jikjk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +48,14 @@ public class EmployeeServlet {
     private InterviewService interviewServiceImpl;
     @Autowired
     private EmployeeService employeeServiceImpl;
+    @Autowired
+    private CreateCultivateService createCultivateServiceImpl;
 
+    @InitBinder
+    public void initBinder(ServletRequestDataBinder binder){
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
+                true));
+    }
 
     /**
      * 返回用户主页
@@ -107,4 +120,20 @@ public class EmployeeServlet {
         map.addAttribute("employee",employee);
         return "empYourself";
     }
+
+    /**
+     * 查看培训通知
+     * @param map
+     * @param session
+     * @return
+     */
+    @RequestMapping("lookCultivate")
+    public String lookCultivate(ModelMap map,HttpSession session){
+        Employee employee= (Employee) session.getAttribute("employee");
+        String cDuty=departmentServiceImpl.selectNameByDid(employee.getdId());
+        List<CreateCultivate> createCultivate=createCultivateServiceImpl.selectByDuty(cDuty);
+        map.addAttribute("createCultivate",createCultivate);
+        return "empLookingCultivate";
+    }
+
 }

@@ -16,5 +16,6 @@
 <body>
 <a href="/emp/lookDuty">查看部门</a><br>
 <a href="/emp/lookingYourself">查看个人信息</a>
+<a href="/emp/lookCultivate">查看培训通知</a>
 </body>
 </html>

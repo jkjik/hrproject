@@ -35,4 +35,7 @@
         select *from employee where d_id=#{dId}
     </select>
 
+    <select id="selectByDuty" resultType="Employee">
+        select *from employee where duty=#{duty}
+    </select>
 </mapper>

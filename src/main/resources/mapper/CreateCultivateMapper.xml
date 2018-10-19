@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.CreateCultivateDao">
+    <insert id="insert">
+        insert into create_cultivate(c_name,c_duty,c_createtime)values(#{cName},#{cDuty},#{cCreateTime})
+    </insert>
+
+    <select id="selectByDuty" resultType="CreateCultivate">
+        select * from create_cultivate where c_duty=#{cDuty}
+    </select>
+
+</mapper>
