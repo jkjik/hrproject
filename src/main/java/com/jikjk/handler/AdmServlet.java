@@ -537,4 +537,10 @@ public class AdmServlet {
         //查看当前月的
         return "";
     }
+
+    @RequestMapping("addSocialMoney")
+    public String addSocialMoney(){
+
+        return "admEmployeeManage";
+    }
 }
