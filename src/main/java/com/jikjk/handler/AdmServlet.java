@@ -51,6 +51,8 @@ public class AdmServlet {
     private UserService userServiceImpl;
     @Autowired
     private CreateCultivateService createCultivateServiceImpl;
+    @Autowired
+    private BasicMoneyService basicMoneyServiceImpl;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
@@ -499,4 +501,40 @@ public class AdmServlet {
         return "forward:gotoAdmPage";
     }
 
+    /**
+     * 开除员工
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("deleteEmployee")
+    public String deleteEmployee(HttpServletRequest request,ModelMap map){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        employeeServiceImpl.updateState(eId,0);
+        //变成游客
+        Employee employee=employeeServiceImpl.SelectByEid(eId);
+        userServiceImpl.updateStatue(employee.getuId(),0);
+        List<Department> departments=departmentServiceImpl.selectAll();
+        map.addAttribute("departments",departments);
+        return "forward:employeeManage";
+    }
+
+    @RequestMapping("wageManage")
+    public String wageManage(ModelMap map){
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
+        String start=sf.format(date);
+        String monthWorkTime="%"+start+"%";
+        //所有员工基本工资
+        List<BasicMoney> basicMoneys=basicMoneyServiceImpl.selectAll();
+        //查看当前月的奖惩工资
+
+        //查看当前月的
+        return "";
+    }
 }

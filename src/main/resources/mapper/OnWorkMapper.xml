@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.OnWorkDao">
+    <insert id="insert">
+        insert into onwork(e_id,start_time,end_time,onwork_state,offwork_state)values(#{eId},#{startTime},#{endTime},#{onWorkState},#{offWorkState})
+    </insert>
+
+    <update id="update">
+        update onwork set end_time=#{endTime},offwork_state=#{offWorkState} where e_Id=#{eId}
+    </update>
+
+    <select id="selectAll" resultType="OnWork">
+        select *from onwork
+    </select>
+
+    <select id="selectByEid" resultType="OnWork">
+        select *from onwork where e_id=#{eId}
+    </select>
+
+    <select id="selectByLike" resultType="OnWork">
+        select *from onwork where start_time like #{startTimeLike} and e_id=#{eId}
+    </select>
+
+    <select id="selectMonthWorkTime" resultType="OnWork">
+        select *from onwork where start_time like #{monthWorkTime} and e_id=#{eId}
+    </select>
+
+</mapper>

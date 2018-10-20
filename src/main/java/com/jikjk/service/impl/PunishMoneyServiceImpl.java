@@ -21,7 +21,7 @@ public class PunishMoneyServiceImpl implements PunishMoneyService{
         punishMoneyDao.insert(punishMoney);
     }
 
-    public PunishMoney selectPunishMoney(int eId) {
+    public List<PunishMoney> selectPunishMoney(int eId) {
         return punishMoneyDao.selectPunishMoney(eId);
     }
 

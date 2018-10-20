@@ -6,6 +6,8 @@ import com.jikjk.service.BasicMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by lenovo on 2018/10/16.
  */
@@ -24,5 +26,9 @@ public class BasicMoneyServiceImpl implements BasicMoneyService{
 
     public void updateBasic(int eId, int bMoney) {
         basicMoneyDao.updateBasic(eId,bMoney);
+    }
+
+    public List<BasicMoney> selectAll() {
+        return basicMoneyDao.selectAll();
     }
 }

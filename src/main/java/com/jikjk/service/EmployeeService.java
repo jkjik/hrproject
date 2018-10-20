@@ -25,4 +25,6 @@ public interface EmployeeService {
     public List<Employee> selectEmployee(int dId);
     //通过uId查找员工
     public Employee selectByUid(int uId);
+    //通过职位名称查询员工
+    public List<Employee> selectByDuty(String duty);
 }

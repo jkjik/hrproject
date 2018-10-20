@@ -20,5 +20,6 @@
 <a href="/adm/lookDuty">查看部门</a>
 <a href="/adm/employeeManage">员工管理</a>
 <a href="/adm/sendCultivate">培训管理</a>
+<a href="/adm/wageManage">薪资管理</a>
 </body>
 </html>

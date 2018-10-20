@@ -71,7 +71,8 @@
             <td>${employees.duty}</td>
             <td><a href="/adm/dutyManage?eId=${employees.eId}">人事调动</a></td>
             <td><a href="/adm/">考勤</a></td>
-            <td><a href="/adm/">工资发放</a></td>
+            <td><a href="/adm/addSocialMoney">社保</a></td>
+            <td><a href="/adm/">基本工资</a> </td>
             <td><a href="/adm/deleteEmployee?eId=${employees.eId}">开除</a></td>
         </c:forEach>
     </table>

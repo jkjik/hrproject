@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.BasicMoneyDao">
+    <insert id="insert">
+        insert basic_money(e_id,b_money)values(#{eId},#{bMoney})
+    </insert>
+
+    <select id="selectBasic" resultType="BasicMoney">
+        select *from basic_money where e_id=#{eId}
+    </select>
+
+    <select id="selectAll" resultType="BasicMoney">
+        select *from basic_money
+    </select>
+
+    <update id="updateBasic">
+        update basic_money set b_money=#{bMoney}
+    </update>
+</mapper>

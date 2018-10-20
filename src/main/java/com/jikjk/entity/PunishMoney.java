@@ -2,10 +2,12 @@ package com.jikjk.entity;
 
 import java.sql.Date;
 
+
 /**
  * Created by lenovo on 2018/10/16.
  */
 public class PunishMoney {
+    //½±³Í±í
     private Integer puId;
     private Integer eId;
     private String cause;

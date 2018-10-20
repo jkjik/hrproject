@@ -17,5 +17,10 @@
 <a href="/emp/lookDuty">查看部门</a><br>
 <a href="/emp/lookingYourself">查看个人信息</a>
 <a href="/emp/lookCultivate">查看培训通知</a>
+<a href="/emp/onWork">上班打卡</a>
+<a href="/emp/offWork">下班打卡</a>
+<a href="/emp/lookToWork">查看考勤</a>
+<a href="/emp/lookMonthWork">查看本月考勤</a>
+<a href="/emp/lookPunish">查看奖惩记录</a>
 </body>
 </html>

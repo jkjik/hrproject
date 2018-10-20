@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jikjk.dao.PunishMoneyDao">
     <insert id="insert">
-        insert into punish_money(e_id,cause,pu_money,pu_createtime)values(#{eId},#{cause},#{puCreateTime})
+        insert into punish_money(e_id,cause,pu_money,pu_createtime)values(#{eId},#{cause},#{puMoney},#{puCreateTime})
     </insert>
 
     <select id="selectPunishMoney" resultType="PunishMoney">

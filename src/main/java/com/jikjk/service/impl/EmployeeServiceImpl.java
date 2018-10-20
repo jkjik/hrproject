@@ -47,4 +47,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee selectByUid(int uId) {
         return employeeDao.selectByUid(uId);
     }
+
+    public List<Employee> selectByDuty(String duty) {
+        return employeeDao.selectByDuty(duty);
+    }
 }

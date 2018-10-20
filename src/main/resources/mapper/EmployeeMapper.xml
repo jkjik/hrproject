@@ -23,9 +23,9 @@
         update employee set duty=#{duty}
     </update>
 
-    <select id="updateState" resultType="Employee">
-        select *from employee where duty=#{duty}
-    </select>
+    <update id="updateState">
+        update employee set e_state=#{eState} where e_id=#{eId}
+    </update>
 
     <select id="selectByUid" resultType="Employee">
         select *from employee where u_id=#{uId}

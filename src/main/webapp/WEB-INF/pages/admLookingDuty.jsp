@@ -27,9 +27,7 @@
                 if(!flag){
                     return false;
                 }
-                alert(111)
                 pos()
-                alert(222)
             })
         })
         function dep() {

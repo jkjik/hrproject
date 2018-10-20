@@ -15,11 +15,9 @@ import java.util.List;
 public class DepartmetServiceImpl implements DepartmentService{
     @Autowired
     private DepartmentDao departmentDao;
-    //查询所有部门
     public List<Department> selectAll() {
         return departmentDao.selectAll();
     }
-    //通过dId查询部门
     public String selectNameByDid(int dId) {
         return departmentDao.selectNameByDid(dId);
     }

@@ -198,6 +198,7 @@ public class UserServlet {
         resumeServiceImpl.update(resume);
         return "userPage";
     }
+
     /**
      * 获取职位数据
      * @param dep

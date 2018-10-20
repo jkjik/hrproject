@@ -13,7 +13,7 @@ public interface PunishMoneyDao {
     //添加奖惩
     public void insert(PunishMoney punishMoney);
     //查询员工的奖惩
-    public PunishMoney selectPunishMoney(int eId);
+    public List<PunishMoney> selectPunishMoney(int eId);
     //查询所有
     public List<PunishMoney> selectAll();
     //修改奖惩
