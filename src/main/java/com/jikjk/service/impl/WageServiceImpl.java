@@ -22,11 +22,15 @@ public class WageServiceImpl implements WageService {
         wageDao.insert(wage);
     }
 
-    public Wage selectByEid(int eId) {
+    public List<Wage> selectByEid(int eId) {
         return wageDao.selectByEid(eId);
     }
 
     public List<Wage> selectAll() {
         return wageDao.selectAll();
+    }
+
+    public Wage selectWage(String monthWorkTime, int eId) {
+        return wageDao.selectWage(monthWorkTime,eId);
     }
 }

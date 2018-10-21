@@ -35,6 +35,31 @@
                 })
             })
             getPosition();
+            //发送工资时间判断
+            $("#sendWage").click(function () {
+                var eId=$(this).parent().parent().children()[0].innerHTML;
+                alert(eId)
+                $.ajax({
+                    url:"/adm/sendWageTime",
+                    type:"post",
+                    dateType:"int",
+                    date:{"eId":eId},
+                    success:function (date) {
+                        alert(date)
+                        if(date=="noTime"){
+                            alert("每月15日发放工资")
+                            return false;
+                        }
+                        if(date=="noClose"){
+                            alert("工资还未结算")
+                            return false;
+                        }
+                        if(date=="ok"){
+                            return true;
+                        }
+                    }
+                })
+            })
         })
         function getPosition() {
             var dep=$("#dep").val()
@@ -65,18 +90,23 @@
             <td colspan="4">操作</td>
         </tr>
         <c:forEach items="${requestScope.employees}" var="employees">
-            <td>${employees.eId}</td>
-            <td>${employees.eName}</td>
-            <td>${employees.dId}</td>
-            <td>${employees.duty}</td>
-            <td><a href="/adm/dutyManage?eId=${employees.eId}">人事调动</a></td>
-            <td><a href="/adm/">考勤</a></td>
-            <td><a href="/adm/addSocialMoney?eId=${employees.eId}">社保</a></td>
-            <td><a href="/adm/">基本工资</a> </td>
-            <td><a href="/adm/deleteEmployee?eId=${employees.eId}">开除</a></td>
+            <tr>
+                <td>${employees.eId}</td>
+                <td>${employees.eName}</td>
+                <td>${employees.dId}</td>
+                <td>${employees.duty}</td>
+                <td><a href="/adm/dutyManage?eId=${employees.eId}">人事调动</a></td>
+                <td><a href="/adm/">考勤</a></td>
+                <td><a href="/adm/addSocialMoney?eId=${employees.eId}">添加社保</a></td>
+                <td><a href="/adm/addBasicMoney?eId=${employees.eId}">添加基本工资</a></td>
+                <!--发工资的时间，是否存在结算工资-->
+                <td><a href="/adm/sendWage?eId=${employees.eId}" id="sendWage">发放工资</a></td>
+                <td><a href="/adm/deleteEmployee?eId=${employees.eId}">开除</a></td>
+            </tr>
         </c:forEach>
     </table>
 </c:if>
+
 <c:if test="${!empty requestScope.departments}">
     <p>人事调度</p>
     <c:if test="${requestScope.employee.eState==1}">
@@ -93,6 +123,30 @@
         <input type="hidden" value="${requestScope.employee.dId}" name="dId">
         <input type="submit" value="提交">
     </form>
+</c:if>
+
+<c:if test="${requestScope.eId!=0}">
+    <c:if test="${!empty requestScope.social}">
+        <p>添加社保</p>
+        <form action="/adm/commitSocialMoney">
+            <input type="hidden" name="sm_id" value="0">
+            <input type="hidden" name="eId" value="${requestScope.eId}">
+            <input type="text" placeholder="添加社保" name="sMoney">
+            <input type="submit" value="提交">
+        </form>
+    </c:if>
+</c:if>
+
+<c:if test="${requestScope.eId!=0}">
+    <c:if test="${!empty requestScope.basic}">
+        <p>添加基本工资</p>
+        <form action="/adm/commitBasicMoney">
+            <input type="hidden" name="bm_id" value="0">
+            <input type="hidden" name="eId" value="${requestScope.eId}">
+            <input type="text" placeholder="添加基本工资" name="bMoney">
+            <input type="submit" value="提交">
+        </form>
+    </c:if>
 </c:if>
 </body>
 </html>

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jikjk.dao.WageDao">
     <insert id="insert">
-        insert into wage(e_id,basic,bonus,overtime,punish,social,w_createtime,advice)
-        values(#{eId},#{basic},#{bonus},#{overtime},#{punish},#{social},#{wCreateTime},#{advice})
+        insert into wage(e_id,basic,bonus,overtime,punish,social,w_createtime,advice,total)
+        values(#{eId},#{basic},#{bonus},#{overTime},#{punish},#{social},#{wCreateTime},#{advice},#{total})
     </insert>
 
     <select id="selectByEid" resultType="Wage">
@@ -12,5 +12,9 @@
 
     <select id="selectAll" resultType="Wage">
         select *from wage
+    </select>
+
+    <select id="selectWage" resultType="Wage">
+        select *from wage where w_createtime like #{monthWorkTime} and e_id=#{eId}
     </select>
 </mapper>

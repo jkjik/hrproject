@@ -12,4 +12,8 @@
     <update id="updateBonus">
         update bonus_money set bo_money=#{boMoney} where e_id=#{eId}
     </update>
+
+    <select id="selectBonusMoney" resultType="BonusMoney">
+        select *from bonus_money where b_createtime like #{monthWorkTime} and e_id=#{eId}
+    </select>
 </mapper>

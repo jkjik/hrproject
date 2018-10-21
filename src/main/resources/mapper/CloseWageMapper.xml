@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.CloseWageDao">
+
+    <insert id="insert">
+        insert into close_wage(e_id,month_day,onwork_day,basic_money,social_money,overtime_money,punish_money,bonus_money,toatl,cw_create_time)
+        values(#{eId},#{monthDay},#{omWorkDay},#{basicMoney},#{socialMoney},#{overTimeMoney},#{punishMoney},#{bonusMoney},#{total},#{cwCreateTime})
+    </insert>
+
+    <select id="selectCloseWage" resultType="CloseWage">
+        select *from close_wage where cw_create_time like #{monthWorkTime} and e_id=#{eId}
+    </select>
+
+</mapper>

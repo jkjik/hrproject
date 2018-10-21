@@ -2,6 +2,7 @@ package com.jikjk.service.impl;
 
 import com.jikjk.dao.EmployeeDao;
 import com.jikjk.entity.Employee;
+import com.jikjk.entity.utilpojo.ResWage;
 import com.jikjk.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public List<Employee> selectByDuty(String duty) {
         return employeeDao.selectByDuty(duty);
+    }
+
+    public List<ResWage> selectAllResWage() {
+        return employeeDao.selectAllResWage();
     }
 }

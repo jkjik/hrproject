@@ -16,4 +16,8 @@
     <update id="updatePunish">
         update punish_money set e_id=#{eId},cause=#{cause},pu_money=#{puMoney} where pu_id=#{puId}
     </update>
+
+    <select id="selectMonthMoney" resultType="PunishMoney">
+        select *from punish_money where pu_createtime like #{monthWorkTime} and e_id=#{eId}
+    </select>
 </mapper>

@@ -22,5 +22,6 @@
 <a href="/emp/lookToWork">查看考勤</a>
 <a href="/emp/lookMonthWork">查看本月考勤</a>
 <a href="/emp/lookPunish">查看奖惩记录</a>
+<a href="/emp/lookMonthWage">查看工资</a>
 </body>
 </html>

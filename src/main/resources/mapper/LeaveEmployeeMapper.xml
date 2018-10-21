@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jikjk.dao.LeaveEmployeeDao">
+    <insert id="insert">
+        insert into leave_employee(e_id,le_createtime)values(#{eId},#{leCreateTime})
+    </insert>
+
+    <select id="selectAll" resultType="LeaveEmployee">
+        select *from leave_employee
+    </select>
+</mapper>

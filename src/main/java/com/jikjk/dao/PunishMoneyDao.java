@@ -1,6 +1,7 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.PunishMoney;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface PunishMoneyDao {
     public List<PunishMoney> selectAll();
     //修改奖惩
     public void updatePunish(PunishMoney punishMoney);
+    //查询员工上个月奖惩工资
+    public List<PunishMoney> selectMonthMoney(@Param("monthWorkTime")String monthWorkTime, @Param("eId")int eId);
 }

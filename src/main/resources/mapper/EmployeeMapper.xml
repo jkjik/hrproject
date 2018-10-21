@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jikjk.dao.EmployeeDao">
+
     <insert id="insert">
         insert into employee(u_id,e_name,d_id,duty,e_sex,e_age,e_education,e_phone,e_email,e_createtime,e_state)
         values(#{uId},#{eName},#{dId},#{duty},#{eSex},#{eAge},#{eEducation},#{ePhone},#{eEmail},#{eCreateTime},#{eState})
@@ -38,4 +39,9 @@
     <select id="selectByDuty" resultType="Employee">
         select *from employee where duty=#{duty}
     </select>
+
+    <select id="selectAllResWage" resultType="ResWage">
+        select e.e_id,e.e_name,b.b_money basicMoney,s.s_money socialMoney from employee e,social_money s,basic_money b where e.e_id=s.e_id and e.e_id=b.e_id
+    </select>
+
 </mapper>

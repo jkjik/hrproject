@@ -1,8 +1,14 @@
 package com.jikjk.handler;
 
 import com.jikjk.entity.*;
+import com.jikjk.entity.CloseWage;
 import com.jikjk.entity.utilpojo.ResMassageResume;
+import com.jikjk.entity.utilpojo.ResWage;
 import com.jikjk.service.*;
+import com.jikjk.service.impl.CloseWageServiceImpl;
+import com.jikjk.util.CloseBonusMoney;
+import com.jikjk.util.CloseOverTimeMoney;
+import com.jikjk.util.ClosePunishMoney;
 import com.jikjk.util.ResumeToEmp;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +60,24 @@ public class AdmServlet {
     private CreateCultivateService createCultivateServiceImpl;
     @Autowired
     private BasicMoneyService basicMoneyServiceImpl;
-
+    @Autowired
+    private SocialMoneyService socialMoneyServiceImpl;
+    @Autowired
+    private WageService wageServiceImpl;
+    @Autowired
+    private OverTimeMoneyService overTimeMoneyServiceImpl;
+    @Autowired
+    private OnWorkService onWorkServiceImpl;
+    @Autowired
+    private PunishMoneyService punishMoneyServiceImpl;
+    @Autowired
+    private BonusMoneyService bonusMoneyServiceImpl;
+    @Autowired
+    private WageAdviseService wageAdviseServiceImpl;
+    @Autowired
+    private CloseWageService closeWageServiceImpl;
+    @Autowired
+    private LeaveEmployeeService leaveEmployeeServiceImpl;
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
@@ -516,6 +540,10 @@ public class AdmServlet {
             e.printStackTrace();
         }
         employeeServiceImpl.updateState(eId,0);
+        //加入开除表
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        LeaveEmployee leaveEmployee=new LeaveEmployee(0,eId,date);
+        leaveEmployeeServiceImpl.insert(leaveEmployee);
         //变成游客
         Employee employee=employeeServiceImpl.SelectByEid(eId);
         userServiceImpl.updateStatue(employee.getuId(),0);
@@ -524,23 +552,278 @@ public class AdmServlet {
         return "forward:employeeManage";
     }
 
+    /**
+     * 薪资管理
+     * @param map
+     * @return
+     */
     @RequestMapping("wageManage")
     public String wageManage(ModelMap map){
-        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
-        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
-        String start=sf.format(date);
-        String monthWorkTime="%"+start+"%";
-        //所有员工基本工资
-        List<BasicMoney> basicMoneys=basicMoneyServiceImpl.selectAll();
-        //查看当前月的奖惩工资
 
-        //查看当前月的
-        return "";
+       List<ResWage> resWages=employeeServiceImpl.selectAllResWage();
+       map.addAttribute("resWages",resWages);
+        return "admWageManage";
     }
 
-    @RequestMapping("addSocialMoney")
-    public String addSocialMoney(){
+    /**
+     * 查看已发工资
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("lookOldWage")
+    public String lookOldWage(HttpServletRequest request,ModelMap map){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        List<Wage> wages=wageServiceImpl.selectByEid(eId);
+        map.addAttribute("wages",wages);
+        return "forward:wageManage";
+    }
 
+    /**
+     * 结算工资
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("closeWage")
+    public String closeWage(HttpServletRequest request,ModelMap map){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
+        //上个月的模糊时间
+        Calendar car=Calendar.getInstance();
+        car.setTime(new Date());
+        car.add(Calendar.MONTH,-1);
+        Date lastTime=car.getTime();
+        String last=sf.format(lastTime);
+        String lastMonth="%"+last+"%";
+        //上个月的天数
+        int monthDay = car.getActualMaximum(Calendar.DATE);
+        //出勤天数
+        List<OnWork> onWorks=onWorkServiceImpl.selectMonthWorkTime(lastMonth,eId);
+        int onWorkDay=onWorks.size();
+        //基本工资
+        BasicMoney basicMoney=basicMoneyServiceImpl.selectBasic(eId);
+        //社保
+        SocialMoney socialMoney=socialMoneyServiceImpl.selectSocialMoney(eId);
+        //加班工资
+        List<OverTimeMoney> overTimeMonies=overTimeMoneyServiceImpl.selectOverMoney(lastMonth,eId);
+        int overTimeMoney= CloseOverTimeMoney.getOverMoney(overTimeMonies);
+        //奖惩工资
+        List<PunishMoney> punishMonies=punishMoneyServiceImpl.selectMonthMoney(lastMonth,eId);
+        int punishMoney= ClosePunishMoney.getPunishMoney(punishMonies);
+        //效绩奖金
+        List<BonusMoney> bonusMonies=bonusMoneyServiceImpl.selectBonusMoney(lastMonth,eId);
+        int bonusMoney= CloseBonusMoney.getBonusMoney(bonusMonies);
+        //合计
+        int total=0;
+        if(onWorkDay==25){
+           total=basicMoney.getbMoney()-socialMoney.getsMoney()+overTimeMoney+punishMoney+bonusMoney;
+        }else if(onWorkDay<25){
+            //整天未打卡每天减100
+            total=basicMoney.getbMoney()-socialMoney.getsMoney()+overTimeMoney+punishMoney+bonusMoney-(25-onWorkDay)*100;
+        }else if(25<onWorkDay&&onWorkDay<monthDay){
+            //整天加班每天200，再加班（3小时记录在打卡中）
+            total=basicMoney.getbMoney()-socialMoney.getsMoney()+overTimeMoney+punishMoney+bonusMoney+(onWorkDay-25)*200;
+        }
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        CloseWage resCloseWage=new CloseWage(0,eId,monthDay,onWorkDay,basicMoney.getbMoney(),socialMoney.getsMoney(),overTimeMoney,punishMoney,bonusMoney,total,date);
+        closeWageServiceImpl.insert(resCloseWage);
+        //复议工资
+        WageAdvise wageAdvise=wageAdviseServiceImpl.selectWageAdvise(lastMonth,eId);
+        map.addAttribute("resCloseWage",resCloseWage);
+        map.addAttribute("wageAdvise",wageAdvise);
+
+        List<ResWage> resWages=employeeServiceImpl.selectAllResWage();
+        map.addAttribute("resWages",resWages);
+        return "admWageManage";
+    }
+
+    /**
+     * 验证发放工资
+     * @param eId
+     * @return
+     */
+    @RequestMapping("sendWageTime")
+    @ResponseBody
+    public String sendWageTime(Integer eId){
+        SimpleDateFormat sf1=new SimpleDateFormat("dd");
+        Date date=new Date();
+        String day=sf1.format(date);
+        System.out.println(eId);
+        System.out.println(day);
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
+        //上个月的模糊时间
+        Calendar car=Calendar.getInstance();
+        car.setTime(new Date());
+        car.add(Calendar.MONTH,-1);
+        Date lastTime=car.getTime();
+        String last=sf.format(lastTime);
+        String lastMonth="%"+last+"%";
+        CloseWage closeWage=closeWageServiceImpl.selectCloseWage(lastMonth,eId);
+        if(!day.equals("15")){
+            return "noTime";
+        }else if(closeWage==null){
+            return "noClose";
+        }else{
+            return "ok";
+        }
+    }
+
+    /**
+     * 发放工资
+     * @param request
+     * @return
+     */
+    @RequestMapping("sendWage")
+    public String sendWage(HttpServletRequest request){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
+        //上个月的模糊时间
+        Calendar car=Calendar.getInstance();
+        car.setTime(new Date());
+        car.add(Calendar.MONTH,-1);
+        Date lastTime=car.getTime();
+        String last=sf.format(lastTime);
+        String lastMonth="%"+last+"%";
+        CloseWage closeWage=closeWageServiceImpl.selectCloseWage(lastMonth,eId);
+        WageAdvise wageAdvise=wageAdviseServiceImpl.selectWageAdvise(lastMonth,eId);
+        Wage wage=null;
+        if(wageAdvise==null){
+            wage=new Wage(0,closeWage.geteId(),closeWage.getBasicMoney(),closeWage.getBonusMoney(),closeWage.getOverTimeMoney(),closeWage.getPunishMoney(),closeWage.getSocialMoney(),date,0,closeWage.getTotal());
+        }else {
+            int total=closeWage.getTotal()+wageAdvise.getAdMoney();
+            wage=new Wage(0,closeWage.geteId(),closeWage.getBasicMoney(),closeWage.getBonusMoney(),closeWage.getOverTimeMoney(),closeWage.getPunishMoney(),closeWage.getSocialMoney(),date,wageAdvise.getAdMoney(),total);
+        }
+        wageServiceImpl.insert(wage);
+        return "forward:employeeManage";
+    }
+    /**
+     * 添加社保
+     * @param map
+     * @param request
+     * @return
+     */
+    @RequestMapping("addSocialMoney")
+    public String addSocialMoney(ModelMap map,HttpServletRequest request){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        List<Employee> employees=employeeServiceImpl.selectAll();
+        map.addAttribute("employees",employees);
+        map.addAttribute("eId",eId);
+        map.addAttribute("social","social");
         return "admEmployeeManage";
+    }
+
+    /**
+     * 保存社保数据
+     * @param map
+     * @param socialMoney
+     * @return
+     */
+    @RequestMapping("commitSocialMoney")
+    public String commitSocialMoney(ModelMap map,SocialMoney socialMoney){
+        socialMoneyServiceImpl.insert(socialMoney);
+        List<Employee> employees=employeeServiceImpl.selectAll();
+        map.addAttribute("employees",employees);
+        return "admEmployeeManage";
+    }
+
+    /**
+     * 添加基本工资
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("addBasicMoney")
+    public String addBasicMoney(HttpServletRequest request,ModelMap map){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        List<Employee> employees=employeeServiceImpl.selectAll();
+        map.addAttribute("employees",employees);
+        map.addAttribute("eId",eId);
+        map.addAttribute("basic","basic");
+        return "admEmployeeManage";
+    }
+
+    /**
+     * 保存基本工资数据
+     * @param map
+     * @param basicMoney
+     * @return
+     */
+    @RequestMapping("commitBasicMoney")
+    public String commitBasicMoney(ModelMap map,BasicMoney basicMoney){
+        basicMoneyServiceImpl.insert(basicMoney);
+        List<Employee> employees=employeeServiceImpl.selectAll();
+        map.addAttribute("employees",employees);
+        return "admEmployeeManage";
+    }
+
+    /**
+     * 跳转异议管理
+     * @param map
+     * @return
+     */
+    @RequestMapping("wageAdvice")
+    public String wageAdvice(ModelMap map){
+        List<WageAdvise> wageAdvises=wageAdviseServiceImpl.selectByResult("未查看");
+        System.out.println(wageAdvises);
+        if(wageAdvises.size()==0){
+            List<WageAdvise> wageAdvises1=wageAdviseServiceImpl.selectAll();
+            map.addAttribute("wageAdvises1",wageAdvises1);
+        }
+        map.addAttribute("wageAdvises",wageAdvises);
+        return "admWageAdvice";
+    }
+
+    /**
+     * 保存复议结果
+     * @param eId
+     * @param waResult
+     * @return
+     */
+    @RequestMapping("commitWageAdvice")
+    public String commitWageAdvice(Integer eId,String waResult,ModelMap map){
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
+        //上个月的模糊时间
+        Calendar car=Calendar.getInstance();
+        car.setTime(new Date());
+        car.add(Calendar.MONTH,-1);
+        Date lastTime=car.getTime();
+        String last=sf.format(lastTime);
+        String lastMonth="%"+last+"%";
+        wageAdviseServiceImpl.updateResult(lastMonth,eId,waResult);
+        List<WageAdvise> wageAdvises=wageAdviseServiceImpl.selectByResult("未查看");
+        if(wageAdvises.size()==0){
+            List<WageAdvise> wageAdvises1=wageAdviseServiceImpl.selectAll();
+            map.addAttribute("wageAdvises1",wageAdvises1);
+        }
+        map.addAttribute("wageAdvises",wageAdvises);
+        return "admWageAdvice";
     }
 }

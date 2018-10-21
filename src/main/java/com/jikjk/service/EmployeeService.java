@@ -1,6 +1,7 @@
 package com.jikjk.service;
 
 import com.jikjk.entity.Employee;
+import com.jikjk.entity.utilpojo.ResWage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface EmployeeService {
     public Employee selectByUid(int uId);
     //通过职位名称查询员工
     public List<Employee> selectByDuty(String duty);
+    //查询所有的员工基本工资社保
+    public List<ResWage> selectAllResWage();
 }

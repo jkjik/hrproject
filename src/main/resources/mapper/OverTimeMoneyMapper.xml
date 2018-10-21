@@ -4,10 +4,6 @@
     <insert id="insert">
         insert into overtime_money(e_id,o_money,om_createtime)values(#{eId},#{oMoney},#{omCreateTime})
     </insert>
-    
-    <select id="selectOverTime" resultType="OverTimeMoney">
-        select *from overtime_money where e_id=#{eId}
-    </select>
 
     <update id="updateOverTime">
         update overtime_money set om_createtime=#{omCreatetime} where e_id=#{eId}
@@ -15,5 +11,9 @@
 
     <select id="selectAll" resultType="OverTimeMoney">
         select *from overtime_money
+    </select>
+
+    <select id="selectOverMoney" resultType="OverTimeMoney">
+        select *from overtime_money where om_createtime like #{monthWorkTime} and e_id=#{eId}
     </select>
 </mapper>

@@ -13,10 +13,10 @@ import java.util.List;
 public interface OverTimeMoneyDao {
     //添加加班工资
     public void insert(OverTimeMoney overTimeMoney);
-    //查询员工的加班工资
-    public int selectOverTime(int eId);
     //修改加班工资
     public void updateOverTime(@Param("eId") int eId,@Param("OverTime") int overTime);
     //查询所有
     public List<OverTimeMoney> selectAll();
+    //查询员工的加班工资
+    public List<OverTimeMoney> selectOverMoney(@Param("monthWorkTime")String monthWorkTime,@Param("eId")int eId);
 }

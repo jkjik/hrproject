@@ -8,19 +8,21 @@ import java.sql.Date;
 public class WageAdvise {
     private Integer waId;//复议
     private Integer eId;
-    private Integer ad_money;//复议金额
+    private Integer adMoney;//复议金额
     private String waResult;
     private Date waCreateTime;
+    private String waCause;
 
     public WageAdvise() {
     }
 
-    public WageAdvise(Integer waId, Integer eId, Integer ad_money, String waResult, Date waCreateTime) {
+    public WageAdvise(Integer waId, Integer eId, Integer adMoney, String waResult, Date waCreateTime, String waCause) {
         this.waId = waId;
         this.eId = eId;
-        this.ad_money = ad_money;
+        this.adMoney = adMoney;
         this.waResult = waResult;
         this.waCreateTime = waCreateTime;
+        this.waCause = waCause;
     }
 
     public Integer getWaId() {
@@ -39,12 +41,12 @@ public class WageAdvise {
         this.eId = eId;
     }
 
-    public Integer getAd_money() {
-        return ad_money;
+    public Integer getAdMoney() {
+        return adMoney;
     }
 
-    public void setAd_money(Integer ad_money) {
-        this.ad_money = ad_money;
+    public void setAdMoney(Integer adMoney) {
+        this.adMoney = adMoney;
     }
 
     public String getWaResult() {
@@ -63,14 +65,23 @@ public class WageAdvise {
         this.waCreateTime = waCreateTime;
     }
 
+    public String getWaCause() {
+        return waCause;
+    }
+
+    public void setWaCause(String waCause) {
+        this.waCause = waCause;
+    }
+
     @Override
     public String toString() {
         return "WageAdvise{" +
                 "waId=" + waId +
                 ", eId=" + eId +
-                ", ad_money=" + ad_money +
+                ", adMoney=" + adMoney +
                 ", waResult='" + waResult + '\'' +
                 ", waCreateTime=" + waCreateTime +
+                ", waCause='" + waCause + '\'' +
                 '}';
     }
 }

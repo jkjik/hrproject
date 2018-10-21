@@ -20,15 +20,15 @@ public class OverTimeMoneyServiceImpl implements OverTimeMoneyService{
         overTimeMoneyDao.insert(overTimeMoney);
     }
 
-    public int selectOverTime(int eId) {
-        return overTimeMoneyDao.selectOverTime(eId);
-    }
-
     public void updateOverTime(int eId, int overTime) {
         overTimeMoneyDao.updateOverTime(eId,overTime);
     }
 
     public List<OverTimeMoney> selectAll() {
         return overTimeMoneyDao.selectAll();
+    }
+
+    public List<OverTimeMoney> selectOverMoney(String monthWorkTime, int eId) {
+        return overTimeMoneyDao.selectOverMoney(monthWorkTime,eId);
     }
 }

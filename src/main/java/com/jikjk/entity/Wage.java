@@ -15,11 +15,12 @@ public class Wage {
     private Integer social;//社保
     private Date wCreateTime;
     private Integer advice;//复议
+    private Integer total;//总计
 
     public Wage() {
     }
 
-    public Wage(Integer wId, Integer eId, Integer basic, Integer bonus, Integer overTime, Integer punish, Integer social, Date wCreateTime, Integer advice) {
+    public Wage(Integer wId, Integer eId, Integer basic, Integer bonus, Integer overTime, Integer punish, Integer social, Date wCreateTime, Integer advice, Integer total) {
         this.wId = wId;
         this.eId = eId;
         this.basic = basic;
@@ -29,6 +30,7 @@ public class Wage {
         this.social = social;
         this.wCreateTime = wCreateTime;
         this.advice = advice;
+        this.total = total;
     }
 
     public Integer getwId() {
@@ -103,6 +105,14 @@ public class Wage {
         this.advice = advice;
     }
 
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
     @Override
     public String toString() {
         return "Wage{" +
@@ -115,6 +125,7 @@ public class Wage {
                 ", social=" + social +
                 ", wCreateTime=" + wCreateTime +
                 ", advice=" + advice +
+                ", total=" + total +
                 '}';
     }
 }

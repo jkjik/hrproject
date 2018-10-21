@@ -32,4 +32,8 @@ public class PunishMoneyServiceImpl implements PunishMoneyService{
     public void updatePunish(PunishMoney punishMoney) {
         punishMoneyDao.updatePunish(punishMoney);
     }
+
+    public List<PunishMoney> selectMonthMoney(String monthWorkTime, int eId) {
+        return punishMoneyDao.selectMonthMoney(monthWorkTime,eId);
+    }
 }

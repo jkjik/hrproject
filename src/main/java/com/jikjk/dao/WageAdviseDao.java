@@ -1,6 +1,7 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.WageAdvise;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +18,9 @@ public interface WageAdviseDao {
     //查看所有复议
     public List<WageAdvise> selectAll();
     //修改复议结果
-    public void updateResult(int eId,String waResult);
+    public void updateResult(@Param("monthWorkTime") String monthWorkTime,@Param("eId") int eId,@Param("waResult") String waResult);
+    //查询员工上个月复议工资
+    public WageAdvise selectWageAdvise(@Param("monthWorkTime")String monthWorkTime, @Param("eId")int eId);
+    //查询未处理复议
+    public List<WageAdvise> selectByResult(String waResult);
 }

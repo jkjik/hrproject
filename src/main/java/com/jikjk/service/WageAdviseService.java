@@ -15,5 +15,9 @@ public interface WageAdviseService {
     //查看所有复议
     public List<WageAdvise> selectAll();
     //修改复议结果
-    public void updateResult(int eId,String waResult);
+    public void updateResult(String monthWorkTime,int eId,String waResult);
+    //查询员工上个月复议工资
+    public WageAdvise selectWageAdvise(String monthWorkTime,int eId);
+    //查询未处理复议
+    public List<WageAdvise> selectByResult(String waResult);
 }

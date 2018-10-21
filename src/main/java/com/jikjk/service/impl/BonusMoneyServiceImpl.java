@@ -2,14 +2,17 @@ package com.jikjk.service.impl;
 
 import com.jikjk.dao.BonusMoneyDao;
 import com.jikjk.entity.BonusMoney;
+import com.jikjk.service.BonusMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by lenovo on 2018/10/16.
  */
 @Service
-public class BonusMoneyService implements com.jikjk.service.BonusMoneyService{
+public class BonusMoneyServiceImpl implements BonusMoneyService {
     @Autowired
     private BonusMoneyDao bonusMoneyDao;
 
@@ -23,5 +26,9 @@ public class BonusMoneyService implements com.jikjk.service.BonusMoneyService{
 
     public void updateBonus(int eId, int boMoney) {
         bonusMoneyDao.updateBonus(eId,boMoney);
+    }
+
+    public List<BonusMoney> selectBonusMoney(String monthWorkTime, int eId) {
+        return bonusMoneyDao.selectBonusMoney(monthWorkTime,eId);
     }
 }

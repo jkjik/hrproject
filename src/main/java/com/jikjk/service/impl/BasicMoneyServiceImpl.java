@@ -20,7 +20,7 @@ public class BasicMoneyServiceImpl implements BasicMoneyService{
         basicMoneyDao.insert(basicMoney);
     }
 
-    public int selectBasic(int eId) {
+    public BasicMoney selectBasic(int eId) {
         return basicMoneyDao.selectBasic(eId);
     }
 
