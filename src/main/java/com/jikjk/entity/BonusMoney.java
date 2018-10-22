@@ -1,5 +1,7 @@
 package com.jikjk.entity;
 
+import java.sql.Date;
+
 /**
  * Created by lenovo on 2018/10/16.
  */
@@ -7,12 +9,12 @@ public class BonusMoney {
     private Integer bId;
     private Integer eId;
     private Integer boMoney;
-    private Integer bCreateTime;
+    private Date bCreateTime;
 
     public BonusMoney() {
     }
 
-    public BonusMoney(Integer bId, Integer eId, Integer boMoney, Integer bCreateTime) {
+    public BonusMoney(Integer bId, Integer eId, Integer boMoney, Date bCreateTime) {
         this.bId = bId;
         this.eId = eId;
         this.boMoney = boMoney;
@@ -43,11 +45,11 @@ public class BonusMoney {
         this.boMoney = boMoney;
     }
 
-    public Integer getbCreateTime() {
+    public Date getbCreateTime() {
         return bCreateTime;
     }
 
-    public void setbCreateTime(Integer bCreateTime) {
+    public void setbCreateTime(Date bCreateTime) {
         this.bCreateTime = bCreateTime;
     }
 

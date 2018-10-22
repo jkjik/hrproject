@@ -18,7 +18,7 @@
     </update>
 
     <select id="selectWageAdvise" resultType="WageAdvise">
-        select *from wage_advise where wa_createtime like #{monthWorkTime} and e_id=#{eId}
+        select *from wage_advise where wa_createtime like #{monthWorkTime} and e_id=#{eId} and wa_result=#{waResult}
     </select>
 
     <select id="selectByResult" resultType="WageAdvise">

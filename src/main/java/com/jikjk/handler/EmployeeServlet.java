@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +57,10 @@ public class EmployeeServlet {
     private PunishMoneyService punishMoneyServiceImpl;
     @Autowired
     private OverTimeMoneyService overTimeMoneyServiceImpl;
+    @Autowired
+    private WageAdviseService wageAdviseServiceImpl;
+    @Autowired
+    private WageService wageServiceImpl;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
@@ -185,7 +190,8 @@ public class EmployeeServlet {
         java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
         String offWorkState= OffWorkTime.CheckOnWork(timestamp);
         if("正常".equals(offWorkState)){
-
+            //不能实现上午打下班卡
+            //各种打卡bug注意
         }
         if("早退".equals(offWorkState)){
             //早退扣50
@@ -253,11 +259,42 @@ public class EmployeeServlet {
     @RequestMapping("lookPunish")
     public String lookPunish(HttpSession session,ModelMap map){
         Employee employee= (Employee) session.getAttribute("employee");
-        System.out.println(employee);
         int eId=employee.geteId();
         List<PunishMoney> punishMonies=punishMoneyServiceImpl.selectPunishMoney(eId);
-        System.out.println(punishMonies);
         map.addAttribute("punishMonies",punishMonies);
         return "empLookWork";
+    }
+
+    /**
+     * 查看工资条
+     * @param session
+     * @param map
+     * @return
+     */
+    @RequestMapping("lookMonthWage")
+    public String lookMonthWage(HttpSession session,ModelMap map){
+        Employee employee= (Employee) session.getAttribute("employee");
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
+        //上个月的模糊时间
+        Calendar car=Calendar.getInstance();
+        car.setTime(new java.util.Date());
+        car.add(Calendar.MONTH,-1);
+        java.util.Date lastTime=car.getTime();
+        String last=sf.format(lastTime);
+        String lastMonth="%"+last+"%";
+        Wage wage=wageServiceImpl.selectWage(lastMonth,employee.geteId());
+        System.out.println(wage);
+        map.addAttribute("wage",wage);
+        return "empLookMonthWage";
+    }
+
+    @RequestMapping("wageAdvice")
+    public String wageAdvice(String waCause,Integer adMoney,HttpSession session){
+        Employee employee= (Employee) session.getAttribute("employee");
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        WageAdvise wageAdvise=new WageAdvise(0,employee.geteId(),adMoney,"",date,waCause);
+        System.out.println(wageAdvise);
+        wageAdviseServiceImpl.insert(wageAdvise);
+        return "forward:lookMonthWage";
     }
 }

@@ -5,7 +5,6 @@ import com.jikjk.entity.CloseWage;
 import com.jikjk.entity.utilpojo.ResMassageResume;
 import com.jikjk.entity.utilpojo.ResWage;
 import com.jikjk.service.*;
-import com.jikjk.service.impl.CloseWageServiceImpl;
 import com.jikjk.util.CloseBonusMoney;
 import com.jikjk.util.CloseOverTimeMoney;
 import com.jikjk.util.ClosePunishMoney;
@@ -94,6 +93,12 @@ public class AdmServlet {
         map.addAttribute("departments",departments);
         return "admSendInvite";
     }
+
+    /**
+     * 保存发送信息
+     * @param inviteJob
+     * @return
+     */
     @RequestMapping("commitSendInvite")
     public String commitSendInvite(InviteJob inviteJob){
         inviteJobServiceImpl.insert(inviteJob);
@@ -370,6 +375,89 @@ public class AdmServlet {
     }
 
     /**
+     * 奖赏员工
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("awardEmployee")
+    public String awardEmployee(HttpServletRequest request,ModelMap map){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        map.addAttribute("eId",eId);
+        map.addAttribute("award","award");
+        return "forward:employeeManage";
+    }
+
+    /**
+     * 跳转查看考勤
+     * @Param request
+     * @Param map
+     * @return
+     */
+    @RequestMapping("lookEmpWork")
+    public String lookEmpWork(HttpServletRequest request,ModelMap map){
+        int eId=0;
+        try {
+            eId=Integer.valueOf(request.getParameter("eId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        List<OnWork> onWorks=onWorkServiceImpl.selectByEid(eId);
+        map.addAttribute("onWorks",onWorks);
+        return "admLookEmpWork";
+    }
+/*
+    *//**
+     * 分页的传值
+     * @return
+     *//*
+    @RequestMapping("lookingEmpWork")
+    @ResponseBody
+    public String lookingEmpWork(){
+        List<OnWork> onWorks=onWorkServiceImpl.selectAll();
+        ObjectMapper mapper=new ObjectMapper();
+        String json= null;
+        try {
+            json = mapper.writeValueAsString(onWorks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }*/
+    /**
+     * 保存奖赏
+     * @param eId
+     * @param cause
+     * @param puMoney
+     * @return
+     */
+    @RequestMapping("commitAward")
+    public String commitAward(Integer eId,String cause,Integer puMoney){
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        PunishMoney punishMoney=new PunishMoney(0,eId,cause,puMoney,date);
+        punishMoneyServiceImpl.insert(punishMoney);
+        return "forward:employeeManage";
+    }
+
+    /**
+     * 添加效绩奖金
+     * @param eId
+     * @param boMoney
+     * @return
+     */
+    @RequestMapping("addBonusMoney")
+    public String addBonusMoney(Integer eId,Integer boMoney){
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        BonusMoney bonusMoney=new BonusMoney(0,eId,boMoney,date);
+        bonusMoneyServiceImpl.insert(bonusMoney);
+        return "forward:wageManage";
+    }
+    /**
      * 添加职位
      * @param request
      * @param map
@@ -397,10 +485,8 @@ public class AdmServlet {
     @RequestMapping("deleteDep")
     @ResponseBody
     public String deleteDep(String dName){
-        System.out.println(dName);
         Department department=departmentServiceImpl.selectBydName(dName);
         List<Employee> employees=employeeServiceImpl.selectEmployee(department.getdId());
-        System.out.println(employees.size());
         if(employees.size()!=0){
             return "no";
         }else {
@@ -411,9 +497,7 @@ public class AdmServlet {
     @RequestMapping("deletePos")
     @ResponseBody
     public String deletePos(String pName){
-        System.out.println(pName);
         List<Employee> employees=employeeServiceImpl.selectByDuty(pName);
-        System.out.println(employees.size());
         if(employees.size()!=0){
             return "no";
         }else {
@@ -465,6 +549,8 @@ public class AdmServlet {
     public String employeeManage(ModelMap map){
         List<Employee> employees=employeeServiceImpl.selectAll();
         map.addAttribute("employees",employees);
+        List<LeaveEmployee> leaveEmployees=leaveEmployeeServiceImpl.selectAll();
+        map.addAttribute("leaveEmployees",leaveEmployees);
         return "admEmployeeManage";
     }
 
@@ -639,7 +725,7 @@ public class AdmServlet {
         CloseWage resCloseWage=new CloseWage(0,eId,monthDay,onWorkDay,basicMoney.getbMoney(),socialMoney.getsMoney(),overTimeMoney,punishMoney,bonusMoney,total,date);
         closeWageServiceImpl.insert(resCloseWage);
         //复议工资
-        WageAdvise wageAdvise=wageAdviseServiceImpl.selectWageAdvise(lastMonth,eId);
+        WageAdvise wageAdvise=wageAdviseServiceImpl.selectWageAdvise(lastMonth,eId,"同意");
         map.addAttribute("resCloseWage",resCloseWage);
         map.addAttribute("wageAdvise",wageAdvise);
 
@@ -702,7 +788,7 @@ public class AdmServlet {
         String last=sf.format(lastTime);
         String lastMonth="%"+last+"%";
         CloseWage closeWage=closeWageServiceImpl.selectCloseWage(lastMonth,eId);
-        WageAdvise wageAdvise=wageAdviseServiceImpl.selectWageAdvise(lastMonth,eId);
+        WageAdvise wageAdvise=wageAdviseServiceImpl.selectWageAdvise(lastMonth,eId,"同意");
         Wage wage=null;
         if(wageAdvise==null){
             wage=new Wage(0,closeWage.geteId(),closeWage.getBasicMoney(),closeWage.getBonusMoney(),closeWage.getOverTimeMoney(),closeWage.getPunishMoney(),closeWage.getSocialMoney(),date,0,closeWage.getTotal());

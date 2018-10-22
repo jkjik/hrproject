@@ -32,10 +32,10 @@ public class WageAdviseServiceImpl implements WageAdviseService{
         wageAdviseDao.updateResult(monthWorkTime,eId,waResult);
     }
 
-
-    public WageAdvise selectWageAdvise(String monthWorkTime, int eId) {
-        return wageAdviseDao.selectWageAdvise(monthWorkTime,eId);
+    public WageAdvise selectWageAdvise(String monthWorkTime, int eId, String waResult) {
+        return wageAdviseDao.selectWageAdvise(monthWorkTime,eId,waResult);
     }
+
 
     public List<WageAdvise> selectByResult(String waResult) {
         return wageAdviseDao.selectByResult(waResult);

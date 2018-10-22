@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -51,6 +52,7 @@ public class UserServlet {
     private InterviewService interviewServiceImpl;
     @Autowired
     private EmployeeService employeeServiceImpl;
+
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
@@ -270,6 +272,12 @@ public class UserServlet {
         return "userPage";
     }
 
+    /**
+     * 查看个人信息
+     * @param request
+     * @param map
+     * @return
+     */
     @RequestMapping("lookInform")
     public String lookInform(HttpServletRequest request,ModelMap map){
         int rId=0;

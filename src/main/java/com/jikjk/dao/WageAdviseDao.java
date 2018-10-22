@@ -20,7 +20,7 @@ public interface WageAdviseDao {
     //修改复议结果
     public void updateResult(@Param("monthWorkTime") String monthWorkTime,@Param("eId") int eId,@Param("waResult") String waResult);
     //查询员工上个月复议工资
-    public WageAdvise selectWageAdvise(@Param("monthWorkTime")String monthWorkTime, @Param("eId")int eId);
+    public WageAdvise selectWageAdvise(@Param("monthWorkTime")String monthWorkTime, @Param("eId")int eId,@Param("waResult") String waResult);
     //查询未处理复议
     public List<WageAdvise> selectByResult(String waResult);
 }
