@@ -16,10 +16,23 @@
     <link rel="stylesheet" href="/bootstrap-table-master/dist/bootstrap-table.min.css">
 
     <script src="/js/jquery-1.10.2.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/Bootstrap/bootstrap.min.js"></script>
 
     <script src="/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
     <script src="/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Layout/css/dmaku.css" />
+    <script type="text/javascript" src="Layout/js/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".div2").click(function(){
+                $(this).next("div").slideToggle("slow")
+                    .siblings(".div3:visible").slideUp("slow");
+            });
+        });
+    </script>
+
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -42,23 +55,71 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人信息<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">#</a></li>
-                        <li><a href="#">#</a></li>
+                        <li><a href="/emp/lookingYourself">查看信息</a></li>
                     </ul>
                 </li>
-                <li><a href="#">部门职位</a></li>
-                <li><a href="#">我的考勤</a><br></li>
-                <li><a href="#">我的奖惩</a></li>
-                <li><a href="#">我的薪资</a></li>
-                <li><a href="#">修改密码</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">部门信息<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/emp/lookDuty">查看部门</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">培训通知<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/emp/lookCultivate">查看通知</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的考勤<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/emp/lookToWork">查看考勤</a></li>
+                        <li><a href="/emp/lookMonthWork">本月考勤</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的奖惩<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/emp/lookPunish">查看奖惩</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的工资<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/emp/lookMonthWage">查看工资</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">退出</a></li>
-
             </ul>
+
         </div>
     </div>
 </nav>
+
+<div class="left">
+    <div class="div1">
+        <div class="left_top"><img src="Layout/images/bbb_01.jpg"><img src="Layout/images/bbb_02.jpg" id="2"><img src="Layout/images/bbb_02.jpg"><img src="Layout/images/bbb_01.jpg"> </div>
+
+        <div class="div2"><div class="zxcp"> </div><a href="/emp/lookingYourself">个人信息</a></div>
+
+        <div class="div2"><div class="lmtj"> </div><a href="/emp/lookDuty">部门信息</a></div>
+
+        <div class="div2"><div class="lmtj"> </div><a href="/emp/lookCultivate">培训通知</a></div>
+
+        <div class="div2"><div class="lmtj"> </div><a href="/emp/lookToWork">我的考勤</a></div>
+
+        <div class="div2"><div class="lmtj"> </div><a href="/emp/lookMonthWork">本月考勤</a></div>
+
+        <div class="div2"><div class="lmtj"> </div><a href="/emp/lookPunish">我的奖惩</a></div>
+
+        <div class="div2"><div class="lmtj"> </div><a href="/emp/lookMonthWage">我的工资</a></div>
+
+    </div>
+</div>
+
+
 </body>
 </html>

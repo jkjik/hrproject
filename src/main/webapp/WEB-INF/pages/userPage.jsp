@@ -15,10 +15,5 @@
 </head>
 <body>
 
-<a href="/user/lookJob">查看所有的招聘信息</a><br>
-<a href="/user/resume">添加简历</a><br>
-<a href="/user/resume?uId=${sessionScope.user.uId}">修改简历</a><br>
-<%--<a href="/user/sendResume">发送简历</a><br><!--发送简历后给出个反应-->--%>
-<a href="/user/lookResumeState?uId=${sessionScope.user.uId}">查看简历的状态</a><br>
 </body>
 </html>

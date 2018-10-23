@@ -37,6 +37,11 @@
         </c:forEach>
     </table>
 </c:if>
+<p>绩效奖金</p>
+<form action="/adm/addBonusMoney">
+    <input type="number" name="eId" placeholder="员工编号">
+    <input type="number" name="boMoney" placeholder="奖金金额">
+</form>
 <c:if test="${empty requestScope.wages}">
     <span>暂无上月工资</span>
 </c:if>

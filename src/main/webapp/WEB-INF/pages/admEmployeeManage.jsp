@@ -79,6 +79,21 @@
 </head>
 <body>
 <p>员工管理</p>
+<c:if test="${!empty requestScope.leaveEmployees}">
+    <p>离职员工</p>
+    <table>
+        <tr>
+            <td>员工编号</td>
+            <td>离职时间</td>
+        </tr>
+        <c:forEach items="${requestScope.leaveEmployees}" var="leaveEmployees">
+            <tr>
+                <td>${leaveEmployees.eId}</td>
+                <td>${leaveEmployees.leCreateTime}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
 <c:if test="${!empty requestScope.employees}">
     <table>
         <tr>
@@ -95,16 +110,30 @@
                 <td>${employees.eName}</td>
                 <td>${employees.dId}</td>
                 <td>${employees.duty}</td>
+                <td>${employees.eState}</td>
                 <td><a href="/adm/dutyManage?eId=${employees.eId}">人事调动</a></td>
-                <td><a href="/adm/">考勤</a></td>
+                <td><a href="/adm/lookEmpWork?eId=${employees.eId}">考勤</a></td>
                 <td><a href="/adm/addSocialMoney?eId=${employees.eId}">添加社保</a></td>
                 <td><a href="/adm/addBasicMoney?eId=${employees.eId}">添加基本工资</a></td>
+                <td><a href="/adm/awardEmployee?eId=${employees.eId}">奖赏员工</a></td>
                 <!--发工资的时间，是否存在结算工资-->
                 <td><a href="/adm/sendWage?eId=${employees.eId}" id="sendWage">发放工资</a></td>
                 <td><a href="/adm/deleteEmployee?eId=${employees.eId}">开除</a></td>
             </tr>
         </c:forEach>
     </table>
+</c:if>
+
+<c:if test="${requestScope.eId!=0}">
+    <c:if test="${!empty requestScope.award}">
+        <p>奖赏员工</p>
+        <form action="/adm/commitAward" method="post">
+            <input type="hidden" name="eId" value="${requestScope.eId}">
+            <input type="text" name="cause" placeholder="奖赏原因">
+            <input type="number" name="puMoney" placeholder="奖赏金额">
+            <input type="submit" value="提交">
+        </form>
+    </c:if>
 </c:if>
 
 <c:if test="${!empty requestScope.departments}">

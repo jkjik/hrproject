@@ -19,6 +19,23 @@
                 var flag=confirm("你确定删除?")
                 if(!flag){
                     return false;
+                }else{
+                    var click1=true;
+                    var dName=$(this).parent().parent().children().children()[0].text()
+                    $.ajax({
+                        url:"/adm/deleteDep",
+                        tape:"post",
+                        async:false,
+                        dateType:"text",
+                        data:{"dName":dName},
+                        success:function (data) {
+                            if(data=="no"){
+                                alert("该部门还有员工")
+                                click1=false;
+                            }
+                        }
+                    })
+                    return click1;
                 }
                 dep()
             })
@@ -26,44 +43,26 @@
                 var flag=confirm("你确定删除?")
                 if(!flag){
                     return false;
+                }else {
+                    var click=true;
+                    var pName=$(this).parent().parent().children()[0].innerHTML;
+                    $.ajax({
+                        url:"/adm/deletePos",
+                        tape:"post",
+                        async:false,
+                        dataType:"text",
+                        data:{"pName":pName},
+                        success:function (data) {
+                            if(data=="no"){
+                                alert("该职位还有员工")
+                                click=false;
+                            }
+                        }
+                    })
+                    return click;
                 }
-                pos()
             })
         })
-        function dep() {
-            var dName=$(".delete1").parent().children()[0].value;
-            alert(dName)
-            $.ajax({
-                url:"/adm/deleteDep",
-                tape:"post",
-                dateType:"String",
-                data:{"dName":dName},
-                success:function (data) {
-                    alert(data)
-                    if(data=="no"){
-                        alert("该部门还有员工")
-                    }
-                    return false;
-                }
-            })
-        }
-        function pos() {
-            var pName=$(".delete2").parent().children()[0].value;
-            alert(pName)
-            $.ajax({
-                url:"/adm/deletePos",
-                tape:"post",
-                dataType:"String",
-                data:{"pName":pName},
-                success:function (data) {
-                    alert(data)
-                    if(data=="no"){
-                        alert("该职位还有员工")
-                    }
-                    return false;
-                }
-            })
-        }
     </script>
 </head>
 <body>
@@ -112,7 +111,6 @@
             <tr>
                 <td>${position.pName}</td>
                 <td>
-                    <input type="hidden" value="${position.pName}">
                     <a href="/adm/deletePosition?pId=${position.pId}"  class="delete2">删除</a>
                 </td>
             </tr>
