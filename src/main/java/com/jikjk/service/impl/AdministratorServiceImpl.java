@@ -6,6 +6,8 @@ import com.jikjk.service.AdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by lenovo on 2018/10/14.
  */
@@ -22,8 +24,8 @@ public class AdministratorServiceImpl implements AdministratorService{
         administratorDao.delete(aId);
     }
 
-    public void selectAll() {
-        administratorDao.selectAll();
+    public List<Administrator> selectAll() {
+        return administratorDao.selectAll();
     }
 
     public Administrator selectByUid(int uId) {

@@ -2,8 +2,6 @@ package com.jikjk.service.impl;
 
 import com.jikjk.dao.WageDao;
 import com.jikjk.entity.Wage;
-import com.jikjk.entity.WageAdvise;
-import com.jikjk.service.WageAdviseService;
 import com.jikjk.service.WageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

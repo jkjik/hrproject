@@ -1,7 +1,6 @@
 package com.jikjk.service;
 
 import com.jikjk.entity.BasicMoney;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

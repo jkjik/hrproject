@@ -1,6 +1,5 @@
 package com.jikjk.handler;
 
-import com.jikjk.dao.EmployeeDao;
 import com.jikjk.entity.*;
 import com.jikjk.service.*;
 import com.jikjk.util.OffWorkTime;
@@ -12,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,25 +28,9 @@ import java.util.List;
 @Controller
 public class EmployeeServlet {
     @Autowired
-    private EmployeeDao employeeDao;
-    @Autowired
-    private UserService userServiceImpl;
-    @Autowired
     private DepartmentService departmentServiceImpl;
     @Autowired
     private PositionService positionServiceImpl;
-    @Autowired
-    private ResumeService resumeServiceImpl;
-    @Autowired
-    private AdministratorService admServiceImpl;
-    @Autowired
-    private SendResumeService sendResumeServiceImpl;
-    @Autowired
-    private MassageResumeService massageResumeServiceImpl;
-    @Autowired
-    private InviteJobService inviteJobServiceImpl;
-    @Autowired
-    private InterviewService interviewServiceImpl;
     @Autowired
     private EmployeeService employeeServiceImpl;
     @Autowired
@@ -103,12 +87,10 @@ public class EmployeeServlet {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        System.out.println(dId);
         Employee employee= (Employee) session.getAttribute("employee");
         //查看本部门员工
         if(employee.getdId()==dId){
             List<Employee> employees=employeeServiceImpl.selectEmployee(employee.getdId());
-            System.out.println(employees);
             map.addAttribute("employees",employees);
         }
         List<Position> positions= positionServiceImpl.selectById(dId);
@@ -148,50 +130,66 @@ public class EmployeeServlet {
     }
 
     /**
-     * 上班打卡
+     * 打上班卡成功
      * @param session
      * @return
      */
-    @RequestMapping("onWork")
-    public String onWork(HttpSession session){
+    @RequestMapping("onWorkCard")
+    @ResponseBody
+    public String onWorkCard(HttpSession session){
         Employee employee= (Employee) session.getAttribute("employee");
         Integer eId=employee.geteId();
         Timestamp timestamp=new Timestamp(System.currentTimeMillis());
         java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
-        String onWorkState= OnWorkTime.CheckOnWork(timestamp);
-        if("正常".equals(onWorkState)){
+        //重复打上班卡问题
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+        String start=sf.format(date);
+        String startTimeLike="%"+start+"%";
+        OnWork onWork1=onWorkServiceImpl.selectByLike(startTimeLike,eId);
+        if(onWork1!=null){
+            return "fail";
+        }else {
+            String onWorkState= OnWorkTime.CheckOnWork();
+            if("正常".equals(onWorkState)){
 
+            }
+            if("迟到".equals(onWorkState)){
+                //迟到扣50
+                PunishMoney punishMoney=new PunishMoney(0,eId,onWorkState,-50,date);
+                punishMoneyServiceImpl.insert(punishMoney);
+            }
+            if("缺勤".equals(onWorkState)){
+                //缺勤扣100
+                PunishMoney punishMoney=new PunishMoney(0,eId,onWorkState,-100,date);
+                punishMoneyServiceImpl.insert(punishMoney);
+            }
+            OnWork onWork=new OnWork(0,employee.geteId(),timestamp,timestamp,onWorkState,"未打卡");
+            onWorkServiceImpl.insert(onWork);
         }
-        if("迟到".equals(onWorkState)){
-            //迟到扣50
-            PunishMoney punishMoney=new PunishMoney(0,eId,onWorkState,-50,date);
-            punishMoneyServiceImpl.insert(punishMoney);
+        //判断是否打卡成功
+        OnWork onWork2=onWorkServiceImpl.selectByLike(startTimeLike,eId);
+        if(onWork2!=null){
+            return "ok";
+        }else {
+            return "no";
         }
-        if("缺勤".equals(onWorkState)){
-            //缺勤扣100
-            PunishMoney punishMoney=new PunishMoney(0,eId,onWorkState,-100,date);
-            punishMoneyServiceImpl.insert(punishMoney);
-        }
-        OnWork onWork=new OnWork(0,employee.geteId(),timestamp,timestamp,onWorkState,"未打卡");
-        onWorkServiceImpl.insert(onWork);
-        return "forward:gotoEmpPage";
     }
 
     /**
-     * 下班打卡
+     * 下班打卡成功
      * @param session
      * @return
      */
-    @RequestMapping("offWork")
-    public String offWork(HttpSession session){
+    @RequestMapping("offWorkCard")
+    @ResponseBody
+    public String offWorkCard(HttpSession session){
         Employee employee= (Employee) session.getAttribute("employee");
         Integer eId=employee.geteId();
         Timestamp timestamp=new Timestamp(System.currentTimeMillis());
         java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
-        String offWorkState= OffWorkTime.CheckOnWork(timestamp);
+        String offWorkState= OffWorkTime.CheckOnWork();
         if("正常".equals(offWorkState)){
-            //不能实现上午打下班卡
-            //各种打卡bug注意
+
         }
         if("早退".equals(offWorkState)){
             //早退扣50
@@ -207,14 +205,32 @@ public class EmployeeServlet {
         SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
         String start=sf.format(date);
         String startTimeLike="%"+start+"%";
-        OnWork onWork=onWorkServiceImpl.selectByLike(startTimeLike,eId);
-        onWork.setEndTime(timestamp);
-        onWork.setOffWorkState(offWorkState);
-        //打卡
-        onWorkServiceImpl.update(onWork);
-        return "forward:gotoEmpPage";
-    }
+        OnWork onWork=null;
+        try {
+            onWork=onWorkServiceImpl.selectByLike(startTimeLike,eId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(onWork!=null){
+            //重复打卡
+            if(!"未打卡".equals(onWork.getOffWorkState())){
+                return "fail";
+            }else {
+                onWork.setEndTime(timestamp);
+                onWork.setOffWorkState(offWorkState);
+                //打卡
+                onWorkServiceImpl.update(onWork);
+            }
 
+        }
+        //判断是否打卡成功
+        OnWork onWork1=onWorkServiceImpl.selectByLike(startTimeLike,eId);
+        if("未打卡".equals(onWork1.getOffWorkState())){
+            return "no";
+        }else {
+            return "ok";
+        }
+    }
     /**
      * 查看所有考勤
      * @param session
@@ -275,19 +291,25 @@ public class EmployeeServlet {
     public String lookMonthWage(HttpSession session,ModelMap map){
         Employee employee= (Employee) session.getAttribute("employee");
         SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM");
-        //上个月的模糊时间
-        Calendar car=Calendar.getInstance();
-        car.setTime(new java.util.Date());
-        car.add(Calendar.MONTH,-1);
-        java.util.Date lastTime=car.getTime();
-        String last=sf.format(lastTime);
-        String lastMonth="%"+last+"%";
-        Wage wage=wageServiceImpl.selectWage(lastMonth,employee.geteId());
-        System.out.println(wage);
+        //当前月的模糊时间
+        Calendar calendar=Calendar.getInstance();
+        Date newTime=calendar.getTime();
+        String newMonth="%"+sf.format(newTime)+"%";
+        Wage wage=wageServiceImpl.selectWage(newMonth,employee.geteId());
         map.addAttribute("wage",wage);
+        //查看异议
+        List<WageAdvise> wageAdvises=wageAdviseServiceImpl.selectByEid(employee.geteId());
+        map.addAttribute("wageAdvises",wageAdvises);
         return "empLookMonthWage";
     }
 
+    /**
+     * 添加工资异议
+     * @param waCause
+     * @param adMoney
+     * @param session
+     * @return
+     */
     @RequestMapping("wageAdvice")
     public String wageAdvice(String waCause,Integer adMoney,HttpSession session){
         Employee employee= (Employee) session.getAttribute("employee");

@@ -14,4 +14,6 @@ public interface LeaveEmployeeDao {
     public void insert(LeaveEmployee leaveEmployee);
     //查询所有离职员工
     public List<LeaveEmployee> selectAll();
+    //通过eId查询离职员工
+    public LeaveEmployee selectByEid(int eId);
 }

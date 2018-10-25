@@ -14,10 +14,25 @@
     <jsp:include   page="admBase.jsp" flush="true"/>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
 </head>
+<script>
+</script>
+<style>
+    body{
+        background-color: #9acfea;
+        position: relative;
+    }
+    #div{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+    }
+</style>
 <body>
+<div id="div">
 <p>查看所有个人简历</p>
 <c:if test="${!empty requestScope.resume}">
-        <table>
+        <table  border="1px" cellspacing="0px" cellpadding="0px">
             <tr>
                 <td>姓名</td>
                 <td><input type="text" name="rName" value="${requestScope.resume.rName}"></td>
@@ -40,7 +55,11 @@
                 <td>联系方式</td>
                 <td><input type="text" name="phone" value="${requestScope.resume.phone}"></td>
                 <td>工作经历</td>
-                <td><input type="text" name="lastWork" value="${requestScope.resume.lastWork}"></td>
+                <td>
+                        <textarea name="yourself" cols="30" rows="4">
+                                ${requestScope.resume.lastWork}
+                        </textarea>
+                </td>
             </tr>
             <tr>
                 <td>应聘职位</td>
@@ -50,17 +69,32 @@
             </tr>
             <tr>
                 <td>校园经历</td>
-                <td><input type="text" name="project" value="${requestScope.resume.project}"></td>
+                <td>
+                    <textarea name="project" cols="30" rows="4">
+                            ${requestScope.resume.project}
+                    </textarea>
+                </td>
                 <td>自我介绍</td>
-                <td><input type="text" name="yourself" value="${requestScope.resume.yourself}"></td>
+                <td>
+                    <textarea name="yourself" cols="30" rows="4">
+                            ${requestScope.resume.yourself}
+                    </textarea>
+                </td>
             </tr>
-                <td><a href="/adm/interview?rId=${requestScope.resume.rId}">面试通知</a></td>
+
+            <tr>
+                <td align="center" colspan="4"><a href="/adm/interview?rId=${requestScope.resume.rId}">面试通知</a></td>
+            </tr>
+            <tr>
                 <!--当前时间与面试时间-->
-                <td><a href="/adm/intvResult?rId=${requestScope.resume.rId}">面试结果</a></td>
-                <td><a href="/adm/gotoLookResume">返回</a></td>
+                <td align="center" colspan="4"><a href="/adm/intvResult?rId=${requestScope.resume.rId}">面试结果</a></td>
+            </tr>
+            <tr>
+                <td align="center" colspan="4"><a href="/adm/gotoLookResume">返回</a></td>
             </tr>
         </table>
     </form>
 </c:if>
+</div>
 </body>
 </html>

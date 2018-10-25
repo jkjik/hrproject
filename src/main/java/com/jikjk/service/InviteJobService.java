@@ -1,8 +1,6 @@
 package com.jikjk.service;
 
 import com.jikjk.entity.InviteJob;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

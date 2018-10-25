@@ -15,13 +15,6 @@
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
 </head>
 <body>
-<a href="/adm/sendInvite">发布招聘</a>
-<!--录用员工，添加基本工资，社保-->
-<a href="/adm/lookResume">查看接受简历</a>
-<a href="/adm/lookDuty">查看部门</a>
-<a href="/adm/employeeManage">员工管理</a>
-<a href="/adm/sendCultivate">培训管理</a>
-<a href="/adm/wageManage">薪资管理</a>
-<a href="/adm/wageAdvice">工资异议</a>
+
 </body>
 </html>

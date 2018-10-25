@@ -14,58 +14,73 @@
     <jsp:include   page="admBase.jsp" flush="true"/>
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
 </head>
+<style>
+    body{
+        background-color: #9acfea;
+        position: relative;
+    }
+    #div{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+    }
+</style>
 <body>
-<c:if test="${!empty requestScope.wageAdvises}">
-    <p>工资复议</p>
-    <form action="/adm/commitWageAdvice" method="post">
-    <table>
-        <tr>
-            <td>员工编号</td>
-            <td>复议原因</td>
-            <td>复议金额</td>
-            <td>创建时间</td>
-            <td colspan="2">结果</td>
-        </tr>
-        <c:forEach items="${requestScope.wageAdvises}" var="wageAdvises">
+<div id="div">
+    <c:if test="${!empty requestScope.wageAdvises}">
+        <p>工资复议</p>
+        <form action="/adm/commitWageAdvice" method="post">
+        <table border="1px" cellspacing="0px" cellpadding="0px">
             <tr>
-                <td>${wageAdvises.eId}</td>
-                <td>${wageAdvises.waResult}</td>
-                <td>${wageAdvises.adMoney}</td>
-                <td>${wageAdvises.waCreateTime}</td>
-                <td>
-                    <input type="hidden" value="${wageAdvises.eId}" name="eId">
-                    <input type="radio" checked="checked" name="waResult" value="同意"/>同意
-                    <input type="radio" name="waResult" value="驳回"/>驳回
-                </td>
-                <td>
-                    <input type="submit" value="提交">
-                </td>
+                <td>员工编号</td>
+                <td>复议原因</td>
+                <td>复议金额</td>
+                <td>创建时间</td>
+                <td colspan="2">结果</td>
             </tr>
-        </c:forEach>
-    </table>
-    </form>
-</c:if>
+            <c:forEach items="${requestScope.wageAdvises}" var="wageAdvises">
+                <tr>
+                    <td>${wageAdvises.eId}</td>
+                    <td>${wageAdvises.waCause}</td>
+                    <td>${wageAdvises.adMoney}</td>
+                    <td>${wageAdvises.waCreateTime}</td>
+                    <td>
+                        <input type="hidden" value="${wageAdvises.eId}" name="eId">
+                        <input type="radio" checked="checked" name="waResult" value="同意"/>同意
+                        <input type="radio" name="waResult" value="驳回"/>驳回
+                    </td>
+                    <td>
+                        <input type="submit" value="提交">
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        </form>
+    </c:if>
 
-<c:if test="${!empty requestScope.wageAdvises1}">
-    <table>
-        <tr>
-            <td>员工编号</td>
-            <td>复议原因</td>
-            <td>复议金额</td>
-            <td>创建时间</td>
-            <td>复议结果</td>
-        </tr>
-        <c:forEach items="${requestScope.wageAdvises1}" var="wageAdvises1">
+    <c:if test="${!empty requestScope.wageAdvises1}">
+        <table border="1px" cellpadding="0px" cellspacing="0px">
             <tr>
-                <td>${wageAdvises1.eId}</td>
-                <td>${wageAdvises1.waResult}</td>
-                <td>${wageAdvises1.adMoney}</td>
-                <td>${wageAdvises1.waCreateTime}</td>
-                <td>${wageAdvises1.waResult}</td>
+                <td>员工编号</td>
+                <td>复议原因</td>
+                <td>复议金额</td>
+                <td>创建时间</td>
+                <td>复议结果</td>
             </tr>
-        </c:forEach>
-    </table>
-</c:if>
-<a href="/adm/gotoAdmPage">返回</a>
+            <c:forEach items="${requestScope.wageAdvises1}" var="wageAdvises1">
+                <tr>
+                    <td>${wageAdvises1.eId}</td>
+                    <td>${wageAdvises1.waResult}</td>
+                    <td>${wageAdvises1.adMoney}</td>
+                    <td>${wageAdvises1.waCreateTime}</td>
+                    <td>${wageAdvises1.waResult}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+    <a href="/adm/gotoAdmPage">返回</a>
+
+</div>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.jikjk.service;
 
 import com.jikjk.entity.User;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by lenovo on 2018/10/11.

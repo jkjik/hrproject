@@ -2,7 +2,6 @@ package com.jikjk.service;
 
 import com.jikjk.entity.Employee;
 import com.jikjk.entity.utilpojo.ResWage;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

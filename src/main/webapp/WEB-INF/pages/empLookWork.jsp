@@ -14,63 +14,76 @@
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <jsp:include   page="empBase.jsp" flush="true"/>
 </head>
+<style>
+    body{
+        background-color: #9acfea;
+        position: relative;
+    }
+    #div{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+    }
+</style>
 <body>
-<c:if test="${!empty requestScope.onWorks}">
-    <p>查看考勤记录</p>
-    <table>
-        <tr>
-            <td>上班时间</td>
-            <td>下班时间</td>
-            <td>上班状态</td>
-            <td>下班状态</td>
-        </tr>
-        <c:forEach items="${requestScope.onWorks}" var="onWorks">
+<div id="div">
+    <c:if test="${!empty requestScope.onWorks}">
+        <p>查看考勤记录</p>
+        <table border="1px" cellpadding="0px" cellspacing="0px">
             <tr>
-                <td>${onWorks.startTime}</td>
-                <td>${onWorks.endTime}</td>
-                <td>${onWorks.onWorkState}</td>
-                <td>${onWorks.offWorkState}</td>
+                <td>上班时间</td>
+                <td>下班时间</td>
+                <td>上班状态</td>
+                <td>下班状态</td>
             </tr>
-        </c:forEach>
-    </table>
-</c:if>
+            <c:forEach items="${requestScope.onWorks}" var="onWorks">
+                <tr>
+                    <td>${onWorks.startTime}</td>
+                    <td>${onWorks.endTime}</td>
+                    <td>${onWorks.onWorkState}</td>
+                    <td>${onWorks.offWorkState}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 
-<c:if test="${!empty requestScope.onWorkMonth}">
-    <p>查看${requestScope.monthWorkTime}考勤记录</p>
-    <table>
-        <tr>
-            <td>上班时间</td>
-            <td>下班时间</td>
-            <td>上班状态</td>
-            <td>下班状态</td>
-        </tr>
-        <c:forEach items="${requestScope.onWorkMonth}" var="onWorkMonth">
+    <c:if test="${!empty requestScope.onWorkMonth}">
+        <p>查看${requestScope.monthWorkTime}考勤记录</p>
+        <table border="1px" cellpadding="0px" cellspacing="0px">
             <tr>
-                <td>${onWorkMonth.startTime}</td>
-                <td>${onWorkMonth.endTime}</td>
-                <td>${onWorkMonth.onWorkState}</td>
-                <td>${onWorkMonth.offWorkState}</td>
+                <td>上班时间</td>
+                <td>下班时间</td>
+                <td>上班状态</td>
+                <td>下班状态</td>
             </tr>
-        </c:forEach>
-    </table>
-</c:if>
+            <c:forEach items="${requestScope.onWorkMonth}" var="onWorkMonth">
+                <tr>
+                    <td>${onWorkMonth.startTime}</td>
+                    <td>${onWorkMonth.endTime}</td>
+                    <td>${onWorkMonth.onWorkState}</td>
+                    <td>${onWorkMonth.offWorkState}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 
-<c:if test="${!empty requestScope.punishMonies}">
-    <table>
-        <tr>
-            <td>奖惩</td>
-            <td>金额</td>
-            <td>时间</td>
-        </tr>
-        <c:forEach items="${requestScope.punishMonies}" var="punishMonies">
+    <c:if test="${!empty requestScope.punishMonies}">
+        <table border="1px" cellpadding="0px" cellspacing="0px">
             <tr>
-                <td>${punishMonies.cause}</td>
-                <td>${punishMonies.puMoney}</td>
-                <td>${punishMonies.puCreateTime}</td>
+                <td>奖惩</td>
+                <td>金额</td>
+                <td>时间</td>
             </tr>
-        </c:forEach>
-    </table>
-</c:if>
-
+            <c:forEach items="${requestScope.punishMonies}" var="punishMonies">
+                <tr>
+                    <td>${punishMonies.cause}</td>
+                    <td>${punishMonies.puMoney}</td>
+                    <td>${punishMonies.puCreateTime}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+</div>
 </body>
 </html>

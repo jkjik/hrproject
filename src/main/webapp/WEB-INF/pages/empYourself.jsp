@@ -13,36 +13,50 @@
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <jsp:include   page="empBase.jsp" flush="true"/>
 </head>
+<style>
+    body{
+        background-color: #9acfea;
+        position: relative;
+    }
+    #div{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+    }
+</style>
 <body>
-<p>查看个人信息</p>
-<table>
-    <tr>
-        <td>姓名</td>
-        <td>${requestScope.employee.eName}</td>
-        <td>年龄</td>
-        <td>${requestScope.employee.eAge}</td>
-    </tr>
-    <tr>
-        <td>性别</td>
-        <td>${requestScope.employee.eSex}</td>
-        <td>职位</td>
-        <td>${requestScope.employee.duty}</td>
-    </tr>
-    <tr>
-        <td>Email</td>
-        <td>${requestScope.employee.eEmail}</td>
-        <td>联系方式</td>
-        <td>${requestScope.employee.ePhone}</td>
-    </tr>
-    <tr>
-        <td>入职时间</td>
-        <td>${requestScope.employee.eCreateTime}</td>
-        <td>状态</td>
-        <td>${requestScope.employee.eState}</td>
-    </tr>
-    <tr>
-        <td colspan="4"><a href="/emp/gotoEmpPage">返回</a></td>
-    </tr>
-</table>
+<div id="div">
+    <p>查看个人信息</p>
+    <table border="1px" cellpadding="0px" cellspacing="0px">
+        <tr>
+            <td>姓名</td>
+            <td>${requestScope.employee.eName}</td>
+            <td>年龄</td>
+            <td>${requestScope.employee.eAge}</td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td>${requestScope.employee.eSex}</td>
+            <td>职位</td>
+            <td>${requestScope.employee.duty}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>${requestScope.employee.eEmail}</td>
+            <td>联系方式</td>
+            <td>${requestScope.employee.ePhone}</td>
+        </tr>
+        <tr>
+            <td>入职时间</td>
+            <td>${requestScope.employee.eCreateTime}</td>
+            <td>状态</td>
+            <td>${requestScope.employee.eState}</td>
+        </tr>
+        <tr>
+            <td colspan="4"><a href="/emp/gotoEmpPage">返回</a></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

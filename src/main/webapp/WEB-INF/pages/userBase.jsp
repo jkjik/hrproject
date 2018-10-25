@@ -32,7 +32,20 @@
             });
         });
     </script>
-
+    <style>
+        .left{
+            background-color: white;
+        }
+        body{
+            background-color: #9acfea;
+            position: relative;
+        }
+        #div{
+            width: 50%;
+            align:center;
+            margin-top: 100px;
+        }
+    </style>
 </head>
 <body>
 

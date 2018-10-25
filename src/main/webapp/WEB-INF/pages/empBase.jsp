@@ -32,7 +32,15 @@
             });
         });
     </script>
-
+    <style>
+        .left{
+            background-color: white;
+        }
+        body{
+            background-color: #9acfea;
+            position: relative;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-default">

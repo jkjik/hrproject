@@ -23,4 +23,8 @@ public class LeaveEmployeeServiceImpl implements LeaveEmployeeService{
     public List<LeaveEmployee> selectAll() {
         return leaveEmployeeDao.selectAll();
     }
+
+    public LeaveEmployee selectByEid(int eId) {
+        return leaveEmployeeDao.selectByEid(eId);
+    }
 }

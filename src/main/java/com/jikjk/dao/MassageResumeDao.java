@@ -21,7 +21,7 @@ public interface MassageResumeDao {
     //通过简历rId修改查看状态
     public void updateStateRead(@Param("rId") int rId, @Param("stateRead") String stateRead);
     //通过简历rId修改面试状态
-    public void updateStateInterview(@Param("rId") int rId, @Param("stateRead") String stateInterview);
+    public void updateStateInterview(@Param("rId") int rId, @Param("stateInterview") String stateInterview);
     //删除
     public void delete(int rId);
 }

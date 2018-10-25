@@ -1,29 +1,29 @@
 package com.jikjk.util;
 
-import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by lenovo on 2018/10/16.
  */
 public class OnWorkTime {
-    public static final String time="2018-10-13 09:00:00";
-    public static final long centre=54000000;//00:00:00的时间
-    public static final long dayTime=24*60*60*1000;
-    public static final long minute=3*60*1000;
-    public static final long hour=3*60*60*1000;
-    public static String CheckOnWork(Timestamp timestamp){
-        Timestamp timestamp1=Timestamp.valueOf(time);
-        long number=timestamp.getTime()-timestamp1.getTime();
-        long number1=number%dayTime;
-        if(centre<number1&&number1<minute){
+
+    public static String CheckOnWork(){
+        Calendar calendar=Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);    //获取年
+        int month = calendar.get(Calendar.MONTH) + 1;   //获取月份，0表示1月份
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int time = calendar.get(Calendar.HOUR_OF_DAY);       //获取当前小时
+        int min = calendar.get(Calendar.MINUTE);          //获取当前分钟
+        int xx = calendar.get(Calendar.SECOND);          //获取当前秒
+        if(time<9){
             return "正常";
         }
-        if(minute<number1&&number1<hour){
+        if(9<=time&&time<12){
             return "迟到";
         }
-        if(hour<number1&&number1<centre){
+        if(time>=12){
             return "缺勤";
         }
-        return null;
+        return "缺勤";
     }
 }

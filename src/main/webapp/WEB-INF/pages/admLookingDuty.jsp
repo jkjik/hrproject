@@ -64,11 +64,23 @@
             })
         })
     </script>
+    <style>
+        body{
+            background-color: #9acfea;
+            position: relative;
+        }
+        #div{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+        }
+    </style>
 </head>
 <body>
-
+<div id="div">
 <p>查看部门</p>
-<table>
+<table  border="1px" cellspacing="0px" cellpadding="0px">
     <tr>
         <td>部门</td>
         <td>删除</td>
@@ -102,7 +114,7 @@
 
 <c:if test="${!empty requestScope.positions}">
     <p>查看职位</p>
-    <table>
+    <table  border="1px" cellspacing="0px" cellpadding="0px">
         <tr>
             <td>职位</td>
             <td>删除</td>
@@ -123,9 +135,32 @@
     </table>
 </c:if>
 
+<c:if test="${!empty requestScope.addPost}">
+    <!--部门中无职位信息-->
+    <table  border="1px" cellspacing="0px" cellpadding="0px">
+        <tr>
+            <td>部门</td>
+            <td>部门ID</td>
+        </tr>
+        <c:forEach items="${requestScope.department}" var="depre">
+            <tr>
+                <td>${depre.dName}</td>
+                <td>${depre.dId}</td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <p>添加职位</p>
+    <form action="/adm/commitAddPos" method="post">
+        <input type="text" name="dId" placeholder="请输入部门ID"><br>
+        <input type="text" name="pName" placeholder="请输入职位"><br>
+        <input type="submit" value="提交">
+    </form>
+</c:if>
+
 <c:if test="${!empty requestScope.depre}">
     <!--部门信息-->
-        <table>
+        <table  border="1px" cellspacing="0px" cellpadding="0px">
             <tr>
                 <td>部门</td>
                 <td>部门ID</td>
@@ -148,6 +183,6 @@
         <input type="submit" value="提交">
     </form>
 </c:if>
-
+</div>
 </body>
 </html>

@@ -14,7 +14,7 @@ public interface WageAdviseDao {
     //添加工资复议
     public void insert(WageAdvise wageAdvise);
     //查询员工工资复议
-    public WageAdvise selectByEid(int eId);
+    public List<WageAdvise> selectByEid(int eId);
     //查看所有复议
     public List<WageAdvise> selectAll();
     //修改复议结果

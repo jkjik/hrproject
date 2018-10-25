@@ -1,7 +1,6 @@
 package com.jikjk.service.impl;
 
 import com.jikjk.dao.PunishMoneyDao;
-import com.jikjk.entity.OverTimeMoney;
 import com.jikjk.entity.PunishMoney;
 import com.jikjk.service.PunishMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;

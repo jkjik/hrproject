@@ -8,4 +8,8 @@
     <select id="selectAll" resultType="LeaveEmployee">
         select *from leave_employee
     </select>
+
+    <select id="selectByEid" resultType="LeaveEmployee">
+        select *from leave_employee where e_Id=#{eId}
+    </select>
 </mapper>

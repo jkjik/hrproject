@@ -1,7 +1,6 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.InterviewResult;
-import com.jikjk.entity.MassageResume;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

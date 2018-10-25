@@ -1,9 +1,7 @@
 package com.jikjk.service;
 
-import com.jikjk.dao.SendResumeDao;
 import com.jikjk.entity.SendResume;
 import com.jikjk.entity.utilpojo.ResSendResume;
-import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
 import java.util.List;

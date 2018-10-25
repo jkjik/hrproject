@@ -2,12 +2,7 @@ package com.jikjk.util;
 
 import com.jikjk.entity.Employee;
 import com.jikjk.entity.Resume;
-import com.jikjk.service.DepartmentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.sql.Date;
-import java.sql.Timestamp;
 
 /**
  * Created by lenovo on 2018/10/17.

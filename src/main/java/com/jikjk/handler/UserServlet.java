@@ -1,6 +1,5 @@
 package com.jikjk.handler;
 
-import com.alibaba.fastjson.JSON;
 import com.jikjk.entity.*;
 import com.jikjk.entity.utilpojo.ResSendResume;
 import com.jikjk.service.*;
@@ -23,7 +22,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -143,12 +141,7 @@ public class UserServlet {
      */
     @RequestMapping("resume")
     public String addResume(ModelMap map,HttpSession session){
-    /*    Integer uId=0;
-        try {
-            uId=Integer.valueOf(request.getParameter("uId"));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }*/
+
         User user= (User) session.getAttribute("user");
         Resume resume=resumeServiceImpl.selectByUid(user.getuId());
         if(resume!=null){
@@ -157,27 +150,14 @@ public class UserServlet {
             map.addAttribute("resume",resume);
             map.addAttribute("aimDuty",aimDuty);
         }
-    /*    //判断添加还是修改
-        if(uId!=0){
-            //修改简历，无简历跳转添加
-            if(resume==null){
-                List<Department> departments=departmentServiceImpl.selectAll();
-                map.addAttribute("departments",departments);
-                return "userResume";
-            }else {
-                //修改回显
-                String aimDuty=positionServiceImpl.selectNameByPid(resume.getAimDuty());
-                map.addAttribute("resume",resume);
-                map.addAttribute("aimDuty",aimDuty);
-            }
-        }*/
+
         List<Department> departments=departmentServiceImpl.selectAll();
         map.addAttribute("departments",departments);
         return "userResume";
     }
 
     /**
-     * 添加简历
+     * 提交添加简历
      * @param map
      * @param resume
      * @return
@@ -190,7 +170,7 @@ public class UserServlet {
     }
 
     /**
-     * 修改简历
+     * 提交修改简历
      * @param resume
      * @param request
      * @return
@@ -237,7 +217,7 @@ public class UserServlet {
         }
         int rId=resumeServiceImpl.selectByUid(uId).getrId();
         Date date=new Date(System.currentTimeMillis());
-        //创建管理简历记录
+        //管理简历信息记录
         sendResumeServiceImpl.insert(rId,uId,date);
         MassageResume massageResume=new MassageResume(0,rId,date,"","");
         massageResumeServiceImpl.insert(massageResume);

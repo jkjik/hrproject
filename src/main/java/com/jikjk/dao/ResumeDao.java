@@ -1,7 +1,6 @@
 package com.jikjk.dao;
 
 import com.jikjk.entity.Resume;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -12,16 +12,82 @@
     <base href="${pageContext.request.contextPath}/">
     <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
     <jsp:include   page="empBase.jsp" flush="true"/>
+    <style>
+        #onWork{
+            position: absolute;
+            left: 600px;
+            top: 120px;
+            width: 80px;
+            height: 40px;
+            border: 2px solid red;
+            background-color: yellow;
+            text-align: center;
+            line-height:40px;
+        }
+        #offWork{
+            position: absolute;
+            right: 500px;
+            top: 120px;
+            width: 80px;
+            height: 40px;
+            border: 2px solid red;
+            background-color: yellow;
+            text-align: center;
+            line-height:40px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#yesWork").click(function () {
+                $.ajax({
+                    url:"/emp/onWorkCard",
+                    type:"post",
+                    dataType:"text",
+                    async:false,
+                    data:{},
+                    success:function (data) {
+                        if(data=="ok"){
+                            alert("打卡成功")
+                        }else if(data=="fail"){
+                            alert("重复打卡")
+                        }else {
+                            alert("打卡失败")
+                        }
+                    }
+                })
+            })
+        })
+
+        $(function () {
+            $("#noWork").click(function () {
+                $.ajax({
+                    url:"/emp/offWorkCard",
+                    type:"post",
+                    dataType:"text",
+                    data:{},
+                    success:function (data) {
+                        if(data=="ok"){
+                            alert("打卡成功")
+                        }else if(data=="fail"){
+                            alert("重复打卡")
+                        }else {
+                            alert("打卡失败")
+                        }
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 <body>
-<a href="/emp/lookDuty">查看部门</a><br>
-<a href="/emp/lookingYourself">查看个人信息</a>
-<a href="/emp/lookCultivate">查看培训通知</a>
-<a href="/emp/onWork">上班打卡</a>
-<a href="/emp/offWork">下班打卡</a>
-<a href="/emp/lookToWork">查看考勤</a>
-<a href="/emp/lookMonthWork">查看本月考勤</a>
-<a href="/emp/lookPunish">查看奖惩记录</a>
-<a href="/emp/lookMonthWage">查看工资</a>
+
+<div id="onWork">
+    <a id="yesWork">上班打卡</a>
+</div>
+
+<div id="offWork">
+    <a id="noWork">下班打卡</a>
+</div>
+
 </body>
 </html>

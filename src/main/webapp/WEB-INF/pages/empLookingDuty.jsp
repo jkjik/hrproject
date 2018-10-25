@@ -16,43 +16,57 @@
     <script>
 
     </script>
+    <style>
+        body{
+            background-color: #9acfea;
+            position: relative;
+        }
+        #div{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+        }
+    </style>
 </head>
 <body>
-<p>查看部门</p>
-<table>
-    <c:forEach items="${requestScope.departments}" var="dep">
-        <tr>
-            <td>
-                <a href="/emp/getPosition?dId=${dep.dId}">${dep.dName}</a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-<c:if test="${!empty requestScope.positions}">
-    <p>查看职位</p>
+<div id="div">
+    <p>查看部门</p>
     <table>
-        <c:forEach items="${requestScope.positions}" var="position">
+        <c:forEach items="${requestScope.departments}" var="dep">
             <tr>
-                <td>${position.pName}</td>
+                <td>
+                    <a href="/emp/getPosition?dId=${dep.dId}">${dep.dName}</a>
+                </td>
             </tr>
         </c:forEach>
     </table>
-</c:if>
+    <c:if test="${!empty requestScope.positions}">
+        <p>查看职位</p>
+        <table>
+            <c:forEach items="${requestScope.positions}" var="position">
+                <tr>
+                    <td>${position.pName}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 
-<c:if test="${!empty requestScope.employees}">
-    <p>查看本部门员工</p>
-    <table>
-        <tr>
-            <td>职位</td>
-            <td>员工</td>
-        </tr>
-        <c:forEach items="${requestScope.employees}" var="employees">
+    <c:if test="${!empty requestScope.employees}">
+        <p>查看本部门员工</p>
+        <table>
             <tr>
-                <td>${employees.duty}</td>
-                <td>${employees.eName}</td>
+                <td>职位</td>
+                <td>员工</td>
             </tr>
-        </c:forEach>
-    </table>
-</c:if>
+            <c:forEach items="${requestScope.employees}" var="employees">
+                <tr>
+                    <td>${employees.duty}</td>
+                    <td>${employees.eName}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+</div>
 </body>
 </html>

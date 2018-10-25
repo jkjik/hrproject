@@ -20,7 +20,7 @@ public class WageAdviseServiceImpl implements WageAdviseService{
         wageAdviseDao.insert(wageAdvise);
     }
 
-    public WageAdvise selectByEid(int eId) {
+    public List<WageAdvise> selectByEid(int eId) {
         return wageAdviseDao.selectByEid(eId);
     }
 
